@@ -14,7 +14,9 @@
     "typeRoots": [
       "./node_modules/@types"
     ],
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "strictNullChecks": false,
+    "strictPropertyInitialization": false
   },
   "include": [
     "src/**/*.ts"
