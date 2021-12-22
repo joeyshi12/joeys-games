@@ -1,33 +1,32 @@
 import * as p5 from "p5";
+import {Scene} from "./scenes/scene";
 
 export abstract class Sketch {
-  constructor() {}
-
   public initSketch(): p5 {
     return new p5(this.writeSketchContext.bind(this));
   }
 
-  public preload(sketch: p5): void {};
+  protected preload(context: p5): void {};
 
-  public setUp(sketch: p5): void {}
+  protected setUp(context: p5): void {}
 
-  public mouseMoved(sketch: p5): void {};
+  protected mouseMoved(context: p5): void {};
 
-  public mouseClicked(sketch: p5): void {};
+  protected mouseClicked(context: p5): void {};
 
-  public keyPressed(sketch: p5): void {};
+  protected keyPressed(context: p5): void {};
 
-  public keyReleased(sketch: p5): void {};
+  protected keyReleased(context: p5): void {};
 
-  abstract draw(sketch: p5): void;
+  protected abstract draw(context: p5): void;
 
-  private writeSketchContext(sketch: p5): void {
-    sketch.preload = () => this.preload(sketch);
-    sketch.setup = () => this.setUp(sketch);
-    sketch.mouseMoved = () => this.mouseMoved(sketch);
-    sketch.mouseClicked = () => this.mouseClicked(sketch);
-    sketch.keyPressed = () => this.keyPressed(sketch);
-    sketch.keyReleased = () => this.keyReleased(sketch);
-    sketch.draw = () => this.draw(sketch);
+  private writeSketchContext(context: p5): void {
+    context.preload = () => this.preload(context);
+    context.setup = () => this.setUp(context);
+    context.mouseMoved = () => this.mouseMoved(context);
+    context.mouseClicked = () => this.mouseClicked(context);
+    context.keyPressed = () => this.keyPressed(context);
+    context.keyReleased = () => this.keyReleased(context);
+    context.draw = () => this.draw(context);
   }
 }

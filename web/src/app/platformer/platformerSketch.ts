@@ -1,35 +1,65 @@
 import {Sketch} from "./sketch";
 import * as p5 from "p5";
+import {RendererService} from "./services/rendererService";
+import {Lobby} from "./scenes/lobby";
+import {Scene} from "./scenes/scene";
+
+interface LoadedAssets {
+  font: p5.Font;
+  spriteSheet: p5.Image;
+}
 
 export class PlatformerSketch extends Sketch {
-  public override preload(sketch: p5): void {
-    sketch.textFont(sketch.loadFont(""))
+  private readonly _rendererService: RendererService;
+  private _scene: Scene;
+  private _assets: LoadedAssets;
+
+  constructor() {
+    super();
+    this._rendererService = new RendererService();
+    this._scene = new Lobby(this);
   }
 
-  public override setUp(sketch: p5): void {
-    const canvas = sketch.createCanvas(400, 400);
+  public get rendererService(): RendererService {
+    return this._rendererService;
+  }
+
+  public set scene(val: Scene) {
+    this._scene = val;
+  }
+
+  protected override preload(context: p5): void {
+    this._assets = {
+      font: context.loadFont("assets/inconsolata.otf"),
+      spriteSheet: context.loadImage("assets/spritesheet.png")
+    };
+  }
+
+  protected override setUp(context: p5): void {
+    context.textFont(this._assets.font);
+    this._rendererService.spriteSheet = this._assets.spriteSheet;
+    const canvas = context.createCanvas(400, 400);
     canvas.parent("canvas");
+    context.frameRate(60);
   }
 
-  public override mouseMoved(sketch: p5): void {
-
+  protected override mouseMoved(context: p5): void {
+    this._scene.mouseMoved(context);
   }
 
-  public override mouseClicked(sketch: p5): void {
-
+  protected override mouseClicked(context: p5): void {
+    this._scene.mouseClicked(context);
   }
 
-  public override keyPressed(sketch: p5): void {
-
+  protected override keyPressed(context: p5): void {
+    this._scene.keyPressed(context);
   }
 
-  public override keyReleased(sketch: p5): void {
-
+  protected override keyReleased(context: p5): void {
+    this._scene.keyReleased(context);
   }
 
-  public draw(sketch: p5): void {
-    console.log("draw");
-    sketch.background(0);
-    sketch.rect(100, 100, 100, 100);
+  protected draw(context: p5): void {
+    this._scene.draw(context);
   }
 }
