@@ -1,22 +1,22 @@
-import {PlayerMetadata, PlayerState} from "./playerMetadata";
+import { Player } from "../../web/src/app/platformer/entities/player";
 
 export class ArcadeService {
-    private arcadeRepository: Map<string, PlayerMetadata>;
+    private arcadeRepository: Map<string, Player>;
 
     constructor() {
         this.arcadeRepository = new Map();
     }
 
-    createPlayer(playerName: string): PlayerMetadata {
-        console.log(playerName);
-        return undefined;
+    public getPlayers(): Player[] {
+        return Array.from(this.arcadeRepository.values());
     }
 
-    updatePlayer(player: PlayerMetadata): void {
-        console.log(player);
+    public updatePlayer(socketId: string, player: Player): Player {
+        this.arcadeRepository.set(socketId, player);
+        return player;
     }
 
-    removePlayer(playerName: string): string {
+    public removePlayer(playerName: string): string {
         console.log(playerName);
         return playerName;
     }

@@ -1,9 +1,13 @@
 import * as p5 from "p5";
 import {Drawable} from "../entities/drawable";
+import { Injectable } from "@angular/core";
 
 /**
  * Service to render sprites from sprite sheet
  */
+@Injectable({
+    providedIn: 'root'
+})
 export class RendererService {
   public static SPRITE_LENGTH = 16;
   public static SHEET_ROWS = 22;

@@ -1,23 +1,20 @@
 import {ArcadeService} from "../services/arcadeService";
-import {PlayerMetadata} from "../services/playerMetadata";
+import Log from "../util/logger";
+import { Player } from "../../web/src/app/platformer/entities/player";
 
 export class ArcadeController {
-    constructor(private arcadeService: ArcadeService) {
-        console.log("init services");
+    constructor(private arcadeService: ArcadeService) {}
+
+    public getPlayers(): Player[] {
+        return this.arcadeService.getPlayers();
     }
 
-    public joinLobby(username: string): void {
-        this.arcadeService.createPlayer(username);
-        console.log("user joined");
+    public updatePlayer(socketId: string, player: Player): Player {
+        return this.arcadeService.updatePlayer(socketId, player);
     }
 
-    public updatePlayer(player: PlayerMetadata): void {
-        this.arcadeService.updatePlayer(player)
-        console.log("user updated");
-    }
-
-    public exitLobby(playerName: string): void {
-        this.arcadeService.removePlayer(playerName);
-        console.log("user disconnected");
+    public exitLobby(socketId: string): void {
+        this.arcadeService.removePlayer(socketId);
+        Log.info(`Socket [${socketId}] has disconnected`);
     }
 }

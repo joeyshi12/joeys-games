@@ -1,9 +1,10 @@
-import express from "express";
 import { Server, Socket } from "socket.io";
 import { createServer } from "http";
 import {ArcadeController} from "./controllers/arcadeController";
 import Log from "./util/logger";
 import {ArcadeService} from "./services/arcadeService";
+import express = require("express");
+import { Player } from "../web/src/app/platformer/entities/player";
 
 const app = express();
 const port = 8080;
@@ -23,16 +24,13 @@ const io = new Server(httpServer, {
 });
 
 io.on("connection", (socket: Socket) => {
-  socket.on("join", (data: any) => {
-    console.log(data);
-    controller.joinLobby("");
-  });
-  socket.on("updatePlayer", (data: any) => {
-    console.log(data);
-    controller.updatePlayer(undefined);
+  socket.on("updatePlayer", (player: Player) => {
+    controller.updatePlayer(socket.id, player);
+    Log.info(player);
+    io.sockets.emit("getPlayers", controller.getPlayers());
   });
   socket.on("disconnect", () => {
-    controller.exitLobby("");
+    controller.exitLobby(socket.id);
   });
 });
 

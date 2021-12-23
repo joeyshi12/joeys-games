@@ -17,10 +17,13 @@ export class Lobby extends Scene {
     } else if (context.key === 'd') {
       this._player.position.x += 5;
     }
+    this._sketch.arcadeService.updatePlayer(this._player);
   }
 
   public draw(context: p5): void {
     this._sketch.rendererService.renderStage(context);
-    this._sketch.rendererService.renderDrawable(context, this._player);
+    this._sketch.arcadeService.players?.forEach((x) => {
+      this._sketch.rendererService.renderDrawable(context, x);
+    })
   }
 }

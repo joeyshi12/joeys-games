@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --poll 1000",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
@@ -21,7 +21,8 @@
     "rxjs": "~7.4.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4",
-    "p5": "^1.4.0"
+    "p5": "^1.4.0",
+    "ngx-socket-io": "^4.1.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~13.1.2",

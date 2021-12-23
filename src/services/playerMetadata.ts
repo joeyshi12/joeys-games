@@ -1,10 +1,14 @@
+interface Position {
+    x: number;
+    y: number;
+}
+
 export interface PlayerState {
-    position: [number, number];
+    position: Position;
     animationIndex: number;
 }
 
 export interface PlayerMetadata {
-    displayName: string;
-    username: string;
+    userName: string;
     state: PlayerState;
 }
