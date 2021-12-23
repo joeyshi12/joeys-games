@@ -1,5 +1,5 @@
 import * as p5 from "p5";
-import {Drawable} from "../entities/drawable";
+import {Drawable} from "../../../../../src/transfers/drawable";
 import { Injectable } from "@angular/core";
 
 /**

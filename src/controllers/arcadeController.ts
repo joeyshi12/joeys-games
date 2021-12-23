@@ -1,15 +1,15 @@
 import {ArcadeService} from "../services/arcadeService";
 import Log from "../util/logger";
-import { Player } from "../../web/src/app/platformer/entities/player";
+import { PlayerMetadata } from "../transfers/playerMetadata";
 
 export class ArcadeController {
     constructor(private arcadeService: ArcadeService) {}
 
-    public getPlayers(): Player[] {
+    public getPlayers(): PlayerMetadata[] {
         return this.arcadeService.getPlayers();
     }
 
-    public updatePlayer(socketId: string, player: Player): Player {
+    public updatePlayer(socketId: string, player: PlayerMetadata): PlayerMetadata {
         return this.arcadeService.updatePlayer(socketId, player);
     }
 

@@ -1,17 +1,17 @@
-import { Player } from "../../web/src/app/platformer/entities/player";
+import { PlayerMetadata } from "../transfers/playerMetadata";
 
 export class ArcadeService {
-    private arcadeRepository: Map<string, Player>;
+    private arcadeRepository: Map<string, PlayerMetadata>;
 
     constructor() {
         this.arcadeRepository = new Map();
     }
 
-    public getPlayers(): Player[] {
+    public getPlayers(): PlayerMetadata[] {
         return Array.from(this.arcadeRepository.values());
     }
 
-    public updatePlayer(socketId: string, player: Player): Player {
+    public updatePlayer(socketId: string, player: PlayerMetadata): PlayerMetadata {
         this.arcadeRepository.set(socketId, player);
         return player;
     }

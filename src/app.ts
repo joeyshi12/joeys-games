@@ -4,7 +4,7 @@ import {ArcadeController} from "./controllers/arcadeController";
 import Log from "./util/logger";
 import {ArcadeService} from "./services/arcadeService";
 import express = require("express");
-import { Player } from "../web/src/app/platformer/entities/player";
+import { PlayerMetadata } from "./transfers/playerMetadata";
 
 const app = express();
 const port = 8080;
@@ -24,7 +24,7 @@ const io = new Server(httpServer, {
 });
 
 io.on("connection", (socket: Socket) => {
-  socket.on("updatePlayer", (player: Player) => {
+  socket.on("updatePlayer", (player: PlayerMetadata) => {
     controller.updatePlayer(socket.id, player);
     Log.info(player);
     io.sockets.emit("getPlayers", controller.getPlayers());

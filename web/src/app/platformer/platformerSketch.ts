@@ -12,15 +12,15 @@ export class PlatformerSketch extends Sketch {
   private _spriteSheet: p5.Image;
   // private _soundFiles: SoundFiles;
 
-  constructor(private _arcadeService: ArcadeDataService,
+  constructor(private _arcadeDataService: ArcadeDataService,
               private _rendererService: RendererService,
               private _soundPlayerService: SoundPlayerService) {
     super();
     this._scene = new Lobby(this);
   }
 
-  public get arcadeService(): ArcadeDataService {
-    return this._arcadeService;
+  public get arcadeDataService(): ArcadeDataService {
+    return this._arcadeDataService;
   }
 
   public get rendererService(): RendererService {
