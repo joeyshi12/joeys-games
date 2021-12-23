@@ -3,7 +3,7 @@ import * as p5 from "p5";
 import { RendererService } from "./services/rendererService";
 import { Lobby } from "./scenes/lobby";
 import { Scene } from "./scenes/scene";
-import { ArcadeDataService } from "./services/arcadeDataService";
+import { PlayerDataService } from "./services/playerDataService";
 import { SoundPlayerService } from "./services/soundPlayerService";
 
 export class PlatformerSketch extends Sketch {
@@ -12,15 +12,15 @@ export class PlatformerSketch extends Sketch {
   private _spriteSheet: p5.Image;
   // private _soundFiles: SoundFiles;
 
-  constructor(private _arcadeDataService: ArcadeDataService,
+  constructor(private _playerDataService: PlayerDataService,
               private _rendererService: RendererService,
               private _soundPlayerService: SoundPlayerService) {
     super();
     this._scene = new Lobby(this);
   }
 
-  public get arcadeDataService(): ArcadeDataService {
-    return this._arcadeDataService;
+  public get playerDataService(): PlayerDataService {
+    return this._playerDataService;
   }
 
   public get rendererService(): RendererService {
@@ -50,9 +50,14 @@ export class PlatformerSketch extends Sketch {
     context.textFont(this._font);
     this._rendererService.spriteSheet = this._spriteSheet;
     // this._soundPlayerService.soundFiles = this._soundFiles;
-    const canvas = context.createCanvas(400, 400);
+    const canvas = context.createCanvas(context.windowWidth, context.windowHeight);
     canvas.parent("canvas");
+    context.fullscreen(true);
     context.frameRate(60);
+  }
+
+  protected override windowResized(context: p5): void {
+    context.resizeCanvas(context.windowWidth, context.windowHeight);
   }
 
   protected override mouseMoved(context: p5): void {

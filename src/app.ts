@@ -1,8 +1,8 @@
 import { Server, Socket } from "socket.io";
 import { createServer } from "http";
-import {ArcadeController} from "./controllers/arcadeController";
+import {PlayerController} from "./controllers/playerController";
 import Log from "./util/logger";
-import {ArcadeService} from "./services/arcadeService";
+import {PlayerService} from "./services/playerService";
 import express = require("express");
 import { PlayerMetadata } from "./transfers/playerMetadata";
 
@@ -10,9 +10,6 @@ const app = express();
 const port = 8080;
 
 const httpServer = createServer(app);
-const service = new ArcadeService();
-const controller = new ArcadeController(service);
-
 const io = new Server(httpServer, {
   transports: ["websocket", "polling"],
   cors: {
@@ -22,18 +19,15 @@ const io = new Server(httpServer, {
   },
   allowEIO3: true,
 });
+const service = new PlayerService();
+const controller = new PlayerController(io, service);
 
 io.on("connection", (socket: Socket) => {
-  socket.on("updatePlayer", (player: PlayerMetadata) => {
-    controller.updatePlayer(socket.id, player);
-    Log.info(player);
-    io.sockets.emit("getPlayers", controller.getPlayers());
-  });
-  socket.on("disconnect", () => {
-    controller.exitLobby(socket.id);
-  });
+  socket.on("join",() => controller.joinLobby(socket));
+  socket.on("updatePlayer", (player: PlayerMetadata) => controller.updatePlayer(socket, player));
+  socket.on("disconnect", () => controller.exitLobby(socket));
 });
 
 httpServer.listen(port, () => {
-  Log.info(`Server listening to port ${port}`);
+  Log.info(`Server running on port ${port}`);
 });

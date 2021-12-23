@@ -6,10 +6,11 @@ import { Injectable } from "@angular/core";
  * Service to render sprites from sprite sheet
  */
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class RendererService {
-  public static SPRITE_LENGTH = 16;
+  public static SPRITE_LENGTH = 36;
+  public static SHEET_CELL_LENGTH = 16;
   public static SHEET_ROWS = 22;
   public static SHEET_COLS = 48;
   private _spriteSheet: p5.Image;
@@ -31,10 +32,10 @@ export class RendererService {
       drawable.position.y,
       RendererService.SPRITE_LENGTH,
       RendererService.SPRITE_LENGTH,
-      col * RendererService.SPRITE_LENGTH,
-      row * RendererService.SPRITE_LENGTH,
-      RendererService.SPRITE_LENGTH,
-      RendererService.SPRITE_LENGTH
+      col * RendererService.SHEET_CELL_LENGTH,
+      row * RendererService.SHEET_CELL_LENGTH,
+      RendererService.SHEET_CELL_LENGTH,
+      RendererService.SHEET_CELL_LENGTH
     );
   }
 }

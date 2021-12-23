@@ -1,10 +1,10 @@
-export interface Position {
+export interface Vector {
   x: number;
   y: number;
 }
 
 export interface Drawable {
-  position: Position;
+  position: Vector;
   spriteIndex: number;
   isFlipped: boolean;
 }
