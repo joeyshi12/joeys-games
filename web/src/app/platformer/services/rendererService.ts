@@ -8,10 +8,10 @@ import { Stage } from "../stages/stage";
  */
 @Injectable()
 export class RendererService {
-  public static SPRITE_LENGTH = 36;
-  public static SHEET_CELL_LENGTH = 16;
-  public static SHEET_ROWS = 22;
-  public static SHEET_COLS = 48;
+  public static SPRITE_LENGTH: number = 36;
+  public static SHEET_CELL_LENGTH: number = 16;
+  public static SHEET_ROWS: number = 22;
+  public static SHEET_COLS: number = 48;
   private _spriteSheet: p5.Image;
   private _focusedEntity: Entity;
 

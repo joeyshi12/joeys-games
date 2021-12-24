@@ -1,13 +1,13 @@
 import { PlayerMetadata, PlayerState, Vector } from "../../../../../src/transfers/entity";
 
 export class ControlledPlayer {
-  public static ACCELERATION = 2.2;
-  public static GRAVITY = 0.6;
-  public static MAX_SPEED = 7;
-  public static ANIMATION_BUFFER = 6;
-  public static JUMP_VELOCITY = 14;
-  public static FRICTION = 0.7;
-  private _animationTimer = ControlledPlayer.ANIMATION_BUFFER;
+  public static ACCELERATION: number = 2.2;
+  public static GRAVITY: number = 0.6;
+  public static MAX_SPEED: number = 5.6;
+  public static ANIMATION_BUFFER: number = 6;
+  public static JUMP_VELOCITY: number = 12;
+  public static FRICTION: number = 0.7;
+  private _animationTimer: number = ControlledPlayer.ANIMATION_BUFFER;
   private _velocity: Vector = { x: 0, y: 0 };
   private _acceleration: Vector = { x: 0, y: 0 };
 

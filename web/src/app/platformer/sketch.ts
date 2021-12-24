@@ -19,7 +19,7 @@ export abstract class Sketch {
 
   protected keyReleased(context: p5): void {}
 
-  protected abstract draw(context: p5): void;
+  protected abstract draw(context: p5): void
 
   private writeSketchContext(context: p5): void {
     context.preload = () => this.preload(context);

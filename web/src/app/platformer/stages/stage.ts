@@ -21,7 +21,6 @@ export class Stage {
     }
 
     public isAboveTileCollided(entity: Entity): boolean {
-        entity
         return false;
     }
 
