@@ -1,21 +1,24 @@
 import { Injectable } from "@angular/core";
 import { Socket } from "ngx-socket-io";
-import { PlayerMetadata } from "../../../../../src/transfers/playerMetadata";
 import { ControlledPlayer } from "../entities/controlledPlayer";
+import { PlayerMetadata } from "../../../../../src/transfers/entity";
+import { RendererService } from "./rendererService";
 
 /**
  * Data service class to update player through web socket
  */
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class PlayerDataService {
   private _controlledPlayer: ControlledPlayer;
   private _players: PlayerMetadata[] = [];
 
-  constructor(private _socket: Socket) {
+  constructor(private _socket: Socket,
+              private _rendererService: RendererService) {
     this._socket.on("joined", (player: PlayerMetadata) => {
-      this._controlledPlayer = new ControlledPlayer(player);
+      if (!this._controlledPlayer) {
+        this._controlledPlayer = new ControlledPlayer(player);
+        this._rendererService.focusedEntity = this._controlledPlayer.metadata;
+      }
     });
     this._socket.on("receivePlayers", (players: PlayerMetadata[]) => {
       this._players = players;

@@ -1,7 +1,7 @@
 import { PlayerService } from "../services/playerService";
 import Log from "../util/logger";
-import { PlayerMetadata, PlayerState } from "../transfers/playerMetadata";
 import { Server, Socket } from "socket.io";
+import { PlayerMetadata, PlayerState } from "../transfers/entity";
 
 export class PlayerController {
     constructor(private _socketServer: Server,
@@ -11,18 +11,23 @@ export class PlayerController {
         Log.info(`Creating player [${socket.id}]`);
         const player: PlayerMetadata = {
             userName: socket.id,
-            state: PlayerState.walking,
+            state: PlayerState.falling,
             position: { x: 100, y: 100 },
-            spriteIndex: 100,
-            isFlipped: false
+            spriteIndex: 354,
+            isFlipped: false,
+            collisionBox: {
+                width: 36,
+                height: 30,
+                offset: { x: 0, y: 6 }
+            }
         };
         const updatedPlayer = this._playerService.createOrUpdate(socket.id, player);
-        this._socketServer.sockets.emit("joined", updatedPlayer);
+        socket.emit("joined", updatedPlayer);
     }
 
     public updatePlayer(socket: Socket, player: PlayerMetadata): void {
         this._playerService.createOrUpdate(socket.id, player);
-        this._socketServer.sockets.emit("receivePlayers", this._playerService.players);
+        this._socketServer.emit("receivePlayers", this._playerService.players);
     }
 
     public exitLobby(socket: Socket): void {

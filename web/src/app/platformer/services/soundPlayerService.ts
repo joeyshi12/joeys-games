@@ -11,9 +11,7 @@ import * as p5 from "p5";
 /**
  * Service to play sounds
  */
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable()
 export class SoundPlayerService {
     // private _soundFiles: SoundFiles;
     //

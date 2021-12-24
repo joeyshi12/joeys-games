@@ -1,14 +1,15 @@
-import { PlayerMetadata } from "../../../../../src/transfers/playerMetadata";
-import { Vector } from "../../../../../src/transfers/drawable";
+import { PlayerMetadata, PlayerState, Vector } from "../../../../../src/transfers/entity";
 
 export class ControlledPlayer {
-  public static ACCELERATION = 0.8;
-  public static GRAVITY = 0.4;
-  public static MAX_SPEED = 4.2;
+  public static ACCELERATION = 2.2;
+  public static GRAVITY = 0.6;
+  public static MAX_SPEED = 7;
   public static ANIMATION_BUFFER = 6;
-  public static JUMP_VELOCITY = 9.4;
-  private _velocity: Vector = {x: 0, y: 0};
-  private _acceleration: Vector = {x: 0, y: 0};
+  public static JUMP_VELOCITY = 14;
+  public static FRICTION = 0.7;
+  private _animationTimer = ControlledPlayer.ANIMATION_BUFFER;
+  private _velocity: Vector = { x: 0, y: 0 };
+  private _acceleration: Vector = { x: 0, y: 0 };
 
   constructor(private _metadata: PlayerMetadata) {
   }
@@ -20,18 +21,18 @@ export class ControlledPlayer {
   public keyPressed(key: string): void {
     switch (key.toLocaleUpperCase()) {
       case "W":
-        if (this._metadata.position.y === 100) {
-          this._velocity.y = -5;
+        if (this._metadata.position.y === 540) {
           this._metadata.position.y--;
+          this._velocity.y = -ControlledPlayer.JUMP_VELOCITY;
         }
         break;
       case "A":
-        this._velocity.x = -5;
+        this._acceleration.x = -ControlledPlayer.ACCELERATION;
         break;
       case "S":
         break;
       case "D":
-        this._velocity.x = 5;
+        this._acceleration.x = ControlledPlayer.ACCELERATION;
         break;
       default:
     }
@@ -40,13 +41,13 @@ export class ControlledPlayer {
   public keyReleased(key: string): void {
     switch (key.toLocaleUpperCase()) {
       case "A":
-        if (this._velocity.x < 0) {
-          this._velocity.x = 0;
+        if (this._acceleration.x < 0) {
+          this._acceleration.x = 0;
         }
         break;
       case "D":
-        if (this._velocity.x > 0) {
-          this._velocity.x = 0;
+        if (this._acceleration.x > 0) {
+          this._acceleration.x = 0;
         }
         break;
       default:
@@ -54,15 +55,58 @@ export class ControlledPlayer {
   }
 
   public update(): void {
-    if (this._metadata.position.y + this._velocity.y < 100) {
-      this._metadata.position.y += this._velocity.y;
-      this._acceleration.y = ControlledPlayer.GRAVITY;
-    } else {
-      this._metadata.position.y = 100;
-      this._acceleration.y = 0;
-    }
     this._metadata.position.x += this._velocity.x;
-    this._velocity.x += this._acceleration.x;
+    const nextPositionY = this._metadata.position.y + this._velocity.y;
+    if (nextPositionY < 540) {
+      this._metadata.position.y = nextPositionY;
+      this._acceleration.y = ControlledPlayer.GRAVITY;
+      this._metadata.state = PlayerState.falling;
+      this._metadata.spriteIndex = 358;
+    } else {
+      if (this._metadata.state === PlayerState.falling) {
+        this._metadata.state = PlayerState.landed;
+        this._metadata.spriteIndex = 354;
+        this._animationTimer = ControlledPlayer.ANIMATION_BUFFER;
+      }
+      this._metadata.position.y = 540;
+      this._acceleration.y = 0;
+      if (this._velocity.x === 0) {
+        this._metadata.spriteIndex = 354;
+      } else {
+        this._animationTimer--;
+        if (this._animationTimer <= 0) {
+          this._animationTimer = ControlledPlayer.ANIMATION_BUFFER;
+          this._metadata.spriteIndex = this._metadata.spriteIndex >= 357 ? 354 : this._metadata.spriteIndex + 1;
+        }
+      }
+    }
+    this._velocity.x = this._computeNextHorizontalVelocity();
     this._velocity.y += this._acceleration.y;
+
+    if (this._velocity.x > 0) {
+      this._metadata.isFlipped = false;
+    } else if (this._velocity.x < 0) {
+      this._metadata.isFlipped = true;
+    }
+  }
+
+  private _computeNextHorizontalVelocity(): number {
+    const updatedVelocity = this._velocity.x + this._acceleration.x;
+    if (this._acceleration.x === 0) {
+      if (Math.abs(this._velocity.x) < ControlledPlayer.FRICTION) {
+        return 0;
+      } else {
+        return this._velocity.x > 0
+          ? this._velocity.x - ControlledPlayer.FRICTION
+          : this._velocity.x + ControlledPlayer.FRICTION
+      }
+    }
+    if (updatedVelocity >= ControlledPlayer.MAX_SPEED) {
+      return ControlledPlayer.MAX_SPEED;
+    } else if (updatedVelocity <= -ControlledPlayer.MAX_SPEED) {
+      return -ControlledPlayer.MAX_SPEED;
+    } else {
+      return updatedVelocity;
+    }
   }
 }

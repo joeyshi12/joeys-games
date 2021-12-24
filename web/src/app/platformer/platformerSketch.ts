@@ -52,7 +52,6 @@ export class PlatformerSketch extends Sketch {
     // this._soundPlayerService.soundFiles = this._soundFiles;
     const canvas = context.createCanvas(context.windowWidth, context.windowHeight);
     canvas.parent("canvas");
-    context.fullscreen(true);
     context.frameRate(60);
   }
 

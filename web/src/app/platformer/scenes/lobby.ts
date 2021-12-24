@@ -2,6 +2,7 @@ import { Scene } from "./scene";
 import * as p5 from "p5";
 import { PlatformerSketch } from "../platformerSketch";
 import { ControlledPlayer } from "../entities/controlledPlayer";
+import { lobbyStage } from "../stages/stage";
 
 export class Lobby extends Scene {
   constructor(sketch: PlatformerSketch) {
@@ -32,9 +33,16 @@ export class Lobby extends Scene {
       this.controlledPlayer.update();
       this._sketch.playerDataService.updatePlayer(this.controlledPlayer.metadata);
     }
-    this._sketch.rendererService.renderStage(context);
-    this._sketch.playerDataService.players.forEach((player) => {
-      this._sketch.rendererService.renderDrawable(context, player);
-    })
+    this._sketch.rendererService.renderStage(context, lobbyStage);
+    for (const player of this._sketch.playerDataService.players) {
+      if (this.controlledPlayer?.metadata.userName !== player.userName) {
+        this._sketch.rendererService.renderEntity(context, player);
+        this._sketch.rendererService.renderEntityCollisionBox(context, player);
+      }
+    }
+    if (this.controlledPlayer) {
+      this._sketch.rendererService.renderEntity(context, this.controlledPlayer.metadata);
+      this._sketch.rendererService.renderEntityCollisionBox(context, this.controlledPlayer.metadata);
+    }
   }
 }
