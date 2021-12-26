@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Novel arcade games played with friends",
   "scripts": {
-    "start": "tsc && node src/app.js"
+    "start": "tsc && set NODE_ENV=production && node src/app.js",
+    "runServer": "tsc && node src/app.js"
   },
   "author": "",
   "license": "ISC",

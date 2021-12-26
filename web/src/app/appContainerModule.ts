@@ -10,7 +10,7 @@ import { SoundPlayerService } from "./platformer/services/soundPlayerService";
 import { StageService } from "./platformer/services/stageService";
 
 const config: SocketIoConfig = {
-  url: "http://localhost:8080",
+  url: "https://limitless-ridge-75149.herokuapp.com/",
   options: {}
 };
 
