@@ -3,6 +3,7 @@ import { PlatformerSketch } from "./platformer/platformerSketch";
 import { PlayerDataService } from "./platformer/services/playerDataService";
 import { RendererService } from "./platformer/services/rendererService";
 import { SoundPlayerService } from "./platformer/services/soundPlayerService";
+import { StageService } from "./platformer/services/stageService";
 
 @Component({
   selector: 'app-root',
@@ -14,8 +15,9 @@ export class AppContainerComponent implements OnInit {
 
   constructor(playerDataService: PlayerDataService,
               rendererService: RendererService,
-              soundPlayerService: SoundPlayerService) {
-    this._sketch = new PlatformerSketch(playerDataService, rendererService, soundPlayerService);
+              soundPlayerService: SoundPlayerService,
+              stageService: StageService) {
+    this._sketch = new PlatformerSketch(playerDataService, rendererService, soundPlayerService, stageService);
   }
 
   ngOnInit(): void {

@@ -7,6 +7,7 @@ import { AppContainerComponent } from './appContainerComponent';
 import { RendererService } from "./platformer/services/rendererService";
 import { PlayerDataService } from "./platformer/services/playerDataService";
 import { SoundPlayerService } from "./platformer/services/soundPlayerService";
+import { StageService } from "./platformer/services/stageService";
 
 const config: SocketIoConfig = {
   url: "http://localhost:8080",
@@ -22,7 +23,12 @@ const config: SocketIoConfig = {
     AppContainerRoutingModule,
     SocketIoModule.forRoot(config),
   ],
-  providers: [PlayerDataService, RendererService, SoundPlayerService],
+  providers: [
+    PlayerDataService,
+    RendererService,
+    SoundPlayerService,
+    StageService
+  ],
   bootstrap: [AppContainerComponent]
 })
 export class AppContainerModule { }

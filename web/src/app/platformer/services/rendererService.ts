@@ -1,7 +1,7 @@
 import * as p5 from "p5";
 import { Injectable } from "@angular/core";
 import { Entity, Vector } from "../../../../../src/transfers/entity";
-import { Stage } from "../stages/stage";
+import { Stage } from "../scenes/stage";
 
 /**
  * Service to render sprites from sprite sheet
@@ -15,6 +15,8 @@ export class RendererService {
   private _spriteSheet: p5.Image;
   private _focusedEntity: Entity;
 
+  constructor() {}
+
   public set spriteSheet(val: p5.Image) {
     this._spriteSheet = val;
   }
@@ -24,10 +26,9 @@ export class RendererService {
   }
 
   public renderStage(context: p5, stage: Stage): void {
-    context.background(0);
-    for (let i = 0; i < stage.mapData.height; i++) {
-      for (let j = 0; j < stage.mapData.width; j++) {
-        const tileIdx = i * stage.mapData.width + j;
+    for (let i = 0; i < stage.mapData.cols; i++) {
+      for (let j = 0; j < stage.mapData.rows; j++) {
+        const tileIdx = i * stage.mapData.rows + j;
         const spriteId = stage.mapData.spriteData[tileIdx];
         const offset = this._getWindowOffset(context);
         context.image(
@@ -41,6 +42,32 @@ export class RendererService {
           15,
           16
         );
+        if (stage.mapData.collisionSolidData[tileIdx]) {
+          context.push();
+          context.noFill();
+          context.strokeWeight(1);
+          context.stroke(0, 255, 0);
+          context.rect(
+            j * RendererService.SPRITE_LENGTH + offset.x,
+            i * RendererService.SPRITE_LENGTH + offset.y,
+            RendererService.SPRITE_LENGTH,
+            RendererService.SPRITE_LENGTH
+          );
+          context.pop();
+        }
+        if (stage.mapData.collisionPlatformData[tileIdx]) {
+          context.push();
+          context.noFill();
+          context.strokeWeight(1);
+          context.stroke(0, 0, 255);
+          context.rect(
+              j * RendererService.SPRITE_LENGTH + offset.x,
+              i * RendererService.SPRITE_LENGTH + offset.y,
+              RendererService.SPRITE_LENGTH,
+              RendererService.SPRITE_LENGTH
+          );
+          context.pop();
+        }
       }
     }
   }
@@ -61,6 +88,46 @@ export class RendererService {
       entity.position.y + entity.collisionBox.offset.y + offset.y,
       entity.collisionBox.width,
       entity.collisionBox.height
+    );
+    context.pop();
+  }
+
+  public renderNeighboringTiles(context: p5, entity: Entity): void {
+    const offset = this._getWindowOffset(context);
+
+    const x = entity.position.x + entity.collisionBox.offset.x;
+    const y = entity.position.y + entity.collisionBox.offset.y;
+    const topRow = Math.floor(y / RendererService.SPRITE_LENGTH);
+    const leftCol = Math.floor(x / RendererService.SPRITE_LENGTH);
+    const rightCol = Math.floor((x + entity.collisionBox.width) / RendererService.SPRITE_LENGTH);
+    const bottomRow = Math.floor((y + entity.collisionBox.height) / RendererService.SPRITE_LENGTH);
+    context.push();
+    context.noFill();
+    context.strokeWeight(1);
+    context.stroke(0, 255, 0);
+    context.rect(
+        leftCol * RendererService.SPRITE_LENGTH + offset.x,
+        topRow * RendererService.SPRITE_LENGTH + offset.y,
+        RendererService.SPRITE_LENGTH,
+        RendererService.SPRITE_LENGTH
+    );
+    context.rect(
+        rightCol * RendererService.SPRITE_LENGTH + offset.x,
+        topRow * RendererService.SPRITE_LENGTH + offset.y,
+        RendererService.SPRITE_LENGTH,
+        RendererService.SPRITE_LENGTH
+    );
+    context.rect(
+        leftCol * RendererService.SPRITE_LENGTH + offset.x,
+        bottomRow * RendererService.SPRITE_LENGTH + offset.y,
+        RendererService.SPRITE_LENGTH,
+        RendererService.SPRITE_LENGTH
+    );
+    context.rect(
+        rightCol * RendererService.SPRITE_LENGTH + offset.x,
+        bottomRow * RendererService.SPRITE_LENGTH + offset.y,
+        RendererService.SPRITE_LENGTH,
+        RendererService.SPRITE_LENGTH
     );
     context.pop();
   }

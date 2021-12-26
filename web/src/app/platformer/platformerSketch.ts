@@ -5,6 +5,7 @@ import { Lobby } from "./scenes/lobby";
 import { Scene } from "./scenes/scene";
 import { PlayerDataService } from "./services/playerDataService";
 import { SoundPlayerService } from "./services/soundPlayerService";
+import { StageService } from "./services/stageService";
 
 export class PlatformerSketch extends Sketch {
   private _scene: Scene;
@@ -14,7 +15,8 @@ export class PlatformerSketch extends Sketch {
 
   constructor(private _playerDataService: PlayerDataService,
               private _rendererService: RendererService,
-              private _soundPlayerService: SoundPlayerService) {
+              private _soundPlayerService: SoundPlayerService,
+              private _stageService: StageService) {
     super();
     this._scene = new Lobby(this);
   }
@@ -29,6 +31,10 @@ export class PlatformerSketch extends Sketch {
 
   public get soundPlayerService(): SoundPlayerService {
     return this._soundPlayerService;
+  }
+
+  public get stageService(): StageService {
+    return this._stageService;
   }
 
   public set scene(val: Scene) {
