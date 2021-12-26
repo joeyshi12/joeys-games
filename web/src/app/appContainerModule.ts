@@ -10,7 +10,7 @@ import { SoundPlayerService } from "./platformer/services/soundPlayerService";
 import { StageService } from "./platformer/services/stageService";
 
 const config: SocketIoConfig = {
-  url: "https://limitless-ridge-75149.herokuapp.com/",
+  url: "https://vast-falls-67813.herokuapp.com/",
   options: {}
 };
 
