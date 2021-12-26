@@ -12,7 +12,7 @@ const port = 8080;
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
-    origin: "http://cool-arcade.herokuapp.com",
+    origin: "https://joeyshi12.github.io/",
     methods: ["GET", "POST"],
     credentials: true
   }
