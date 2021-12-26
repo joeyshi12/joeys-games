@@ -11,7 +11,11 @@ const port = 8080;
 
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
-  cors: { origin: "*" }
+  cors: {
+    origin: "http://cool-arcade.herokuapp.com",
+    methods: ["GET", "POST"],
+    credentials: true
+  }
 });
 
 const service = new PlayerService();
