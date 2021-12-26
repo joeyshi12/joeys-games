@@ -3,7 +3,7 @@
 ## How to run
 ```bash
 # run backend server
-npm run build && npm run runServer
+npm run runServer
 
 # install dependencies
 cd web
