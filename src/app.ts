@@ -11,14 +11,9 @@ const port = 8080;
 
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
-  transports: ["websocket", "polling"],
-  cors: {
-    origin: "*",
-    methods: ["GET", "POST"],
-    credentials: false,
-  },
-  allowEIO3: true,
+  cors: { origin: "*" }
 });
+
 const service = new PlayerService();
 const controller = new PlayerController(io, service);
 

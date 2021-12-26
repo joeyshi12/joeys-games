@@ -10,7 +10,7 @@ import { SoundPlayerService } from "./platformer/services/soundPlayerService";
 import { StageService } from "./platformer/services/stageService";
 
 const config: SocketIoConfig = {
-  url: "https://vast-falls-67813.herokuapp.com/",
+  url: "https://cool-arcade.herokuapp.com/",
   options: {}
 };
 
