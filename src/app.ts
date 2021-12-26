@@ -7,12 +7,12 @@ import express = require("express");
 import { PlayerMetadata } from "./transfers/entity";
 
 const app = express();
-const port = 8080;
+const port = process.env.PORT || 8080;
 
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
-    origin: "https://joeyshi12.github.io/",
+    origin: "*",
     methods: ["GET", "POST"],
     credentials: true
   }
