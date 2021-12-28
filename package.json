@@ -4,9 +4,9 @@
   "description": "Novel arcade games played with friends",
   "scripts": {
     "runServer": "tsc && node dist/src/app.js",
-    "install:client": "cd web && yarn && cd ../",
-    "build": "tsc && cd web && npm run build:production && cd ../",
-    "postinstall": "npm run install:client && npm run build"
+    "install:client": "cd web && npm i && npm run build:production && cd ../",
+    "build": "tsc && cd web && npm run build && cd ../",
+    "postinstall": "tsc && npm run install:client"
   },
   "author": "",
   "license": "ISC",
