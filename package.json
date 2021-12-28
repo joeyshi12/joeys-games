@@ -3,10 +3,9 @@
   "version": "1.0.0",
   "description": "Novel arcade games played with friends",
   "scripts": {
-    "start": "node dist/app.js",
-    "postinstall": "tsc",
-    "deploy": "git add . && git commit -m Heroku && git push heroku main",
-    "runServer": "tsc && node dist/app.js"
+    "runServer": "tsc && node dist/src/app.js",
+    "build": "tsc && cd web && npm run build",
+    "postinstall": "npm run build"
   },
   "author": "",
   "license": "ISC",
