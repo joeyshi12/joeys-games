@@ -1,14 +1,15 @@
-# cool-arcade
+# platform-party
+
+A real-time multiplayer browser platformer made with p5. Join through <a href=https://platform-party.herokuapp.com/>platform-party.herokuapp.com/</a>
 
 ## How to run locally
 ```bash
-# run backend server
-npm run runServer
+# install dependencies for server and client with yarn
+yarn install && cd web && yarn install
 
-# install dependencies
-cd web
-npm install
+# build dist folder
+cd .. && npm run build
 
-# run client server
-npm run start
+# start server
+node dist/src/app.js
 ```
