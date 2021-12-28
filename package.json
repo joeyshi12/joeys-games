@@ -4,7 +4,7 @@
   "description": "Novel arcade games played with friends",
   "scripts": {
     "runServer": "tsc && node dist/src/app.js",
-    "install:client": "cd web && npm i && npm run build:production && cd ../",
+    "install:client": "cd web && yarn install && npm run build:production && cd ../",
     "build": "tsc && cd web && npm run build && cd ../",
     "postinstall": "tsc && npm run install:client"
   },
