@@ -8,9 +8,10 @@ import { RendererService } from "./platformer/services/rendererService";
 import { PlayerDataService } from "./platformer/services/playerDataService";
 import { SoundPlayerService } from "./platformer/services/soundPlayerService";
 import { StageService } from "./platformer/services/stageService";
+import { environment } from 'src/environments/environment';
 
 const config: SocketIoConfig = {
-  url: "https://cool-arcade.herokuapp.com/",
+  url: environment.apiHost,
   options: {}
 };
 
