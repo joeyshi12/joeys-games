@@ -1,6 +1,6 @@
 # cool-arcade
 
-## How to run
+## How to run locally
 ```bash
 # run backend server
 npm run runServer
