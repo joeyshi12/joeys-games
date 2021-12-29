@@ -5,7 +5,8 @@
   "scripts": {
     "runServer": "tsc && node dist/src/app.js",
     "build": "tsc && cd web && npm run build && cd ../",
-    "postinstall": "npm run build"
+    "install:client": "cd web && yarn install && cd ../","
+    "postinstall": "npm run install:client && npm run build"
   },
   "author": "",
   "license": "ISC",
