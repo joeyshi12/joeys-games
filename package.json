@@ -5,7 +5,7 @@
   "scripts": {
     "runServer": "tsc && node dist/src/app.js",
     "build": "tsc && cd web && npm run build && cd ../",
-    "install:client": "cd web && yarn install && cd ../","
+    "install:client": "cd web && yarn install && cd ../",
     "postinstall": "npm run install:client && npm run build"
   },
   "author": "",
