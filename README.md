@@ -7,9 +7,9 @@ A real-time multiplayer browser platformer made with p5. Join through <a href=ht
 # install dependencies for server and client with yarn
 yarn install && cd web && yarn install
 
-# build dist folder
-cd .. && npm run build
+# build the client in watch mode
+npm run watch
 
-# start server
-node dist/src/app.js
+# escape with Ctrl-c or from a different window, start server
+cd .. && node dist/src/app.js
 ```
