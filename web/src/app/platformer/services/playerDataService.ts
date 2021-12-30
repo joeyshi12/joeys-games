@@ -1,8 +1,10 @@
 import { Injectable } from "@angular/core";
 import { Socket } from "ngx-socket-io";
 import { ControlledPlayer } from "../entities/controlledPlayer";
-import { PlayerMetadata } from "../../../../../src/transfers/entity";
+import { Character, PlayerMetadata } from "../../../../../src/types/entityMetadata";
 import { RendererService } from "./rendererService";
+import { ClientEvent, ServerEvent } from "../../../../../src/types/socketEvent";
+import { Subject } from "rxjs";
 
 /**
  * Data service class to update player through web socket
@@ -11,21 +13,14 @@ import { RendererService } from "./rendererService";
 export class PlayerDataService {
   private _controlledPlayer: ControlledPlayer;
   private _players: PlayerMetadata[] = [];
+  private _isPlayerInitialized$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private _socket: Socket,
               private _rendererService: RendererService) {
-    this._socket.on("joined", (player: PlayerMetadata) => {
-      if (!this._controlledPlayer) {
-        this._controlledPlayer = new ControlledPlayer(player);
-        this._rendererService.focusedEntity = this._controlledPlayer.metadata;
-      }
-    });
-    this._socket.on("receivePlayers", (players: PlayerMetadata[]) => {
-      this._players = players;
-    })
+    this._socket.on(ServerEvent.broadcastPlayers, (players: PlayerMetadata[]) => this._players = players);
   }
 
-  public get controlledPlayer(): ControlledPlayer {
+  public get controlledPlayer(): ControlledPlayer | undefined {
     return this._controlledPlayer;
   }
 
@@ -33,11 +28,25 @@ export class PlayerDataService {
     return this._players;
   }
 
-  public joinLobby(): void {
-    this._socket.emit("join");
+  public initControlledPlayer(userName: string,
+                              character: Character,
+                              next: (isInitialized: boolean) => void,
+                              error: (msg: string) => void): void {
+    const playerMetadata: PlayerMetadata = {
+      userName: userName,
+      position: {x: 100, y: 100},
+      spriteIndex: 0,
+      isFlipped: false,
+      character: character,
+      collisionBox: {
+        width: 36,
+        height: 30,
+        offset: {x: 0, y: 6}
+      },
+    };
   }
 
   public updatePlayer(player: PlayerMetadata): void {
-    this._socket.emit("updatePlayer", player);
+    this._socket.emit(ClientEvent.updatePlayer, player);
   }
 }

@@ -1,7 +1,8 @@
 import * as p5 from "p5";
 import { Injectable } from "@angular/core";
-import { Entity, Vector } from "../../../../../src/transfers/entity";
+import { EntityMetadata, Vector } from "../../../../../src/types/entityMetadata";
 import { Stage } from "../scenes/stage";
+import { Button } from "../scenes/button";
 
 /**
  * Service to render sprites from sprite sheet
@@ -13,7 +14,7 @@ export class RendererService {
   public static SHEET_ROWS: number = 22;
   public static SHEET_COLS: number = 48;
   private _spriteSheet: p5.Image;
-  private _focusedEntity: Entity;
+  private _focusedEntity: EntityMetadata;
 
   constructor() {}
 
@@ -21,7 +22,7 @@ export class RendererService {
     this._spriteSheet = val;
   }
 
-  public set focusedEntity(entity: Entity) {
+  public set focusedEntity(entity: EntityMetadata) {
     this._focusedEntity = entity;
   }
 
@@ -77,7 +78,7 @@ export class RendererService {
    * @param context
    * @param entity
    */
-  public renderEntityCollisionBox(context: p5, entity: Entity): void {
+  public renderEntityCollisionBox(context: p5, entity: EntityMetadata): void {
     const offset = this._getWindowOffset(context);
     context.push();
     context.noFill();
@@ -92,7 +93,7 @@ export class RendererService {
     context.pop();
   }
 
-  public renderNeighboringTiles(context: p5, entity: Entity): void {
+  public renderNeighboringTiles(context: p5, entity: EntityMetadata): void {
     const offset = this._getWindowOffset(context);
 
     const x = entity.position.x + entity.collisionBox.offset.x;
@@ -132,7 +133,7 @@ export class RendererService {
     context.pop();
   }
 
-  public renderEntity(context: p5, entity: Entity): void {
+  public renderEntity(context: p5, entity: EntityMetadata): void {
     const row = Math.floor(entity.spriteIndex / RendererService.SHEET_COLS);
     const col = entity.spriteIndex % RendererService.SHEET_COLS;
     const offset = this._getWindowOffset(context);
@@ -175,5 +176,20 @@ export class RendererService {
     } else {
       return { x: 0, y: 0 };
     }
+  }
+
+  public renderButton(context: p5, button: Button): void {
+    context.push();
+    if (button.isHovered(context.mouseX, context.mouseY)) {
+      context.stroke(0, 0, 255)
+    } else {
+      context.stroke(255, 255, 0);
+    }
+    context.textAlign(context.CENTER);
+    context.text(button.text, button.position.x, button.position.y);
+
+    context.stroke(255, 0, 0);
+    context.rect(button.position.x, button.position.y, button.width, 20);
+    context.pop();
   }
 }

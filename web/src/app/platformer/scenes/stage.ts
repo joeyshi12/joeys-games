@@ -1,4 +1,4 @@
-import { Entity } from "../../../../../src/transfers/entity";
+import { EntityMetadata } from "../../../../../src/types/entityMetadata";
 import { RendererService } from "../services/rendererService";
 
 /**
@@ -29,7 +29,7 @@ export class Stage {
         return this._mapData;
     }
 
-    public getCollisionEventAbove(entity: Entity): CollisionEvent | undefined {
+    public getCollisionEventAbove(entity: EntityMetadata): CollisionEvent | undefined {
         const [x, y] = this._getEntityOffsettedPosition(entity);
 
         const topRow = Math.floor((y + entity.collisionBox.height / 2) / RendererService.SPRITE_LENGTH) - 1;
@@ -52,7 +52,7 @@ export class Stage {
         }
     }
 
-    public getCollisionEventLeft(entity: Entity): CollisionEvent | undefined {
+    public getCollisionEventLeft(entity: EntityMetadata): CollisionEvent | undefined {
         const [x, y] = this._getEntityOffsettedPosition(entity);
 
         const leftCol = Math.floor((x + entity.collisionBox.width / 2) / RendererService.SPRITE_LENGTH) - 1;
@@ -74,7 +74,7 @@ export class Stage {
         }
     }
 
-    public getCollisionEventBelow(entity: Entity): CollisionEvent | undefined {
+    public getCollisionEventBelow(entity: EntityMetadata): CollisionEvent | undefined {
         const [x, y] = this._getEntityOffsettedPosition(entity);
 
         const leftCol = Math.floor((x + 1) / RendererService.SPRITE_LENGTH);
@@ -100,7 +100,7 @@ export class Stage {
         }
     }
 
-    public getCollisionEventRight(entity: Entity): CollisionEvent | undefined {
+    public getCollisionEventRight(entity: EntityMetadata): CollisionEvent | undefined {
         const [x, y] = this._getEntityOffsettedPosition(entity);
 
         const rightCol = Math.floor((x + entity.collisionBox.width / 2) / RendererService.SPRITE_LENGTH) + 1;
@@ -122,7 +122,7 @@ export class Stage {
         }
     }
 
-    private _getEntityOffsettedPosition(entity: Entity): [number, number] {
+    private _getEntityOffsettedPosition(entity: EntityMetadata): [number, number] {
         return [
             entity.position.x + entity.collisionBox.offset.x,
             entity.position.y + entity.collisionBox.offset.y

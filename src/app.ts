@@ -1,11 +1,11 @@
-import { Server, Socket } from "socket.io";
+import { Server } from "socket.io";
 import { createServer } from "http";
-import {PlayerController} from "./controllers/playerController";
+import {PlayerController} from "./playerController";
 import Log from "./util/logger";
-import {PlayerService} from "./services/playerService";
+import {PlayerService} from "./playerService";
 import express = require("express");
-import { PlayerMetadata } from "./transfers/entity";
 import * as path from 'path';
+import { ClientEvent } from "./types/socketEvent";
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -19,16 +19,11 @@ const io = new Server(httpServer, {
   }
 });
 
+const controller = new PlayerController(new PlayerService());
+
 app.use(express.static(path.join(__dirname, "..", "web")));
-
-const service = new PlayerService();
-const controller = new PlayerController(io, service);
-
-io.on("connection", (socket: Socket) => {
-  socket.on("join",() => controller.joinLobby(socket));
-  socket.on("updatePlayer", (player: PlayerMetadata) => controller.updatePlayer(socket, player));
-  socket.on("disconnect", () => controller.exitLobby(socket));
-});
+app.put("/player/create", controller.createPlayer);
+io.on(ClientEvent.connection, controller.listenConnection);
 
 httpServer.listen(port, () => {
   Log.info(`Server running on port ${port}`);

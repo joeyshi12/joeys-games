@@ -1,11 +1,11 @@
 import { Sketch } from "./sketch";
 import * as p5 from "p5";
 import { RendererService } from "./services/rendererService";
-import { Lobby } from "./scenes/lobby";
 import { Scene } from "./scenes/scene";
 import { PlayerDataService } from "./services/playerDataService";
 import { SoundPlayerService } from "./services/soundPlayerService";
 import { StageService } from "./services/stageService";
+import { Menu } from "./scenes/menu";
 
 export class PlatformerSketch extends Sketch {
   private _scene: Scene;
@@ -18,11 +18,11 @@ export class PlatformerSketch extends Sketch {
               private _soundPlayerService: SoundPlayerService,
               private _stageService: StageService) {
     super();
-    this._scene = new Lobby(this);
+    this._scene = new Menu(this);
   }
 
   public get playerDataService(): PlayerDataService {
-    return this._playerDataService;
+    return this._playerDataService
   }
 
   public get rendererService(): RendererService {

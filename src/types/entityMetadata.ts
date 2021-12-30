@@ -9,7 +9,7 @@ export interface CollisionBox {
     offset: Vector;
 }
 
-export interface Entity {
+export interface EntityMetadata {
     position: Vector;
     spriteIndex: number;
     isFlipped: boolean;
@@ -17,11 +17,18 @@ export interface Entity {
 }
 
 export enum PlayerState {
-    falling = "falling",
-    landed = "landed",
+    standing = "standing",
+    walking = "walking",
+    falling = "falling"
 }
 
-export interface PlayerMetadata extends Entity {
+export enum Character {
+    blue = "blue",
+    orange = "orange",
+    green = "green"
+}
+
+export interface PlayerMetadata extends EntityMetadata {
     userName: string;
-    state: PlayerState;
+    character: Character;
 }
