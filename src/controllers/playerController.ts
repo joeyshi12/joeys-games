@@ -1,7 +1,7 @@
 import { PlayerService } from "../services/playerService";
 import Log from "../util/logger";
 import { Server, Socket } from "socket.io";
-import { PlayerMetadata, PlayerState } from "../transfers/entity";
+import { Character, PlayerMetadata } from "../types/entityMetadata";
 
 export class PlayerController {
     constructor(private _socketServer: Server,
@@ -11,7 +11,7 @@ export class PlayerController {
         Log.info(`Creating player [${socket.id}]`);
         const player: PlayerMetadata = {
             userName: socket.id,
-            state: PlayerState.falling,
+            character: Character.blue,
             position: { x: 100, y: 100 },
             spriteIndex: 354,
             isFlipped: false,

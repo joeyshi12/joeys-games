@@ -4,7 +4,7 @@ import {PlayerController} from "./controllers/playerController";
 import Log from "./util/logger";
 import {PlayerService} from "./services/playerService";
 import express = require("express");
-import { PlayerMetadata } from "./transfers/entity";
+import { PlayerMetadata } from "./types/entityMetadata";
 import * as path from 'path';
 
 const app = express();
