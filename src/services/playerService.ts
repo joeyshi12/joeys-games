@@ -1,4 +1,4 @@
-import { PlayerMetadata } from "../transfers/entity";
+import { PlayerMetadata } from "../types/entityMetadata";
 
 export class PlayerService {
     private _playerRepository: Map<string, PlayerMetadata>;

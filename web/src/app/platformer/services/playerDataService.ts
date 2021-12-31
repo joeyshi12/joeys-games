@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Socket } from "ngx-socket-io";
 import { ControlledPlayer } from "../entities/controlledPlayer";
-import { PlayerMetadata } from "../../../../../src/transfers/entity";
+import { PlayerMetadata } from "../../../../../src/types/entityMetadata";
 import { RendererService } from "./rendererService";
 
 /**

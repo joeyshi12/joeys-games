@@ -1,7 +1,7 @@
 import { PlayerService } from "../services/playerService";
 import Log from "../util/logger";
 import { Socket } from "socket.io";
-import { PlayerMetadata, PlayerState } from "../transfers/entity";
+import { Character, PlayerMetadata } from "../types/entityMetadata";
 
 export class PlayerController {
   constructor(private _playerService: PlayerService) {
@@ -10,16 +10,17 @@ export class PlayerController {
   public joinRoom(socket: Socket): () => void {
     return () => {
       Log.info(`Creating player [${socket.id}]`);
+      const randomCharacter = <Character>Object.keys(Character)[Math.floor(Math.random() * 3)];
       const player: PlayerMetadata = {
         userName: socket.id,
-        state: PlayerState.falling,
+        character: randomCharacter,
         position: {x: 100, y: 100},
         spriteIndex: 354,
         isFlipped: false,
         collisionBox: {
-          width: 36,
+          width: 30,
           height: 30,
-          offset: {x: 0, y: 6}
+          offset: {x: 3, y: 6}
         }
       };
       const updatedPlayer = this._playerService.createOrUpdate(socket.id, player);
