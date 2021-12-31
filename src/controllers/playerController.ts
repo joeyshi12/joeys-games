@@ -2,9 +2,23 @@ import { PlayerService } from "../services/playerService";
 import Log from "../util/logger";
 import { Socket } from "socket.io";
 import { Character, PlayerMetadata } from "../types/entityMetadata";
+import { Request, Response } from "express";
 
 export class PlayerController {
   constructor(private _playerService: PlayerService) {
+  }
+
+  public createPlayer(req: Request, res: Response): void {
+    try {
+      console.log(req);
+      // const createdPlayer = this._playerService.create(socket.id, player);
+      // Log.info(`Created player ${player.userName}`);
+      // socket.emit(ServerEvent.playerCreationSuccess, createdPlayer);
+      // socket.broadcast.emit(ServerEvent.broadcastPlayers, this._playerService.players);
+    } catch (e) {
+      // const msg = e instanceof PlatformPartyError ? e.message : "Failed to create player";
+      // socket.emit(ServerEvent.playerCreationFailed, msg)
+    }
   }
 
   public joinRoom(socket: Socket): () => void {
@@ -23,27 +37,14 @@ export class PlayerController {
           offset: {x: 3, y: 6}
         }
       };
-      const updatedPlayer = this._playerService.createOrUpdate(socket.id, player);
+      const updatedPlayer = this._playerService.update(socket.id, player);
       socket.emit("joinedRoom", updatedPlayer);
     };
   }
 
-  public createPlayer(req: Express.Request, res: Express.Response): void {
-    try {
-      console.log(req);
-      // const createdPlayer = this._playerService.create(socket.id, player);
-      // Log.info(`Created player ${player.userName}`);
-      // socket.emit(ServerEvent.playerCreationSuccess, createdPlayer);
-      // socket.broadcast.emit(ServerEvent.broadcastPlayers, this._playerService.players);
-    } catch (e) {
-      // const msg = e instanceof PlatformPartyError ? e.message : "Failed to create player";
-      // socket.emit(ServerEvent.playerCreationFailed, msg)
-    }
-  }
-
   public updatePlayer(socket: Socket): (_: PlayerMetadata) => void {
     return (metadata: PlayerMetadata) => {
-      this._playerService.createOrUpdate(socket.id, metadata);
+      this._playerService.update(socket.id, metadata);
       socket.broadcast.emit("broadcastPlayers", this._playerService.players);
     };
   }

@@ -9,6 +9,7 @@ import { PlayerDataService } from "./platformer/services/playerDataService";
 import { SoundPlayerService } from "./platformer/services/soundPlayerService";
 import { StageService } from "./platformer/services/stageService";
 import { environment } from 'src/environments/environment';
+import { HttpClientModule } from "@angular/common/http";
 
 const config: SocketIoConfig = {
   url: environment.apiHost,
@@ -23,6 +24,7 @@ const config: SocketIoConfig = {
     BrowserModule,
     AppContainerRoutingModule,
     SocketIoModule.forRoot(config),
+    HttpClientModule
   ],
   providers: [
     PlayerDataService,
