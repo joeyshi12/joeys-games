@@ -28,9 +28,9 @@ export class PlayerController {
     };
   }
 
-  public updatePlayer(socket: Socket): (player: PlayerMetadata) => void {
-    return (player: PlayerMetadata) => {
-      this._playerService.createOrUpdate(socket.id, player);
+  public updatePlayer(socket: Socket): (_: PlayerMetadata) => void {
+    return (metadata: PlayerMetadata) => {
+      this._playerService.createOrUpdate(socket.id, metadata);
       socket.broadcast.emit("broadcastPlayers", this._playerService.players);
     };
   }
@@ -39,6 +39,7 @@ export class PlayerController {
     return () => {
       Log.info(`Removing player [${socket.id}]`);
       this._playerService.removePlayer(socket.id);
+      socket.broadcast.emit("broadcastPlayers", this._playerService.players);
     };
   }
 }
