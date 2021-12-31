@@ -14,13 +14,13 @@ export class PlayerDataService {
 
   constructor(private _socket: Socket,
               private _rendererService: RendererService) {
-    this._socket.on("joined", (player: PlayerMetadata) => {
+    this._socket.on("joinedRoom", (player: PlayerMetadata) => {
       if (!this._controlledPlayer) {
         this._controlledPlayer = new ControlledPlayer(player);
         this._rendererService.focusedEntity = this._controlledPlayer.metadata;
       }
     });
-    this._socket.on("receivePlayers", (players: PlayerMetadata[]) => {
+    this._socket.on("broadcastPlayers", (players: PlayerMetadata[]) => {
       this._players = players;
     })
   }
@@ -33,8 +33,8 @@ export class PlayerDataService {
     return this._players;
   }
 
-  public joinLobby(): void {
-    this._socket.emit("join");
+  public joinRoom(): void {
+    this._socket.emit("joinRoom");
   }
 
   public updatePlayer(player: PlayerMetadata): void {

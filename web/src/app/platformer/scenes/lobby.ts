@@ -6,7 +6,7 @@ import { ControlledPlayer } from "../entities/controlledPlayer";
 export class Lobby extends Scene {
   constructor(sketch: PlatformerSketch) {
     super(sketch);
-    this._sketch.playerDataService.joinLobby();
+    this._sketch.playerDataService.joinRoom();
   }
 
   public get controlledPlayer(): ControlledPlayer {

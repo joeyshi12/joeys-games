@@ -1,15 +1,13 @@
 import { Server, Socket } from "socket.io";
 import { createServer } from "http";
-import {PlayerController} from "./controllers/playerController";
 import Log from "./util/logger";
-import {PlayerService} from "./services/playerService";
-import express = require("express");
-import { PlayerMetadata } from "./transfers/entity";
+import { PlayerService } from "./services/playerService";
 import * as path from 'path';
+import express = require("express");
+import { PlayerController } from "./controllers/playerController";
 
 const app = express();
 const port = process.env.PORT || 8080;
-
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
@@ -19,15 +17,15 @@ const io = new Server(httpServer, {
   }
 });
 
+const service = new PlayerService();
+const controller = new PlayerController(service);
+
 app.use(express.static(path.join(__dirname, "..", "web")));
 
-const service = new PlayerService();
-const controller = new PlayerController(io, service);
-
 io.on("connection", (socket: Socket) => {
-  socket.on("join",() => controller.joinLobby(socket));
-  socket.on("updatePlayer", (player: PlayerMetadata) => controller.updatePlayer(socket, player));
-  socket.on("disconnect", () => controller.exitLobby(socket));
+  socket.on("joinRoom", controller.joinRoom(socket));
+  socket.on("updatePlayer", controller.updatePlayer(socket));
+  socket.on("disconnect", controller.disconnectPlayer(socket));
 });
 
 httpServer.listen(port, () => {
