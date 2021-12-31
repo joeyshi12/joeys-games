@@ -21,15 +21,27 @@ export class PlayerDataService {
               private _rendererService: RendererService,
               private _http: HttpClient) {
     this._apiHost = isDevMode() ? devEnvironment.apiHost : prodEnvironment.apiHost;
-    this._socket.on("/player/client/getAll", (players: PlayerMetadata[]) => this._players = players);
+    this._socket.on("joinedRoom", (player: PlayerMetadata) => {
+      if (!this._controlledPlayer) {
+        this._controlledPlayer = new ControlledPlayer(player);
+        this._rendererService.focusedEntity = this._controlledPlayer.metadata;
+      }
+    });
+    this._socket.on("broadcastPlayers", (players: PlayerMetadata[]) => {
+      this._players = players;
+    })
   }
 
-  public get controlledPlayer(): ControlledPlayer | undefined {
+  public get controlledPlayer(): ControlledPlayer {
     return this._controlledPlayer;
   }
 
   public get players(): PlayerMetadata[] {
     return this._players;
+  }
+
+  public joinRoom(): void {
+    this._socket.emit("joinRoom");
   }
 
   public createPlayer(player: PlayerMetadata): Observable<PlayerMetadata> {
@@ -38,6 +50,6 @@ export class PlayerDataService {
   }
 
   public updatePlayer(player: PlayerMetadata): void {
-    this._socket.emit("/player/server/update", player);
+    this._socket.emit("updatePlayer", player);
   }
 }

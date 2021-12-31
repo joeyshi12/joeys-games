@@ -6,9 +6,10 @@ import { ControlledPlayer } from "../entities/controlledPlayer";
 export class Lobby extends Scene {
   constructor(sketch: PlatformerSketch) {
     super(sketch);
+    this._sketch.playerDataService.joinRoom();
   }
 
-  public get controlledPlayer(): ControlledPlayer | undefined {
+  public get controlledPlayer(): ControlledPlayer {
     return this._sketch.playerDataService.controlledPlayer;
   }
 

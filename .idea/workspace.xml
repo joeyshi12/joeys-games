@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="103ec775-78ea-427c-80f4-68fc456fa410" name="Changes" comment="" />
+    <list default="true" id="103ec775-78ea-427c-80f4-68fc456fa410" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -17,7 +19,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="create-main-menu-scene" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -57,7 +59,7 @@
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="preferences.general" />
-    <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
+    <property name="ts.external.directory.path" value="$PROJECT_DIR$/node_modules/typescript/lib" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -104,7 +106,8 @@
       <workItem from="1640814625134" duration="42757000" />
       <workItem from="1640905121814" duration="103000" />
       <workItem from="1640905229360" duration="210000" />
-      <workItem from="1640905455188" duration="14096000" />
+      <workItem from="1640905455188" duration="12278000" />
+      <workItem from="1640941232229" duration="860000" />
     </task>
     <task id="LOCAL-00001" summary="WIP">
       <created>1640858983447</created>
@@ -156,13 +159,20 @@
       <updated>1640937632106</updated>
     </task>
     <task id="LOCAL-00008" summary="implemented animation system">
-      <created>1640939323781</created>
+      <created>1640941295835</created>
       <option name="number" value="00008" />
       <option name="presentableId" value="LOCAL-00008" />
       <option name="project" value="LOCAL" />
-      <updated>1640939323781</updated>
+      <updated>1640941295835</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="broadcast after disconnect">
+      <created>1640941435063</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1640941435063</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -184,7 +194,8 @@
     <MESSAGE value="WIP" />
     <MESSAGE value="minor refactor" />
     <MESSAGE value="implemented animation system" />
-    <option name="LAST_COMMIT_MESSAGE" value="implemented animation system" />
+    <MESSAGE value="broadcast after disconnect" />
+    <option name="LAST_COMMIT_MESSAGE" value="broadcast after disconnect" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
