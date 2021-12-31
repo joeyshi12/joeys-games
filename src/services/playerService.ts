@@ -1,5 +1,5 @@
-import { PlayerMetadata } from "./types/entityMetadata";
-import { PlatformPartyError } from "./types/exception";
+import { PlayerMetadata } from "../types/entityMetadata";
+import { PlatformPartyError } from "../types/exception";
 
 export class PlayerService {
   private _playerRepository: Map<string, PlayerMetadata>;

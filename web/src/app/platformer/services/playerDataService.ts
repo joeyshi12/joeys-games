@@ -1,10 +1,12 @@
-import { Injectable } from "@angular/core";
+import { Injectable, isDevMode } from "@angular/core";
 import { Socket } from "ngx-socket-io";
 import { ControlledPlayer } from "../entities/controlledPlayer";
-import { Character, PlayerMetadata } from "../../../../../src/types/entityMetadata";
+import { PlayerMetadata } from "../../../../../src/types/entityMetadata";
 import { RendererService } from "./rendererService";
-import { ClientEvent, ServerEvent } from "../../../../../src/types/socketEvent";
-import { Subject } from "rxjs";
+import { map, Observable } from "rxjs";
+import { HttpClient } from "@angular/common/http";
+import { environment as devEnvironment } from "../../../environments/environment";
+import { environment as prodEnvironment } from "../../../environments/environment.prod";
 
 /**
  * Data service class to update player through web socket
@@ -13,11 +15,13 @@ import { Subject } from "rxjs";
 export class PlayerDataService {
   private _controlledPlayer: ControlledPlayer;
   private _players: PlayerMetadata[] = [];
-  private _isPlayerInitialized$: Subject<boolean> = new Subject<boolean>();
+  private _apiHost: string;
 
   constructor(private _socket: Socket,
-              private _rendererService: RendererService) {
-    this._socket.on(ServerEvent.broadcastPlayers, (players: PlayerMetadata[]) => this._players = players);
+              private _rendererService: RendererService,
+              private _http: HttpClient) {
+    this._apiHost = isDevMode() ? devEnvironment.apiHost : prodEnvironment.apiHost;
+    this._socket.on("/player/client/getAll", (players: PlayerMetadata[]) => this._players = players);
   }
 
   public get controlledPlayer(): ControlledPlayer | undefined {
@@ -28,25 +32,12 @@ export class PlayerDataService {
     return this._players;
   }
 
-  public initControlledPlayer(userName: string,
-                              character: Character,
-                              next: (isInitialized: boolean) => void,
-                              error: (msg: string) => void): void {
-    const playerMetadata: PlayerMetadata = {
-      userName: userName,
-      position: {x: 100, y: 100},
-      spriteIndex: 0,
-      isFlipped: false,
-      character: character,
-      collisionBox: {
-        width: 36,
-        height: 30,
-        offset: {x: 0, y: 6}
-      },
-    };
+  public createPlayer(player: PlayerMetadata): Observable<PlayerMetadata> {
+    const url = this._apiHost.concat("/player/server/create");
+    return this._http.put(url, player).pipe(map((metadata: any) => metadata as PlayerMetadata));
   }
 
   public updatePlayer(player: PlayerMetadata): void {
-    this._socket.emit(ClientEvent.updatePlayer, player);
+    this._socket.emit("/player/server/update", player);
   }
 }
