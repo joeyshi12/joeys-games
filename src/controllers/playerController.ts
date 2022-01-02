@@ -33,7 +33,7 @@ export function joinRoom(socket: Socket, playerService: PlayerService): (_: stri
 export function updatePlayer(socket: Socket, playerService: PlayerService): (_: PlayerMetadata) => void {
   return (metadata: PlayerMetadata) => {
     playerService.update(socket.id, metadata);
-    socket.broadcast.emit("receivePlayers", playerService.players);
+    socket.broadcast.volatile.emit("receivePlayers", playerService.players);
   };
 }
 
