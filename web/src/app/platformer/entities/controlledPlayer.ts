@@ -60,13 +60,13 @@ export class ControlledPlayer {
     this._metadata.position.y += this._velocity.y;
     const collisionEventBelow = stage.getCollisionEventBelow(this._metadata);
     if (collisionEventBelow && this._velocity.y >= 0) {
+      this._metadata.position.y = collisionEventBelow.position;
+      this._acceleration.y = 0;
       if (this._animationControl.state === PlayerState.falling) {
         this._animationControl.state = PlayerState.standing;
       }
-      this._metadata.position.y = collisionEventBelow.position;
-      this._acceleration.y = 0;
       if (this._velocity.x === 0) {
-        if (this._animationControl.state === PlayerState.walking) {
+        if (this._animationControl.state !== PlayerState.standing) {
           this._animationControl.state = PlayerState.standing;
         }
       } else {

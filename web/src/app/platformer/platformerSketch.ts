@@ -1,4 +1,3 @@
-import { Sketch } from "./sketch";
 import * as p5 from "p5";
 import { RendererService } from "./services/rendererService";
 import { Scene } from "./scenes/scene";
@@ -7,7 +6,7 @@ import { SoundPlayerService } from "./services/soundPlayerService";
 import { StageService } from "./services/stageService";
 import { Menu } from "./scenes/menu";
 
-export class PlatformerSketch extends Sketch {
+export class PlatformerSketch {
   private _scene: Scene;
   private _font: p5.Font;
   private _spriteSheet: p5.Image;
@@ -17,7 +16,6 @@ export class PlatformerSketch extends Sketch {
               private _rendererService: RendererService,
               private _soundPlayerService: SoundPlayerService,
               private _stageService: StageService) {
-    super();
     this._scene = new Menu(this);
   }
 
@@ -41,7 +39,21 @@ export class PlatformerSketch extends Sketch {
     this._scene = val;
   }
 
-  protected override preload(context: p5): void {
+  public initSketch(): p5 {
+    const that = this;
+    return new p5((context: p5) => {
+      context.preload = () => that._preload(context);
+      context.setup = () => that._setUp(context);
+      context.windowResized = () => that._windowResized(context);
+      context.mouseMoved = () => that._mouseMoved(context);
+      context.mouseClicked = () => that._mouseClicked(context);
+      context.keyPressed = () => that._keyPressed(context);
+      context.keyReleased = () => that._keyReleased(context);
+      context.draw = () => that._draw(context);
+    });
+  }
+
+  private _preload(context: p5): void {
     this._font = context.loadFont("assets/inconsolata.otf");
     this._spriteSheet = context.loadImage("assets/spritesheet.png");
     // this._soundFiles = {
@@ -52,7 +64,7 @@ export class PlatformerSketch extends Sketch {
     // };
   }
 
-  protected override setUp(context: p5): void {
+  private _setUp(context: p5): void {
     context.textFont(this._font);
     this._rendererService.spriteSheet = this._spriteSheet;
     // this._soundPlayerService.soundFiles = this._soundFiles;
@@ -61,27 +73,27 @@ export class PlatformerSketch extends Sketch {
     context.frameRate(60);
   }
 
-  protected override windowResized(context: p5): void {
+  private _windowResized(context: p5): void {
     context.resizeCanvas(context.windowWidth, context.windowHeight);
   }
 
-  protected override mouseMoved(context: p5): void {
+  private _mouseMoved(context: p5): void {
     this._scene.mouseMoved(context);
   }
 
-  protected override mouseClicked(context: p5): void {
+  private _mouseClicked(context: p5): void {
     this._scene.mouseClicked(context);
   }
 
-  protected override keyPressed(context: p5): void {
+  private _keyPressed(context: p5): void {
     this._scene.keyPressed(context);
   }
 
-  protected override keyReleased(context: p5): void {
+  private _keyReleased(context: p5): void {
     this._scene.keyReleased(context);
   }
 
-  protected draw(context: p5): void {
+  private _draw(context: p5): void {
     this._scene.draw(context);
   }
 }

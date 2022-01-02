@@ -6,7 +6,6 @@ import { ControlledPlayer } from "../entities/controlledPlayer";
 export class Lobby extends Scene {
   constructor(sketch: PlatformerSketch) {
     super(sketch);
-    this._sketch.playerDataService.joinRoom();
   }
 
   public get controlledPlayer(): ControlledPlayer {
@@ -27,17 +26,17 @@ export class Lobby extends Scene {
     }
   }
 
-  public draw(context: p5): void {
+  public override draw(context: p5): void {
     context.background(0);
     this._sketch.rendererService.renderStage(context, this._sketch.stageService.currentStage);
     for (const player of this._sketch.playerDataService.players) {
       if (this.controlledPlayer?.metadata.userName !== player.userName) {
-        this._sketch.rendererService.renderEntity(context, player);
+        this._sketch.rendererService.renderPlayer(context, player);
         this._sketch.rendererService.renderEntityCollisionBox(context, player);
       }
     }
     if (this.controlledPlayer) {
-      this._sketch.rendererService.renderEntity(context, this.controlledPlayer.metadata);
+      this._sketch.rendererService.renderPlayer(context, this.controlledPlayer.metadata);
       this._sketch.rendererService.renderEntityCollisionBox(context, this.controlledPlayer.metadata);
       this.controlledPlayer.update(this._sketch.stageService.currentStage);
       this._sketch.playerDataService.updatePlayer(this.controlledPlayer.metadata);

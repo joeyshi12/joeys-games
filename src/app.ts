@@ -4,7 +4,7 @@ import Log from "./util/logger";
 import { PlayerService } from "./services/playerService";
 import * as path from 'path';
 import express = require("express");
-import { PlayerController } from "./controllers/playerController";
+import * as controller from "./controllers/playerController";
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -18,15 +18,13 @@ const io = new Server(httpServer, {
 });
 
 const service = new PlayerService();
-const controller = new PlayerController(service);
-
 app.use(express.static(path.join(__dirname, "..", "web")));
-app.put("/player/create", controller.createPlayer);
 
 io.on("connection", (socket: Socket) => {
-  socket.on("joinRoom", controller.joinRoom(socket));
-  socket.on("updatePlayer", controller.updatePlayer(socket));
-  socket.on("disconnect", controller.disconnectPlayer(socket));
+  socket.on("joinRoom", controller.joinRoom(socket, service));
+  socket.on("getPlayers", controller.getPlayers(socket, service));
+  socket.on("updatePlayer", controller.updatePlayer(socket, service));
+  socket.on("disconnect", controller.disconnectPlayer(socket, service));
 });
 
 httpServer.listen(port, () => {
