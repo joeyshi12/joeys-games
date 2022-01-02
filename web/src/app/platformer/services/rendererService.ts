@@ -43,32 +43,32 @@ export class RendererService {
           15,
           16
         );
-        if (stage.mapData.collisionSolidData[tileIdx]) {
-          context.push();
-          context.noFill();
-          context.strokeWeight(1);
-          context.stroke(0, 255, 0);
-          context.rect(
-            j * RendererService.SPRITE_LENGTH + offset.x,
-            i * RendererService.SPRITE_LENGTH + offset.y,
-            RendererService.SPRITE_LENGTH,
-            RendererService.SPRITE_LENGTH
-          );
-          context.pop();
-        }
-        if (stage.mapData.collisionPlatformData[tileIdx]) {
-          context.push();
-          context.noFill();
-          context.strokeWeight(1);
-          context.stroke(0, 0, 255);
-          context.rect(
-            j * RendererService.SPRITE_LENGTH + offset.x,
-            i * RendererService.SPRITE_LENGTH + offset.y,
-            RendererService.SPRITE_LENGTH,
-            RendererService.SPRITE_LENGTH
-          );
-          context.pop();
-        }
+        // if (stage.mapData.collisionSolidData[tileIdx]) {
+        //   context.push();
+        //   context.noFill();
+        //   context.strokeWeight(1);
+        //   context.stroke(0, 255, 0);
+        //   context.rect(
+        //     j * RendererService.SPRITE_LENGTH + offset.x,
+        //     i * RendererService.SPRITE_LENGTH + offset.y,
+        //     RendererService.SPRITE_LENGTH,
+        //     RendererService.SPRITE_LENGTH
+        //   );
+        //   context.pop();
+        // }
+        // if (stage.mapData.collisionPlatformData[tileIdx]) {
+        //   context.push();
+        //   context.noFill();
+        //   context.strokeWeight(1);
+        //   context.stroke(0, 0, 255);
+        //   context.rect(
+        //     j * RendererService.SPRITE_LENGTH + offset.x,
+        //     i * RendererService.SPRITE_LENGTH + offset.y,
+        //     RendererService.SPRITE_LENGTH,
+        //     RendererService.SPRITE_LENGTH
+        //   );
+        //   context.pop();
+        // }
       }
     }
   }

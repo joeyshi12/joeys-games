@@ -2,15 +2,15 @@ import * as p5 from "p5";
 import { RendererService } from "./services/rendererService";
 import { Scene } from "./scenes/scene";
 import { PlayerDataService } from "./services/playerDataService";
-import { SoundPlayerService } from "./services/soundPlayerService";
 import { StageService } from "./services/stageService";
 import { Menu } from "./scenes/menu";
+import "p5/lib/addons/p5.sound";
+import { SoundPlayerService } from "./services/soundPlayerService";
 
 export class PlatformerSketch {
   private _scene: Scene;
   private _font: p5.Font;
   private _spriteSheet: p5.Image;
-  // private _soundFiles: SoundFiles;
 
   constructor(private _playerDataService: PlayerDataService,
               private _rendererService: RendererService,
@@ -20,7 +20,7 @@ export class PlatformerSketch {
   }
 
   public get playerDataService(): PlayerDataService {
-    return this._playerDataService
+    return this._playerDataService;
   }
 
   public get rendererService(): RendererService {
@@ -56,18 +56,17 @@ export class PlatformerSketch {
   private _preload(context: p5): void {
     this._font = context.loadFont("assets/inconsolata.otf");
     this._spriteSheet = context.loadImage("assets/spritesheet.png");
-    // this._soundFiles = {
-    //   click: new p5.SoundFile("assets/click.mp3"),
-    //   pause: new p5.SoundFile("assets/pause.mp3"),
-    //   jump: new p5.SoundFile("assets/jump.mp3"),
-    //   land: new p5.SoundFile("assets/land.mp3")
-    // };
+    this._soundPlayerService.soundFiles = {
+      click: new p5.SoundFile("assets/click.mp3"),
+      pause: new p5.SoundFile("assets/pause.mp3"),
+      jump: new p5.SoundFile("assets/jump.mp3"),
+      land: new p5.SoundFile("assets/land.mp3")
+    };
   }
 
   private _setUp(context: p5): void {
     context.textFont(this._font);
     this._rendererService.spriteSheet = this._spriteSheet;
-    // this._soundPlayerService.soundFiles = this._soundFiles;
     const canvas = context.createCanvas(context.windowWidth, context.windowHeight);
     canvas.parent("canvas");
     context.frameRate(60);

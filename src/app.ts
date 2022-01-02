@@ -1,4 +1,4 @@
-import { Server, Socket } from "socket.io";
+import { Socket } from "socket.io";
 import { createServer } from "http";
 import Log from "./util/logger";
 import { PlayerService } from "./services/playerService";
@@ -9,7 +9,7 @@ import * as controller from "./controllers/playerController";
 const app = express();
 const port = process.env.PORT || 8080;
 const httpServer = createServer(app);
-const io = new Server(httpServer, {
+const io = require("socket.io")(httpServer, {
   cors: {
     origin: "*",
     methods: ["GET", "POST"],

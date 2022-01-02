@@ -14,7 +14,7 @@ export class Lobby extends Scene {
 
   public override keyPressed(context: p5): void {
     if (this.controlledPlayer) {
-      this.controlledPlayer.keyPressed(context.key);
+      this.controlledPlayer.keyPressed(context.key, this._sketch.soundPlayerService);
       this._sketch.playerDataService.updatePlayer(this.controlledPlayer.metadata);
     }
   }
@@ -37,8 +37,8 @@ export class Lobby extends Scene {
     }
     if (this.controlledPlayer) {
       this._sketch.rendererService.renderPlayer(context, this.controlledPlayer.metadata);
-      this._sketch.rendererService.renderEntityCollisionBox(context, this.controlledPlayer.metadata);
-      this.controlledPlayer.update(this._sketch.stageService.currentStage);
+      // this._sketch.rendererService.renderEntityCollisionBox(context, this.controlledPlayer.metadata);
+      this.controlledPlayer.update(this._sketch.stageService.currentStage, this._sketch.soundPlayerService);
       this._sketch.playerDataService.updatePlayer(this.controlledPlayer.metadata);
     }
   }

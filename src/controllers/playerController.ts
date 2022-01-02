@@ -5,7 +5,7 @@ import { Character, PlayerMetadata } from "../types/entityMetadata";
 
 export function getPlayers(socket: Socket, playerService: PlayerService): () => void {
   return () => {
-    socket.emit("broadcastPlayers", playerService.players);
+    socket.emit("receivePlayers", playerService.players);
   }
 }
 
@@ -33,7 +33,7 @@ export function joinRoom(socket: Socket, playerService: PlayerService): (_: stri
 export function updatePlayer(socket: Socket, playerService: PlayerService): (_: PlayerMetadata) => void {
   return (metadata: PlayerMetadata) => {
     playerService.update(socket.id, metadata);
-    socket.broadcast.emit("broadcastPlayers", playerService.players);
+    socket.broadcast.emit("receivePlayers", playerService.players);
   };
 }
 
