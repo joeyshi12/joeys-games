@@ -23,8 +23,8 @@ const config: SocketIoConfig = {
   imports: [
     BrowserModule,
     AppContainerRoutingModule,
-    SocketIoModule.forRoot(config),
-    HttpClientModule
+    HttpClientModule,
+    SocketIoModule.forRoot(config)
   ],
   providers: [
     PlayerDataService,

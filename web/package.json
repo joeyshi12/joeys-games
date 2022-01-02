@@ -6,7 +6,8 @@
     "start": "ng serve --poll 1000",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "postinstall": "ngcc"
   },
   "private": true,
   "dependencies": {
@@ -21,9 +22,9 @@
     "@angular-devkit/build-angular": "~13.1.2",
     "@angular/cli": "~13.1.2",
     "angular-cli-ghpages": "^1.0.0",
-    "ngx-socket-io": "^4.1.0",
-    "@types/p5": "^0.9.0",
-    "p5": "^1.4.0",
+    "ngx-socket-io": "^3.2.0",
+    "@types/p5": "^0.9.1",
+    "p5": "^0.10.2",
     "rxjs": "~7.4.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"

@@ -22,7 +22,7 @@ export class PlayerDataService {
         this._rendererService.focusedEntity = this._controlledPlayer.metadata;
       }
     });
-    this._socket.on("broadcastPlayers", (players: PlayerMetadata[]) => {
+    this._socket.on("receivePlayers", (players: PlayerMetadata[]) => {
       this._players = players;
     })
   }

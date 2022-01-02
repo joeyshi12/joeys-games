@@ -1,6 +1,7 @@
 import { Character, PlayerMetadata, PlayerState, Vector } from "../../../../../src/types/entityMetadata";
 import { Stage } from "../scenes/stage";
 import { AnimationControl } from "./animationControl";
+import { SoundPlayerService } from "../services/soundPlayerService";
 
 export class ControlledPlayer {
   public static ACCELERATION: number = 2.2;
@@ -20,10 +21,11 @@ export class ControlledPlayer {
     return this._metadata;
   }
 
-  public keyPressed(key: string): void {
+  public keyPressed(key: string, soundPlayerService: SoundPlayerService): void {
     switch (key.toLocaleUpperCase()) {
       case "W":
         if (this._isGrounded) {
+          soundPlayerService.playJump();
           this._metadata.position.y--;
           this._velocity.y = -ControlledPlayer.JUMP_VELOCITY;
           this._animationControl.state = PlayerState.falling;
@@ -55,7 +57,7 @@ export class ControlledPlayer {
     }
   }
 
-  public update(stage: Stage): void {
+  public update(stage: Stage, soundPlayerService: SoundPlayerService): void {
     this._metadata.position.x += this._velocity.x;
     this._metadata.position.y += this._velocity.y;
     const collisionEventBelow = stage.getCollisionEventBelow(this._metadata);
@@ -64,6 +66,7 @@ export class ControlledPlayer {
       this._acceleration.y = 0;
       if (this._animationControl.state === PlayerState.falling) {
         this._animationControl.state = PlayerState.standing;
+        soundPlayerService.playLand();
       }
       if (this._velocity.x === 0) {
         if (this._animationControl.state !== PlayerState.standing) {

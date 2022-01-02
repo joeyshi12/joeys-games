@@ -15,6 +15,7 @@ export class Menu extends Scene {
     super(sketch);
     this._titleElement = new TextElement("Platform Party", 32, {x: 0, y: 0});
     this._joinButton = new Button("Join Room", 22, {x: 0, y: 0}, () => {
+      this._sketch.soundPlayerService.playClick();
       if (this._canJoinRoom) {
         this._sketch.playerDataService.joinRoom(this._userNameInput.value().toString());
         this._sketch.scene = new Lobby(sketch);
@@ -48,10 +49,10 @@ export class Menu extends Scene {
 
     this._sketch.rendererService.renderTextElement(context, this._titleElement, 255, 255, 255);
     const gray = this._joinButton.isHovered(context.mouseX, context.mouseY) ? 255 : 200;
-    this._sketch.rendererService.renderTextElement(context, this._joinButton.element, gray, gray, gray)
+    this._sketch.rendererService.renderTextElement(context, this._joinButton.element, gray, gray, gray);
 
     if (!this._userNameInput) {
-      this._userNameInput = context.createInput();
+      this._userNameInput = context.createInput("test", "test");
     }
     this._userNameInput.position(context.windowWidth / 4, context.windowHeight / 2 - 30);
   }
