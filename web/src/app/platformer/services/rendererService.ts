@@ -1,7 +1,8 @@
 import * as p5 from "p5";
 import { Injectable } from "@angular/core";
-import { EntityMetadata, Vector } from "../../../../../src/types/entityMetadata";
+import { EntityMetadata, PlayerMetadata, Vector } from "../../../../../src/types/entityMetadata";
 import { Stage } from "../scenes/stage";
+import { TextElement } from "../scenes/gui";
 
 /**
  * Service to render sprites from sprite sheet
@@ -61,10 +62,10 @@ export class RendererService {
           context.strokeWeight(1);
           context.stroke(0, 0, 255);
           context.rect(
-              j * RendererService.SPRITE_LENGTH + offset.x,
-              i * RendererService.SPRITE_LENGTH + offset.y,
-              RendererService.SPRITE_LENGTH,
-              RendererService.SPRITE_LENGTH
+            j * RendererService.SPRITE_LENGTH + offset.x,
+            i * RendererService.SPRITE_LENGTH + offset.y,
+            RendererService.SPRITE_LENGTH,
+            RendererService.SPRITE_LENGTH
           );
           context.pop();
         }
@@ -88,6 +89,20 @@ export class RendererService {
       entity.position.y + entity.collisionBox.offset.y + offset.y,
       entity.collisionBox.width,
       entity.collisionBox.height
+    );
+    context.pop();
+  }
+
+  public renderTextElement(context: p5, element: TextElement, v1: number, v2: number, v3: number): void {
+    context.push();
+    context.fill(v1, v2, v3);
+    context.textSize(element.textSize);
+    context.text(
+      element.text,
+      element.position.x,
+      element.position.y,
+      element.position.x + element.width,
+      element.position.y + element.height
     );
     context.pop();
   }
@@ -130,6 +145,20 @@ export class RendererService {
         RendererService.SPRITE_LENGTH
     );
     context.pop();
+  }
+
+  public renderPlayer(context: p5, player: PlayerMetadata): void {
+    this.renderEntity(context, player);
+    const offset = this._getWindowOffset(context);
+    offset.x += player.collisionBox.width / 2 - player.userName.length * 3.5 + 4;
+    context.push();
+    context.fill(255);
+    context.textSize(14);
+    context.text(
+      player.userName,
+      player.position.x + offset.x,
+      player.position.y + offset.y
+    );
   }
 
   public renderEntity(context: p5, entity: EntityMetadata): void {

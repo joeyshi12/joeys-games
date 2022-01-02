@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="103ec775-78ea-427c-80f4-68fc456fa410" name="Changes" comment="">
+    <list default="true" id="103ec775-78ea-427c-80f4-68fc456fa410" name="Changes" comment="WIP">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/playerController.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/playerController.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/playerService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/playerService.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/types/exception.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/app/platformer/entities/controlledPlayer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/app/platformer/entities/controlledPlayer.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/app/platformer/platformerSketch.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/app/platformer/platformerSketch.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/app/platformer/scenes/button.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/app/platformer/scenes/gui.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/app/platformer/scenes/lobby.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/app/platformer/scenes/lobby.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/app/platformer/scenes/menu.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/app/platformer/scenes/menu.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/app/platformer/scenes/scene.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/app/platformer/scenes/scene.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/app/platformer/services/playerDataService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/app/platformer/services/playerDataService.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/app/platformer/services/rendererService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/app/platformer/services/rendererService.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/app/platformer/sketch.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,7 +50,7 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="22yfCdZlirl7bKb2ISSUPumtRtJ" />
-  <component name="ProjectLevelVcsManager">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
@@ -69,7 +83,7 @@
       <recent name="$PROJECT_DIR$/src" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.Angular CLI Server">
+  <component name="RunManager" selected="Node.js.app.js">
     <configuration name="Angular Application" type="JavascriptDebugType" uri="http://localhost:4200">
       <method v="2" />
     </configuration>
@@ -84,6 +98,9 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="app.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/dist/src/app.js" working-dir="$PROJECT_DIR$/dist/src">
+      <method v="2" />
+    </configuration>
     <configuration name="Angular CLI Server" type="js.build_tools.npm">
       <package-json value="$PROJECT_DIR$/web/package.json" />
       <command value="run" />
@@ -94,6 +111,11 @@
       <envs />
       <method v="2" />
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Node.js.app.js" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -172,7 +194,14 @@
       <option name="project" value="LOCAL" />
       <updated>1640941435063</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="WIP">
+      <created>1640944742687</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1640944742687</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -191,11 +220,22 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="WIP" />
     <MESSAGE value="minor refactor" />
     <MESSAGE value="implemented animation system" />
     <MESSAGE value="broadcast after disconnect" />
-    <option name="LAST_COMMIT_MESSAGE" value="broadcast after disconnect" />
+    <MESSAGE value="WIP" />
+    <option name="LAST_COMMIT_MESSAGE" value="WIP" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/web/src/app/platformer/scenes/lobby.ts</url>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

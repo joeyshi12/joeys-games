@@ -12,5 +12,5 @@ export abstract class Scene {
 
   public keyReleased(context: p5): void {};
 
-  public abstract draw(context: p5): void;
+  public draw(context: p5): void {};
 }

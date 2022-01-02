@@ -1,23 +1,26 @@
 import { PlayerMetadata } from "../types/entityMetadata";
 
 export class PlayerService {
-    private _playerRepository: Map<string, PlayerMetadata>;
+  private _playerRepository: Map<string, PlayerMetadata>;
 
-    constructor() {
-        this._playerRepository = new Map();
-    }
+  constructor() {
+    this._playerRepository = new Map();
+  }
 
-    public get players(): PlayerMetadata[] {
-        return Array.from(this._playerRepository.values());
-    }
+  public get players(): PlayerMetadata[] {
+    return Array.from(this._playerRepository.values());
+  }
 
-    public createOrUpdate(socketId: string, player: PlayerMetadata): PlayerMetadata {
-        this._playerRepository.set(socketId, player);
-        return player;
-    }
+  public getPlayer(id: string): PlayerMetadata {
+    return this._playerRepository.get(id);
+  }
 
-    public removePlayer(socketId: string): string {
-        this._playerRepository.delete(socketId)
-        return socketId;
-    }
+  public update(id: string, player: PlayerMetadata): PlayerMetadata {
+    this._playerRepository.set(id, player);
+    return player;
+  }
+
+  public removePlayer(id: string): boolean {
+    return this._playerRepository.delete(id);
+  }
 }
