@@ -1,23 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="103ec775-78ea-427c-80f4-68fc456fa410" name="Changes" comment="Added volatile for player broadcast for performance">
+    <list default="true" id="103ec775-78ea-427c-80f4-68fc456fa410" name="Changes" comment="Hacky fixes for collisions, lowered volume for some sound files">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/playerController.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/playerController.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/types/entityMetadata.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/entityMetadata.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/app/appContainerComponent.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/app/appContainerComponent.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web/src/app/platformer/entities/controlledPlayer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/app/platformer/entities/controlledPlayer.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/app/platformer/platformerSketch.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/app/platformer/platformerSketch.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/app/platformer/scenes/lobby.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/app/platformer/scenes/lobby.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/app/platformer/scenes/menu.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/app/platformer/scenes/menu.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/app/platformer/scenes/stage.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/app/platformer/scenes/stage.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/app/platformer/services/playerDataService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/app/platformer/services/playerDataService.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/app/platformer/services/rendererService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/app/platformer/services/rendererService.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/app/platformer/services/stageService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/app/platformer/services/stageService.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/assets/click.mp3" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/assets/click.mp3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/assets/jump.mp3" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/assets/jump.mp3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/assets/land.mp3" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/assets/land.mp3" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -217,7 +203,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641126010178</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Hacky fixes for collisions, lowered volume for some sound files">
+      <created>1641195527384</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1641195527384</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -242,7 +235,8 @@
     <MESSAGE value="WIP" />
     <MESSAGE value="Implemented simple menu + usernames" />
     <MESSAGE value="Added volatile for player broadcast for performance" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added volatile for player broadcast for performance" />
+    <MESSAGE value="Hacky fixes for collisions, lowered volume for some sound files" />
+    <option name="LAST_COMMIT_MESSAGE" value="Hacky fixes for collisions, lowered volume for some sound files" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
