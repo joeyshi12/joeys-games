@@ -6,17 +6,23 @@ import { StageService } from "./services/stageService";
 import { Menu } from "./scenes/menu";
 import "p5/lib/addons/p5.sound";
 import { SoundPlayerService } from "./services/soundPlayerService";
+import { Socket } from "ngx-socket-io";
 
 export class PlatformerSketch {
   private _scene: Scene;
   private _font: p5.Font;
   private _spriteSheet: p5.Image;
 
-  constructor(private _playerDataService: PlayerDataService,
+  constructor(private _socket: Socket,
+              private _playerDataService: PlayerDataService,
               private _rendererService: RendererService,
               private _soundPlayerService: SoundPlayerService,
               private _stageService: StageService) {
     this._scene = new Menu(this);
+  }
+
+  public get socket(): Socket {
+    return this._socket;
   }
 
   public get playerDataService(): PlayerDataService {

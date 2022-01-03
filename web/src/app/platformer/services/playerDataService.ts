@@ -2,7 +2,6 @@ import { Injectable } from "@angular/core";
 import { Socket } from "ngx-socket-io";
 import { ControlledPlayer } from "../entities/controlledPlayer";
 import { PlayerMetadata } from "../../../../../src/types/entityMetadata";
-import { RendererService } from "./rendererService";
 import { HttpClient } from "@angular/common/http";
 
 /**
@@ -14,14 +13,7 @@ export class PlayerDataService {
   private _players: PlayerMetadata[] = [];
 
   constructor(private _socket: Socket,
-              private _rendererService: RendererService,
               private _http: HttpClient) {
-    this._socket.on("joinedRoom", (player: PlayerMetadata) => {
-      if (!this._controlledPlayer) {
-        this._controlledPlayer = new ControlledPlayer(player);
-        this._rendererService.focusedEntity = this._controlledPlayer.metadata;
-      }
-    });
     this._socket.on("receivePlayers", (players: PlayerMetadata[]) => {
       this._players = players;
     })
@@ -31,20 +23,12 @@ export class PlayerDataService {
     return this._controlledPlayer;
   }
 
+  public set controlledPlayer(val: ControlledPlayer) {
+    this._controlledPlayer = val;
+  }
+
   public get players(): PlayerMetadata[] {
     return this._players;
-  }
-
-  public joinRoom(userName: string): void {
-    this._socket.emit("joinRoom", userName);
-  }
-
-  public getPlayers(): void {
-    this._socket.emit("getPlayers");
-  }
-
-  public createPlayer(userName: string): void {
-    this._socket.emit("createPlayer", userName);
   }
 
   public updatePlayer(player: PlayerMetadata): void {

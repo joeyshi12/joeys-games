@@ -60,7 +60,7 @@ export class ControlledPlayer {
   public update(stage: Stage, soundPlayerService: SoundPlayerService): void {
     this._metadata.position.x += this._velocity.x;
     this._metadata.position.y += this._velocity.y;
-    const collisionEventBelow = stage.getCollisionEventBelow(this._metadata);
+    const collisionEventBelow = stage.getCollisionEventBelow(this._metadata, this._velocity.y);
     if (collisionEventBelow && this._velocity.y >= 0) {
       this._metadata.position.y = collisionEventBelow.position;
       this._acceleration.y = 0;
@@ -87,13 +87,6 @@ export class ControlledPlayer {
     this._metadata.spriteIndex = this._animationControl.spriteIndex;
 
     this._velocity.x += this._acceleration.x;
-    const collisionEventAbove = stage.getCollisionEventAbove(this._metadata);
-    if (collisionEventAbove?.tile === "solid") {
-      this._metadata.position.y = collisionEventAbove.position;
-      this._velocity.y = 0;
-    } else {
-      this._velocity.y = this._isGrounded ? 0 : this._velocity.y + this._acceleration.y;
-    }
     const collisionEventLeft = stage.getCollisionEventLeft(this._metadata);
     const collisionEventRight = stage.getCollisionEventRight(this._metadata);
     if (collisionEventLeft?.tile === "solid" && this._velocity.x < 0) {
@@ -117,6 +110,14 @@ export class ControlledPlayer {
       } else if (this._velocity.x <= -ControlledPlayer.MAX_SPEED) {
         this._velocity.x = -ControlledPlayer.MAX_SPEED;
       }
+    }
+
+    const collisionEventAbove = stage.getCollisionEventAbove(this._metadata);
+    if (collisionEventAbove?.tile === "solid") {
+      this._metadata.position.y = collisionEventAbove.position;
+      this._velocity.y = 0;
+    } else {
+      this._velocity.y = this._isGrounded ? 0 : this._velocity.y + this._acceleration.y;
     }
 
     if (this._velocity.x > 0) {

@@ -29,6 +29,6 @@ export enum Character {
 }
 
 export interface PlayerMetadata extends EntityMetadata {
-    userName: string;
+    name: string;
     character: Character;
 }

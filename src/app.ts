@@ -22,7 +22,6 @@ app.use(express.static(path.join(__dirname, "..", "web")));
 
 io.on("connection", (socket: Socket) => {
   socket.on("joinRoom", controller.joinRoom(socket, service));
-  socket.on("getPlayers", controller.getPlayers(socket, service));
   socket.on("updatePlayer", controller.updatePlayer(socket, service));
   socket.on("disconnect", controller.disconnectPlayer(socket, service));
 });

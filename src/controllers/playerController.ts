@@ -3,18 +3,16 @@ import Log from "../util/logger";
 import { Socket } from "socket.io";
 import { Character, PlayerMetadata } from "../types/entityMetadata";
 
-export function getPlayers(socket: Socket, playerService: PlayerService): () => void {
-  return () => {
-    socket.emit("receivePlayers", playerService.players);
-  }
-}
-
 export function joinRoom(socket: Socket, playerService: PlayerService): (_: string) => void {
   return (userName: string) => {
+    if (userName === "" || playerService.players.some((metadata: PlayerMetadata) => metadata.name === userName)) {
+      socket.emit("joinRoomFailure", `"${userName}" is an unavailable name`);
+      return;
+    }
     Log.info(`Creating player [${userName}]`);
     const randomCharacter = <Character>Object.keys(Character)[Math.floor(Math.random() * 3)];
     const player: PlayerMetadata = {
-      userName: userName,
+      name: userName,
       character: randomCharacter,
       position: {x: 100, y: 100},
       spriteIndex: 354,
@@ -26,7 +24,7 @@ export function joinRoom(socket: Socket, playerService: PlayerService): (_: stri
       }
     };
     const updatedPlayer = playerService.update(socket.id, player);
-    socket.emit("joinedRoom", updatedPlayer);
+    socket.emit("joinRoomSuccess", updatedPlayer);
   };
 }
 
@@ -41,9 +39,9 @@ export function disconnectPlayer(socket: Socket, playerService: PlayerService): 
   return () => {
     const player = playerService.getPlayer(socket.id);
     if (player) {
-      Log.info(`Removing player [${player.userName}]`);
+      Log.info(`Removing player [${player.name}]`);
       playerService.removePlayer(socket.id);
-      socket.broadcast.emit("broadcastPlayers", playerService.players);
+      socket.broadcast.emit("receivePlayers", playerService.players);
     }
   };
 }

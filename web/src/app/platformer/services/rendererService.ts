@@ -1,8 +1,8 @@
 import * as p5 from "p5";
 import { Injectable } from "@angular/core";
 import { EntityMetadata, PlayerMetadata, Vector } from "../../../../../src/types/entityMetadata";
-import { Stage } from "../scenes/stage";
 import { TextElement } from "../scenes/gui";
+import { StageService } from "./stageService";
 
 /**
  * Service to render sprites from sprite sheet
@@ -16,7 +16,7 @@ export class RendererService {
   private _spriteSheet: p5.Image;
   private _focusedEntity: EntityMetadata;
 
-  constructor() {}
+  constructor(private _stageService: StageService) {}
 
   public set spriteSheet(val: p5.Image) {
     this._spriteSheet = val;
@@ -26,11 +26,12 @@ export class RendererService {
     this._focusedEntity = entity;
   }
 
-  public renderStage(context: p5, stage: Stage): void {
-    for (let i = 0; i < stage.mapData.cols; i++) {
-      for (let j = 0; j < stage.mapData.rows; j++) {
-        const tileIdx = i * stage.mapData.rows + j;
-        const spriteId = stage.mapData.spriteData[tileIdx];
+  public renderStage(context: p5): void {
+    const mapData = this._stageService.currentStage.mapData;
+    for (let i = 0; i < mapData.cols; i++) {
+      for (let j = 0; j < mapData.rows; j++) {
+        const tileIdx = i * mapData.rows + j;
+        const spriteId = mapData.spriteData[tileIdx];
         const offset = this._getWindowOffset(context);
         context.image(
           this._spriteSheet,
@@ -150,12 +151,12 @@ export class RendererService {
   public renderPlayer(context: p5, player: PlayerMetadata): void {
     this.renderEntity(context, player);
     const offset = this._getWindowOffset(context);
-    offset.x += player.collisionBox.width / 2 - player.userName.length * 3.5 + 4;
+    offset.x += player.collisionBox.width / 2 - player.name.length * 3.5 + 4;
     context.push();
     context.fill(255);
     context.textSize(14);
     context.text(
-      player.userName,
+      player.name,
       player.position.x + offset.x,
       player.position.y + offset.y
     );
@@ -197,10 +198,21 @@ export class RendererService {
 
   private _getWindowOffset(context: p5): Vector {
     if (this._focusedEntity) {
-      return {
-        x: context.width / 2 - this._focusedEntity.position.x,
-        y: context.height / 2 - this._focusedEntity.position.y
-      };
+      const mapData = this._stageService.currentStage.mapData;
+
+      let x = context.width / 2 - this._focusedEntity.position.x;
+      if (x > 0) {
+        x = 0;
+      } else if (this._focusedEntity.position.x > mapData.cols * RendererService.SPRITE_LENGTH) {
+        x = mapData.cols * RendererService.SPRITE_LENGTH - context.windowWidth / 2;
+      }
+
+      let y = context.height / 2 - this._focusedEntity.position.y;
+      if (y > 0) {
+        y = 0;
+      }
+
+      return {x, y};
     } else {
       return { x: 0, y: 0 };
     }

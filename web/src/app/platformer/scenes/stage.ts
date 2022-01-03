@@ -74,14 +74,14 @@ export class Stage {
         }
     }
 
-    public getCollisionEventBelow(entity: EntityMetadata): CollisionEvent | undefined {
+    public getCollisionEventBelow(entity: EntityMetadata, vy: number): CollisionEvent | undefined {
         const [x, y] = this._getEntityOffsettedPosition(entity);
 
         const leftCol = Math.floor((x + 1) / RendererService.SPRITE_LENGTH);
-        const bottomRow = Math.floor((y + entity.collisionBox.height / 2) / RendererService.SPRITE_LENGTH) + 1;
+        const bottomRow = Math.floor((y + entity.collisionBox.height) / RendererService.SPRITE_LENGTH) + 1;
         const rightCol = Math.floor((x + entity.collisionBox.width - 1) / RendererService.SPRITE_LENGTH);
 
-        const bottomPos = bottomRow * RendererService.SPRITE_LENGTH;
+        const bottomPos = bottomRow * RendererService.SPRITE_LENGTH - 1;
 
         const bottomLeftTileIdx = bottomRow * 40 + leftCol;
         const bottomRightTileIdx = bottomRow * 40 + rightCol;
@@ -90,7 +90,7 @@ export class Stage {
             || this.mapData.collisionSolidData[bottomRightTileIdx]
             || this.mapData.collisionPlatformData[bottomLeftTileIdx]
             || this.mapData.collisionPlatformData[bottomRightTileIdx];
-        if (existsGroundBelow && y + entity.collisionBox.height >= bottomPos) {
+        if (existsGroundBelow && y + vy + entity.collisionBox.height >= bottomPos) {
             return {
                 tile: <Tile>"solid",
                 position: bottomPos - entity.collisionBox.offset.y - entity.collisionBox.height
