@@ -160,6 +160,7 @@ export class RendererService {
       player.position.x + offset.x,
       player.position.y + offset.y
     );
+    context.pop();
   }
 
   public renderEntity(context: p5, entity: EntityMetadata): void {
