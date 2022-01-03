@@ -8,8 +8,8 @@ interface MapData {
     rows: number;
     cols: number;
     spriteData: number[];
-    collisionSolidData: boolean[];
-    collisionPlatformData: boolean[];
+    solidIndices: Set<number>;
+    platformIndices: Set<number>;
 }
 
 export type Tile = "solid" | "platform";
@@ -38,10 +38,10 @@ export class Stage {
 
         const topPos = (topRow + 1) * RendererService.SPRITE_LENGTH + 1;
 
-        const topLeftTileIdx = topRow * 40 + leftCol;
-        const topRightTileIdx = topRow * 40 + rightCol;
+        const topLeftTileIdx = topRow * this.mapData.cols + leftCol;
+        const topRightTileIdx = topRow * this.mapData.cols + rightCol;
 
-        if ((this.mapData.collisionSolidData[topLeftTileIdx] || this.mapData.collisionSolidData[topRightTileIdx])
+        if ((this.mapData.solidIndices.has(topLeftTileIdx) || this.mapData.solidIndices.has(topRightTileIdx))
             && y < topPos) {
             return {
                 tile: <Tile>"solid",
@@ -61,9 +61,9 @@ export class Stage {
 
         const leftPos = (leftCol + 1) * RendererService.SPRITE_LENGTH + 1;
 
-        const upperLeftTileIdx = upperRow * 40 + leftCol;
-        const lowerLeftTileIdx = lowerRow * 40 + leftCol;
-        if ((this.mapData.collisionSolidData[upperLeftTileIdx] || this.mapData.collisionSolidData[lowerLeftTileIdx])
+        const upperLeftTileIdx = upperRow * this.mapData.cols + leftCol;
+        const lowerLeftTileIdx = lowerRow * this.mapData.cols + leftCol;
+        if ((this.mapData.solidIndices.has(upperLeftTileIdx) || this.mapData.solidIndices.has(lowerLeftTileIdx))
             && x <= leftPos) {
             return {
                 tile: <Tile>"solid",
@@ -83,13 +83,13 @@ export class Stage {
 
         const bottomPos = bottomRow * RendererService.SPRITE_LENGTH - 1;
 
-        const bottomLeftTileIdx = bottomRow * 40 + leftCol;
-        const bottomRightTileIdx = bottomRow * 40 + rightCol;
+        const bottomLeftTileIdx = bottomRow * this.mapData.cols + leftCol;
+        const bottomRightTileIdx = bottomRow * this.mapData.cols + rightCol;
 
-        const existsGroundBelow = this.mapData.collisionSolidData[bottomLeftTileIdx]
-            || this.mapData.collisionSolidData[bottomRightTileIdx]
-            || this.mapData.collisionPlatformData[bottomLeftTileIdx]
-            || this.mapData.collisionPlatformData[bottomRightTileIdx];
+        const existsGroundBelow = this.mapData.solidIndices.has(bottomLeftTileIdx)
+            || this.mapData.solidIndices.has(bottomRightTileIdx)
+            || this.mapData.platformIndices.has(bottomLeftTileIdx)
+            || this.mapData.platformIndices.has(bottomRightTileIdx);
         if (existsGroundBelow && y + vy + entity.collisionBox.height >= bottomPos) {
             return {
                 tile: <Tile>"solid",
@@ -109,9 +109,9 @@ export class Stage {
 
         const rightPos = rightCol * RendererService.SPRITE_LENGTH - 1;
 
-        const upperRightTileIdx = upperRow * 40 + rightCol;
-        const lowerRightTileIdx = lowerRow * 40 + rightCol;
-        if ((this.mapData.collisionSolidData[upperRightTileIdx] || this.mapData.collisionSolidData[lowerRightTileIdx])
+        const upperRightTileIdx = upperRow * this.mapData.cols + rightCol;
+        const lowerRightTileIdx = lowerRow * this.mapData.cols + rightCol;
+        if ((this.mapData.solidIndices.has(upperRightTileIdx) || this.mapData.solidIndices.has(lowerRightTileIdx))
             && x + entity.collisionBox.width >= rightPos) {
             return {
                 tile: <Tile>"solid",

@@ -2,6 +2,7 @@ import { Character, PlayerMetadata, PlayerState, Vector } from "../../../../../s
 import { Stage } from "../scenes/stage";
 import { AnimationControl } from "./animationControl";
 import { SoundPlayerService } from "../services/soundPlayerService";
+import { RendererService } from "../services/rendererService";
 
 export class ControlledPlayer {
   public static ACCELERATION: number = 2.2;
@@ -58,6 +59,12 @@ export class ControlledPlayer {
   }
 
   public update(stage: Stage, soundPlayerService: SoundPlayerService): void {
+    if (this._metadata.position.y > stage.mapData.rows * RendererService.SPRITE_LENGTH) {
+      this._metadata.position = {x: 80, y: 500};
+      this._velocity = {x: 0, y: 0}
+      return;
+    }
+
     this._metadata.position.x += this._velocity.x;
     this._metadata.position.y += this._velocity.y;
 

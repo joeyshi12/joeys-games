@@ -32,7 +32,7 @@ export class Lobby extends Scene {
     for (const player of this._sketch.playerDataService.players) {
       if (this.controlledPlayer?.metadata.name !== player.name) {
         this._sketch.rendererService.renderPlayer(context, player);
-        this._sketch.rendererService.renderEntityCollisionBox(context, player);
+        // this._sketch.rendererService.renderEntityCollisionBox(context, player);
       }
     }
     if (this.controlledPlayer) {

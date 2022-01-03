@@ -28,9 +28,9 @@ export class RendererService {
 
   public renderStage(context: p5): void {
     const mapData = this._stageService.currentStage.mapData;
-    for (let i = 0; i < mapData.cols; i++) {
-      for (let j = 0; j < mapData.rows; j++) {
-        const tileIdx = i * mapData.rows + j;
+    for (let i = 0; i < mapData.rows; i++) {
+      for (let j = 0; j < mapData.cols; j++) {
+        const tileIdx = i * mapData.cols + j;
         const spriteId = mapData.spriteData[tileIdx];
         const offset = this._getWindowOffset(context);
         context.image(
@@ -44,7 +44,7 @@ export class RendererService {
           15,
           16
         );
-        // if (stage.mapData.collisionSolidData[tileIdx]) {
+        // if (mapData.solidIndices.has(tileIdx)) {
         //   context.push();
         //   context.noFill();
         //   context.strokeWeight(1);
@@ -57,7 +57,7 @@ export class RendererService {
         //   );
         //   context.pop();
         // }
-        // if (stage.mapData.collisionPlatformData[tileIdx]) {
+        // if (mapData.platformIndices.has(tileIdx)) {
         //   context.push();
         //   context.noFill();
         //   context.strokeWeight(1);
@@ -203,13 +203,13 @@ export class RendererService {
       let x = context.width / 2 - this._focusedEntity.position.x;
       if (x > 0) {
         x = 0;
-      } else if (this._focusedEntity.position.x > mapData.cols * RendererService.SPRITE_LENGTH) {
-        x = mapData.cols * RendererService.SPRITE_LENGTH - context.windowWidth / 2;
+      } else if (2 * (mapData.cols * RendererService.SPRITE_LENGTH - this._focusedEntity.position.x) < context.windowWidth) {
+        x = context.width - mapData.cols * RendererService.SPRITE_LENGTH;
       }
 
       let y = context.height / 2 - this._focusedEntity.position.y;
-      if (y > 0) {
-        y = 0;
+      if (2 * (mapData.rows * RendererService.SPRITE_LENGTH - this._focusedEntity.position.y) < context.windowHeight) {
+        y = context.height - mapData.rows * RendererService.SPRITE_LENGTH;
       }
 
       return {x, y};

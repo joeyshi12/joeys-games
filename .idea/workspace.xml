@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="103ec775-78ea-427c-80f4-68fc456fa410" name="Changes" comment="Hacky fixes for collisions, lowered volume for some sound files">
+    <list default="true" id="103ec775-78ea-427c-80f4-68fc456fa410" name="Changes" comment="Some more hacky collision fixes">
+      <change afterPath="$PROJECT_DIR$/images/snapshot.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/playerController.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/playerController.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web/src/app/platformer/entities/controlledPlayer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/app/platformer/entities/controlledPlayer.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/app/platformer/scenes/lobby.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/app/platformer/scenes/lobby.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/app/platformer/scenes/stage.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/app/platformer/scenes/stage.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/app/platformer/services/rendererService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/app/platformer/services/rendererService.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/src/app/platformer/services/stageService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/app/platformer/services/stageService.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,11 +71,11 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/images" />
       <recent name="$PROJECT_DIR$/web/src/assets" />
       <recent name="$PROJECT_DIR$/src/services" />
       <recent name="$PROJECT_DIR$/src/controllers" />
       <recent name="$PROJECT_DIR$/src/types" />
-      <recent name="$PROJECT_DIR$/src" />
     </key>
   </component>
   <component name="RunManager" selected="Node.js.app.js">
@@ -210,7 +217,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641195527384</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Some more hacky collision fixes">
+      <created>1641196412145</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1641196412145</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -236,7 +250,8 @@
     <MESSAGE value="Implemented simple menu + usernames" />
     <MESSAGE value="Added volatile for player broadcast for performance" />
     <MESSAGE value="Hacky fixes for collisions, lowered volume for some sound files" />
-    <option name="LAST_COMMIT_MESSAGE" value="Hacky fixes for collisions, lowered volume for some sound files" />
+    <MESSAGE value="Some more hacky collision fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Some more hacky collision fixes" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

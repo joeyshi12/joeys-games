@@ -14,7 +14,7 @@ export function joinRoom(socket: Socket, playerService: PlayerService): (_: stri
     const player: PlayerMetadata = {
       name: userName,
       character: randomCharacter,
-      position: {x: 100, y: 100},
+      position: {x: 80, y: 500},
       spriteIndex: 354,
       isFlipped: false,
       collisionBox: {
@@ -25,6 +25,7 @@ export function joinRoom(socket: Socket, playerService: PlayerService): (_: stri
     };
     const updatedPlayer = playerService.update(socket.id, player);
     socket.emit("joinRoomSuccess", updatedPlayer);
+    socket.emit("receivePlayers", playerService.players);
   };
 }
 
