@@ -167,8 +167,8 @@ export class RendererService {
     const row = Math.floor(entity.spriteIndex / RendererService.SHEET_COLS);
     const col = entity.spriteIndex % RendererService.SHEET_COLS;
     const offset = this._getWindowOffset(context);
-    context.push();
     if (entity.isFlipped) {
+      context.push();
       context.scale(-1, 1)
       context.image(
           this._spriteSheet,
@@ -181,6 +181,7 @@ export class RendererService {
           RendererService.SHEET_CELL_LENGTH,
           RendererService.SHEET_CELL_LENGTH
       );
+      context.pop();
     } else {
       context.image(
           this._spriteSheet,
@@ -194,7 +195,6 @@ export class RendererService {
           RendererService.SHEET_CELL_LENGTH
       );
     }
-    context.pop();
   }
 
   private _getWindowOffset(context: p5): Vector {

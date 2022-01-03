@@ -6,6 +6,9 @@ import { ControlledPlayer } from "../entities/controlledPlayer";
 export class Lobby extends Scene {
   constructor(sketch: PlatformerSketch) {
     super(sketch);
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+
+    }
   }
 
   public get controlledPlayer(): ControlledPlayer {
@@ -13,17 +16,13 @@ export class Lobby extends Scene {
   }
 
   public override keyPressed(context: p5): void {
-    if (this.controlledPlayer) {
-      this.controlledPlayer.keyPressed(context.key, this._sketch.soundPlayerService);
-      this._sketch.playerDataService.updatePlayer(this.controlledPlayer.metadata);
-    }
+    this.controlledPlayer.keyPressed(context.key, this._sketch.soundPlayerService);
+    this._sketch.playerDataService.updatePlayer(this.controlledPlayer.metadata);
   }
 
   public override keyReleased(context: p5): void {
-    if (this.controlledPlayer) {
-      this.controlledPlayer.keyReleased(context.key);
-      this._sketch.playerDataService.updatePlayer(this.controlledPlayer.metadata);
-    }
+    this.controlledPlayer.keyReleased(context.key);
+    this._sketch.playerDataService.updatePlayer(this.controlledPlayer.metadata);
   }
 
   public override draw(context: p5): void {
@@ -35,11 +34,9 @@ export class Lobby extends Scene {
         // this._sketch.rendererService.renderEntityCollisionBox(context, player);
       }
     }
-    if (this.controlledPlayer) {
-      this._sketch.rendererService.renderPlayer(context, this.controlledPlayer.metadata);
-      // this._sketch.rendererService.renderEntityCollisionBox(context, this.controlledPlayer.metadata);
-      this.controlledPlayer.update(this._sketch.stageService.currentStage, this._sketch.soundPlayerService);
-      this._sketch.playerDataService.updatePlayer(this.controlledPlayer.metadata);
-    }
+    this._sketch.rendererService.renderPlayer(context, this.controlledPlayer.metadata);
+    // this._sketch.rendererService.renderEntityCollisionBox(context, this.controlledPlayer.metadata);
+    this.controlledPlayer.update(this._sketch.stageService.currentStage, this._sketch.soundPlayerService);
+    this._sketch.playerDataService.updatePlayer(this.controlledPlayer.metadata);
   }
 }

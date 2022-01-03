@@ -59,6 +59,13 @@ export class ControlledPlayer {
   }
 
   public update(stage: Stage, soundPlayerService: SoundPlayerService): void {
+    if (this._animationControl.state === PlayerState.dead) {
+      return;
+    }
+    if (this._isDamaged(stage)) {
+      this._animationControl.state = PlayerState.dead;
+      setTimeout(() => this._reset(), 2000)
+    }
     if (this._metadata.position.y > stage.mapData.rows * RendererService.SPRITE_LENGTH) {
       this._metadata.position = {x: 80, y: 500};
       this._velocity = {x: 0, y: 0}
@@ -140,19 +147,22 @@ export class ControlledPlayer {
         return new Map([
           [PlayerState.standing, [402]],
           [PlayerState.walking, [402, 403, 404, 405]],
-          [PlayerState.falling, [406]]
+          [PlayerState.falling, [406]],
+          [PlayerState.dead, [407]]
         ]);
       case Character.green:
         return new Map([
           [PlayerState.standing, [450]],
           [PlayerState.walking, [450, 451, 452, 453]],
-          [PlayerState.falling, [454]]
+          [PlayerState.falling, [454]],
+          [PlayerState.dead, [455]]
         ]);
       default: // blue
         return new Map([
           [PlayerState.standing, [354]],
           [PlayerState.walking, [354, 355, 356, 357]],
-          [PlayerState.falling, [358]]
+          [PlayerState.falling, [358]],
+          [PlayerState.dead, [359]]
         ]);
     }
   }
@@ -160,5 +170,17 @@ export class ControlledPlayer {
   private get _isGrounded(): boolean {
     return this._animationControl.state === PlayerState.standing
       || this._animationControl.state === PlayerState.walking;
+  }
+
+  private _isDamaged(stage: Stage): boolean {
+    const row = Math.floor((this._metadata.position.y + this._metadata.collisionBox.offset.y + this._metadata.collisionBox.height / 2) / RendererService.SPRITE_LENGTH);
+    const col = Math.floor((this._metadata.position.x + this._metadata.collisionBox.offset.x + this._metadata.collisionBox.width / 2) / RendererService.SPRITE_LENGTH);
+    return stage.mapData.spriteData[row * stage.mapData.cols + col] === 22;
+  }
+
+  private _reset(): void {
+    this._metadata.position = {x: 80, y: 500};
+    this._velocity = {x: 0, y: 0};
+    this._animationControl.state = PlayerState.falling;
   }
 }

@@ -19,7 +19,8 @@ export interface EntityMetadata {
 export enum PlayerState {
     standing = "standing",
     walking = "walking",
-    falling = "falling"
+    falling = "falling",
+    dead = "dead"
 }
 
 export enum Character {
