@@ -6,9 +6,6 @@ import { ControlledPlayer } from "../entities/controlledPlayer";
 export class Lobby extends Scene {
   constructor(sketch: PlatformerSketch) {
     super(sketch);
-    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-
-    }
   }
 
   public get controlledPlayer(): ControlledPlayer {

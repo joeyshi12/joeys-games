@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="103ec775-78ea-427c-80f4-68fc456fa410" name="Changes" comment="Fixed mem leak">
+    <list default="true" id="103ec775-78ea-427c-80f4-68fc456fa410" name="Changes" comment="Added hacky implementation for player death on spikes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/types/entityMetadata.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/types/entityMetadata.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/app/platformer/entities/controlledPlayer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/app/platformer/entities/controlledPlayer.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web/src/app/platformer/scenes/lobby.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/app/platformer/scenes/lobby.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/web/src/app/platformer/services/rendererService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/web/src/app/platformer/services/rendererService.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,7 +71,7 @@
       <recent name="$PROJECT_DIR$/src/types" />
     </key>
   </component>
-  <component name="RunManager" selected="Node.js.app.js">
+  <component name="RunManager" selected="npm.Angular CLI Server">
     <configuration name="Angular Application" type="JavascriptDebugType" uri="http://localhost:4200">
       <method v="2" />
     </configuration>
@@ -121,6 +118,7 @@
       <workItem from="1640905229360" duration="210000" />
       <workItem from="1640905455188" duration="12278000" />
       <workItem from="1640941232229" duration="860000" />
+      <workItem from="1641517785604" duration="1105000" />
     </task>
     <task id="LOCAL-00001" summary="WIP">
       <created>1640858983447</created>
@@ -234,7 +232,14 @@
       <option name="project" value="LOCAL" />
       <updated>1641209210358</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Added hacky implementation for player death on spikes">
+      <created>1641252720184</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1641252720184</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -263,7 +268,8 @@
     <MESSAGE value="Some more hacky collision fixes" />
     <MESSAGE value="Updated map" />
     <MESSAGE value="Fixed mem leak" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed mem leak" />
+    <MESSAGE value="Added hacky implementation for player death on spikes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added hacky implementation for player death on spikes" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
