@@ -15,3 +15,7 @@ npm run watch
 # escape with Ctrl-c or from a different window, start server
 cd .. && node dist/src/app.js
 ```
+
+## Important image for the README
+
+![image](https://user-images.githubusercontent.com/16752627/148634415-4280ebae-45f4-4115-8c52-0e2e520d3ce3.png)
