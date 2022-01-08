@@ -5,8 +5,8 @@ import { Character, PlayerMetadata } from "../types/entityMetadata";
 
 export function joinRoom(socket: Socket, playerService: PlayerService): (_: string) => void {
   return (userName: string) => {
-    if (userName === "" || playerService.players.some((metadata: PlayerMetadata) => metadata.name === userName)) {
-      socket.emit("joinRoomFailure", `"${userName}" is an unavailable name`);
+    if (isInvalidUserName(userName, playerService)) {
+      socket.emit("joinRoomFailure", `"${userName}" is an unavailable or invalid name`);
       return;
     }
     Log.info(`Creating player [${userName}]`);
@@ -45,4 +45,10 @@ export function disconnectPlayer(socket: Socket, playerService: PlayerService): 
       socket.broadcast.emit("receivePlayers", playerService.players);
     }
   };
+}
+
+function isInvalidUserName(userName: string, playerService: PlayerService): boolean {
+  return userName === ""
+    || userName.length > 20
+    || playerService.players.some((metadata: PlayerMetadata) => metadata.name === userName);
 }
