@@ -1,8 +1,12 @@
 # platform-party
 
-A real-time multiplayer browser platformer made with p5. Join through <a href=https://platform-party.herokuapp.com/>platform-party.herokuapp.com/</a>
+A real-time multiplayer browser platformer made with p5.
 
-![Platform Party](./images/snapshot.png)
+<a href=https://platform-party.herokuapp.com/>
+    <img src="./assets/join_game.png" width=120/>
+</a>
+
+![Platform Party](./assets/snapshot.png)
 
 ## How to run locally
 ```bash
