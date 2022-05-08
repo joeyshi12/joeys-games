@@ -15,7 +15,7 @@ Live demo hosted on Heroku!
 
 
 ## Running with docker
-```
+```bash
 docker pull joeyshi12/platform-party
 docker run -p 5000:8080 joeyshi12/platform-party
 ```
