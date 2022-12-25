@@ -2,10 +2,11 @@
 
 A real-time multiplayer browser platformer made with p5.
 
-Live demo hosted on fly.io!
+Live demo hosted on Heroku!
 - Recommended to use a Chromium based browser when playing
+- There may be a delay before you enter the page because Heroku enters sleep mode when the deployment is inactive for over 1 hour
 
-<a href="https://platform-party.fly.dev/">
+<a href=https://platform-party.herokuapp.com/>
     <img src="./assets/join_game.png" width=120 alt="platform-party"/>
 </a>
 

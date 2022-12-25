@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiHost: "https://platform-party.fly.dev"
+  apiHost: "https://platform-party.herokuapp.com"
 };
