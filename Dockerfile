@@ -2,7 +2,7 @@ FROM node:16.13.1
 
 COPY . .
 RUN yarn install
-RUN npm run heroku-postbuild
+RUN npm run postbuild
 
 WORKDIR /dist
 

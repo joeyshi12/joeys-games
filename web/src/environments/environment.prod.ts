@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiHost: "https://platform-party.herokuapp.com"
+  apiHost: "http://pi.joeyshi.com:3141",
 };
