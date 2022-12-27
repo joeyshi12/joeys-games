@@ -1,7 +1,5 @@
-import { Injectable } from "@angular/core";
 import { Stage } from "../scenes/stage";
 
-@Injectable()
 export class StageService {
     private readonly _currentStage: Stage;
 

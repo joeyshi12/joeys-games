@@ -1,4 +1,3 @@
-import { Injectable } from "@angular/core";
 import * as p5 from "p5";
 import "p5/lib/addons/p5.sound";
 
@@ -12,7 +11,6 @@ export interface SoundFiles {
 /**
  * Service to play sounds
  */
-@Injectable()
 export class SoundPlayerService {
   private _soundFiles: SoundFiles;
 

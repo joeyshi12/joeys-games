@@ -1,20 +1,18 @@
 import * as p5 from "p5";
-import { Injectable } from "@angular/core";
-import { EntityMetadata, PlayerMetadata, Vector } from "../../../../../src/types/entityMetadata";
+import { EntityMetadata, PlayerMetadata, Vector } from "../../../server/types/entityMetadata";
 import { TextElement } from "../scenes/gui";
 import { StageService } from "./stageService";
 
 /**
  * Service to render sprites from sprite sheet
  */
-@Injectable()
 export class RendererService {
   public static SPRITE_LENGTH: number = 36;
   public static SHEET_CELL_LENGTH: number = 16;
   public static SHEET_ROWS: number = 22;
   public static SHEET_COLS: number = 48;
   private _spriteSheet: p5.Image;
-  private _focusedEntity: EntityMetadata;
+  private _focusedEntity?: EntityMetadata;
 
   constructor(private _stageService: StageService) {}
 

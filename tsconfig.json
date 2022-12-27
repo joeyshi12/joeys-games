@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "outDir": "./dist/src",
+    "outDir": "./dist/server",
     "module": "commonjs",
     "target": "ES6",
     "noImplicitAny": true,
@@ -17,10 +17,11 @@
     ],
     "allowSyntheticDefaultImports": true,
     "strictNullChecks": false,
-    "strictPropertyInitialization": false
+    "strictPropertyInitialization": false,
+    "skipLibCheck": true
   },
   "include": [
-    "src/**/*.ts"
+    "server/**/*.ts"
   ],
   "exclude": [
     "node_modules"

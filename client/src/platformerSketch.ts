@@ -1,4 +1,4 @@
-import * as p5 from "p5";
+import {default as p5} from "p5";
 import { RendererService } from "./services/rendererService";
 import { Scene } from "./scenes/scene";
 import { PlayerDataService } from "./services/playerDataService";
@@ -6,7 +6,7 @@ import { StageService } from "./services/stageService";
 import { Menu } from "./scenes/menu";
 import "p5/lib/addons/p5.sound";
 import { SoundPlayerService } from "./services/soundPlayerService";
-import { Socket } from "ngx-socket-io";
+import { Socket } from "socket.io-client";
 
 export class PlatformerSketch {
   private _scene: Scene;
