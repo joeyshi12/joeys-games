@@ -1,4 +1,4 @@
-import { EntityMetadata } from "../../../../../src/types/entityMetadata";
+import { EntityMetadata } from "../../../src/types/entityMetadata";
 import { RendererService } from "../services/rendererService";
 
 /**
