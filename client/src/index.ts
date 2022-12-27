@@ -6,9 +6,8 @@ import {io} from "socket.io-client";
 import {StageService} from "./services/stageService";
 
 window.onload = () => {
-    const serverUrl = process.env["NODE_ENV"] === "production"
-        ? "http://pi.joeyshi.com:3141"
-        : "http://localhost:8080";
+    // const serverUrl = "http://localhost:8080";
+    const serverUrl = "http://pi.joeyshi.com:3141";
     const socket = io(serverUrl);
     const stageService = new StageService();
     const playerDataServer = new PlayerDataService(socket);

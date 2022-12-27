@@ -1,5 +1,5 @@
 import * as p5 from "p5";
-import { PlayerMetadata } from "../../../server/types/entityMetadata";
+import { PlayerMetadata } from "../../../src/types/entityMetadata";
 import { PlatformerSketch } from "../platformerSketch";
 import { Scene } from "./scene";
 import { Button, TextElement } from "./gui";

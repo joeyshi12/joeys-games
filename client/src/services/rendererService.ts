@@ -1,5 +1,5 @@
 import * as p5 from "p5";
-import { EntityMetadata, PlayerMetadata, Vector } from "../../../server/types/entityMetadata";
+import { EntityMetadata, PlayerMetadata, Vector } from "../../../src/types/entityMetadata";
 import { TextElement } from "../scenes/gui";
 import { StageService } from "./stageService";
 

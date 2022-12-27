@@ -1,17 +1,19 @@
 {
-  "name": "cool-arcade",
+  "name": "platform-party",
   "version": "1.0.0",
   "description": "Novel arcade games played with friends",
   "scripts": {
-    "runServer": "tsc && node dist/app.js"
+    "runServer": "tsc && node dist/app.js",
+    "build": "tsc && npm run build:client",
+    "build:client": "npm --prefix ./client run build",
+    "postinstall": "tsc && npm --prefix ./client install"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.2",
-    "socket.io": "^4.5.4"
-  },
-  "devDependencies": {
-    "@types/express": "^4.17.1"
+    "@types/express": "^4.17.15",
+    "socket.io": "^4.5.4",
+    "typescript": "^4.9.4"
   }
 }

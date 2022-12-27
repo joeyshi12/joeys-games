@@ -1,6 +1,6 @@
 import { Socket } from "socket.io-client";
 import { ControlledPlayer } from "../entities/controlledPlayer";
-import { PlayerMetadata } from "../../../server/types/entityMetadata";
+import { PlayerMetadata } from "../../../src/types/entityMetadata";
 
 /**
  * Data service class to update player through web socket

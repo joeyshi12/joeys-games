@@ -1,4 +1,4 @@
-import { Vector } from "../../../server/types/entityMetadata";
+import { Vector } from "../../../src/types/entityMetadata";
 
 export class TextElement {
   public readonly width: number;

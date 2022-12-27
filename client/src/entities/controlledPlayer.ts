@@ -1,4 +1,4 @@
-import { Character, PlayerMetadata, PlayerState, Vector } from "../../../server/types/entityMetadata";
+import { Character, PlayerMetadata, PlayerState, Vector } from "../../../src/types/entityMetadata";
 import { Stage } from "../scenes/stage";
 import { AnimationControl } from "./animationControl";
 import { SoundPlayerService } from "../services/soundPlayerService";
