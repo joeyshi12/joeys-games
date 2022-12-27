@@ -2,12 +2,11 @@
 
 A real-time multiplayer browser platformer made with p5.
 
-Live demo hosted on Heroku!
+Live demo hosted on Raspberry Pi.
 - Recommended to use a Chromium based browser when playing
-- There may be a delay before you enter the page because Heroku enters sleep mode when the deployment is inactive for over 1 hour
 
-<a href=https://platform-party.herokuapp.com/>
-    <img src="./assets/join_game.png" width=120 alt="platform-party"/>
+<a href="http://pi.joeyshi.com:3141">
+    <img src="./assets/join_game.png" width=178 alt="platform-party"/>
 </a>
 
 
@@ -24,7 +23,7 @@ docker run -p 5000:8080 joeyshi12/platform-party
 
 ## Running source code
 ```bash
-yarn install && npm run heroku-postbuild
+yarn install && npm run postbuild
 node dist/src/app.js
 ```
 *connect with url localhost:8080*
