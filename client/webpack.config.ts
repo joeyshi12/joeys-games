@@ -1,6 +1,7 @@
 import * as path from "node:path";
 import { Configuration } from "webpack";
-import {default as HtmlWebpackPlugin} from "html-webpack-plugin";
+import CopyPlugin from "copy-webpack-plugin";
+import HtmlWebpackPlugin from "html-webpack-plugin";
 
 const mode = process.env["NODE_ENV"] === "production"
   ? "production"
@@ -30,10 +31,20 @@ const config: Configuration = {
       }
     ]
   },
-  plugins: [new HtmlWebpackPlugin({
-    template: "./src/index.html",
-    favicon: "./src/assets/favicon.ico",
-  })]
+  plugins: [
+      new HtmlWebpackPlugin({
+        template: "./src/index.html",
+        favicon: "./src/favicon.ico"
+      }),
+      new CopyPlugin({
+        patterns: [
+          {
+            from: "./src/assets",
+            to: "assets"
+          }
+        ]
+      })
+  ]
 }
 
 export default config;

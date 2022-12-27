@@ -2,15 +2,14 @@ import {PlatformerSketch} from "./platformerSketch";
 import {PlayerDataService} from "./services/playerDataService";
 import {RendererService} from "./services/rendererService";
 import {SoundPlayerService} from "./services/soundPlayerService";
-import {Manager} from "socket.io-client";
+import {io} from "socket.io-client";
 import {StageService} from "./services/stageService";
 
 window.onload = () => {
     const serverUrl = process.env["NODE_ENV"] === "production"
         ? "http://pi.joeyshi.com:3141"
         : "http://localhost:8080";
-    const manager = new Manager(serverUrl);
-    const socket = manager.socket("/");
+    const socket = io(serverUrl);
     const stageService = new StageService();
     const playerDataServer = new PlayerDataService(socket);
     const soundPlayerService = new SoundPlayerService();
