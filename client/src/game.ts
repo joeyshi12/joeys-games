@@ -1,59 +1,70 @@
-import {Socket} from "socket.io-client";
+import {Scene} from "./scenes/scene";
+import {Renderer} from "./renderer";
+import {loadSpriteSheet} from "./spriteSheet";
+import SoundPlayer from "./soundPlayer";
+import Login from "./scenes/login";
+import Hub from "./scenes/hub";
 
 export default class Game {
-    private readonly context: CanvasRenderingContext2D;
-    private readonly nextFrame = this.gameLoop.bind(this);
-    public image?: HTMLImageElement;
+    private _scene: Scene;
+    private readonly nextFrame = this._gameLoop.bind(this);
 
-    public constructor(private readonly _socket: Socket) {
-        const canvas = document.createElement("canvas");
-        const context = canvas.getContext("2d");
-        if (context === null) {
-            throw new Error("2d context not supported by browser");
-        }
-        this.context = context;
-        this.updateCanvasSize();
-        document.body.appendChild(canvas);
-        window.addEventListener("resize", () => this.updateCanvasSize());
-        window.addEventListener("pointerMove", () => this.mouseMoved());
-        const image = new Image();
-        const source = new URL("/src/assets/spritesheet.png");
-        new Promise<HTMLImageElement>((resolve, reject) => {
-            image.onload = () => {
-                resolve(image);
-            };
-            image.onerror = () => {
-                reject(new Error(`Unable to load image '${source}'`));
-            };
-            image.src = source instanceof URL ? source.href : `assets/${source}`;
-        }).then((image: HTMLImageElement) => {
-            this.image = image;
-            console.log("got image");
-        }).catch(_ => {
-            console.log("GOT ERROR :(");
-        });
+    public constructor(public readonly renderer: Renderer,
+                       public readonly soundPlayer: SoundPlayer) {
+        this._scene = new Hub(this);
     }
 
     public start(): void {
-        requestAnimationFrame(this.nextFrame)
+        const canvas = document.createElement("canvas");
+        const context = canvas.getContext("2d", {alpha: false});
+        if (!context) {
+            throw new Error("2d context is not supported by browser");
+        }
+        this.renderer.context = context;
+        document.body.appendChild(canvas);
+        this.renderer.resizeCanvas();
+
+        window.addEventListener("keydown", (event: KeyboardEvent) => {
+            this._scene.keyPressed(event);
+        });
+        window.addEventListener("keyup", (event: KeyboardEvent) => {
+            this._scene.keyReleased(event);
+        });
+        window.addEventListener("mousedown", (event: MouseEvent) => {
+            this._scene.mouseClicked(event);
+        });
+        window.addEventListener("resize", () => {
+            this.renderer.resizeCanvas();
+        });
+
+        this._loadAssets().then(() => {
+            requestAnimationFrame(this.nextFrame);
+        });
     }
 
-    private gameLoop(): void {
-        this.context.fillStyle = "black";
-        this.context.fillRect(0, 0, this.context.canvas.width, this.context.canvas.height);
-        if (this.image) {
-            this.context.drawImage(this.image, 100, 100, 20, 20);
-        }
-        this.context.restore();
+    public get scene() {
+        return this._scene;
+    }
+
+    public set scene(val: Scene) {
+        this._scene = val;
+    }
+
+    private _gameLoop(): void {
+        this._scene.update();
         requestAnimationFrame(this.nextFrame);
     }
 
-    private updateCanvasSize(): void {
-        this.context.canvas.width = window.innerWidth;
-        this.context.canvas.height = window.innerHeight;
-    }
-
-    private mouseMoved(): void {
-        console.log("mouse moved");
+    /**
+     * Load images and sound files
+     * @private
+     */
+    private async _loadAssets(): Promise<void> {
+        this.renderer.spriteSheet = await loadSpriteSheet("assets/spritesheet.png", 22, 48);
+        await Promise.all([
+            this.soundPlayer.loadSound("assets/click.mp3", "click"),
+            this.soundPlayer.loadSound("assets/jump.mp3", "jump"),
+            this.soundPlayer.loadSound("assets/land.mp3", "land"),
+        ]);
     }
 }
