@@ -33,8 +33,8 @@ const config: Configuration = {
   },
   plugins: [
       new HtmlWebpackPlugin({
-        template: "./index.html",
-        favicon: "./favicon.ico"
+        template: "index.html",
+        favicon: "favicon.ico"
       }),
       new CopyPlugin({
         patterns: [

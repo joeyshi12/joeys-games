@@ -1,11 +1,11 @@
-export interface SpriteSheet {
+export interface Assets {
     rows: number;
     columns: number;
     cellLength: number;
     sprites: ImageBitmap[];
 }
 
-export async function loadSpriteSheet(source: string, rows: number, columns: number): Promise<SpriteSheet> {
+export async function loadSpriteSheet(source: string, rows: number, columns: number): Promise<Assets> {
     const image = await loadImage(source);
     const cellLength = Math.floor(image.width / columns);
     const verticalCellLength = Math.floor(image.height / rows);
@@ -47,5 +47,13 @@ function loadImage(source: string): Promise<HTMLImageElement> {
             reject(`Could not load image [${source}]`)
         };
         image.src = source;
+    });
+}
+
+export function loadFont(family: string, source: string): Promise<FontFace> {
+    const font = new FontFace(family, `url(${source})`);
+    return new Promise((resolve, reject) => {
+        font.load().then((fontFace: FontFace) => resolve(fontFace))
+            .catch((err) => reject(err));
     });
 }

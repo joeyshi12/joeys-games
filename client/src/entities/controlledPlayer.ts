@@ -5,11 +5,11 @@ import { Renderer } from "../renderer";
 import SoundPlayer from "../soundPlayer";
 
 export class ControlledPlayer {
-  public static ACCELERATION: number = 2.2;
-  public static GRAVITY: number = 0.6;
-  public static MAX_SPEED: number = 5.6;
-  public static JUMP_VELOCITY: number = 12;
-  public static FRICTION: number = 0.7;
+  public static ACCELERATION: number = 1.8;
+  public static GRAVITY: number = 0.5;
+  public static MAX_SPEED: number = 5;
+  public static JUMP_VELOCITY: number = 8;
+  public static FRICTION: number = 0.8;
   private _velocity: Vector = {x: 0, y: 0};
   private _acceleration: Vector = {x: 0, y: 0};
   private _animationControl: AnimationControl;
@@ -178,10 +178,11 @@ export class ControlledPlayer {
   }
 
   private _reset(): void {
-    this._metadata.position.x = 80;
-    this._metadata.position.y = 500;
+    this._metadata.position.x = 120;
+    this._metadata.position.y = 200;
     this._velocity.x = 0;
     this._velocity.y = 0;
     this._animationControl.state = PlayerState.FALLING;
+    this._metadata.isFlipped = false;
   }
 }

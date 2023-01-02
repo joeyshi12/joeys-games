@@ -4,6 +4,7 @@
   "scripts": {
     "start": "webpack serve",
     "watch": "webpack --watch",
+    "build": "webpack",
     "postinstall": "webpack"
   },
   "private": true,

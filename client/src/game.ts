@@ -1,17 +1,20 @@
 import {Scene} from "./scenes/scene";
 import {Renderer} from "./renderer";
-import {loadSpriteSheet} from "./spriteSheet";
+import {loadSpriteSheet, loadFont} from "./assets";
 import SoundPlayer from "./soundPlayer";
 import Login from "./scenes/login";
-import Hub from "./scenes/hub";
+import {Point} from "./scenes/gui";
+import {Socket} from "socket.io-client";
+import {ControlledPlayer} from "./entities/controlledPlayer";
 
 export default class Game {
+    private _player: ControlledPlayer;
     private _scene: Scene;
     private readonly nextFrame = this._gameLoop.bind(this);
 
     public constructor(public readonly renderer: Renderer,
-                       public readonly soundPlayer: SoundPlayer) {
-        this._scene = new Hub(this);
+                       public readonly soundPlayer: SoundPlayer,
+                       public readonly socket: Socket) {
     }
 
     public start(): void {
@@ -24,26 +27,35 @@ export default class Game {
         document.body.appendChild(canvas);
         this.renderer.resizeCanvas();
 
-        window.addEventListener("keydown", (event: KeyboardEvent) => {
-            this._scene.keyPressed(event);
-        });
-        window.addEventListener("keyup", (event: KeyboardEvent) => {
-            this._scene.keyReleased(event);
-        });
-        window.addEventListener("mousedown", (event: MouseEvent) => {
-            this._scene.mouseClicked(event);
-        });
-        window.addEventListener("resize", () => {
-            this.renderer.resizeCanvas();
-        });
-
         this._loadAssets().then(() => {
+            this._scene = new Login(this);
+
+            window.addEventListener("keydown", (event: KeyboardEvent) => {
+                this._scene.keyPressed(event);
+            });
+            window.addEventListener("keyup", (event: KeyboardEvent) => {
+                this._scene.keyReleased(event);
+            });
+            canvas.addEventListener("mousemove", (event: MouseEvent) => {
+                this._scene.mouseMoved(this._getMousePosition(canvas, event));
+            });
+            canvas.addEventListener("mousedown", (event: MouseEvent) => {
+                this._scene.mouseClicked(this._getMousePosition(canvas, event));
+            });
+            window.addEventListener("resize", () => {
+                this.renderer.resizeCanvas();
+            });
+
             requestAnimationFrame(this.nextFrame);
         });
     }
 
-    public get scene() {
-        return this._scene;
+    public get controlledPlayer(): ControlledPlayer {
+        return this._player;
+    }
+
+    public set controlledPlayer(val: ControlledPlayer) {
+        this._player = val;
     }
 
     public set scene(val: Scene) {
@@ -60,11 +72,21 @@ export default class Game {
      * @private
      */
     private async _loadAssets(): Promise<void> {
+        const fontFace = await loadFont("Inconsolata", "assets/inconsolata.otf");
+        document.fonts.add(fontFace);
         this.renderer.spriteSheet = await loadSpriteSheet("assets/spritesheet.png", 22, 48);
         await Promise.all([
             this.soundPlayer.loadSound("assets/click.mp3", "click"),
             this.soundPlayer.loadSound("assets/jump.mp3", "jump"),
             this.soundPlayer.loadSound("assets/land.mp3", "land"),
         ]);
+    }
+
+    private _getMousePosition(canvas: HTMLCanvasElement, event: MouseEvent): Point {
+        const rect = canvas.getBoundingClientRect();
+        return {
+            x: (event.clientX - rect.left) / Renderer.CONTEXT_SCALE,
+            y: (event.clientY - rect.top) / Renderer.CONTEXT_SCALE
+        };
     }
 }
