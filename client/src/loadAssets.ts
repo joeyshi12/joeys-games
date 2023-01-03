@@ -1,11 +1,11 @@
-export interface Assets {
+export interface SpriteSheet {
     rows: number;
     columns: number;
     cellLength: number;
     sprites: ImageBitmap[];
 }
 
-export async function loadSpriteSheet(source: string, rows: number, columns: number): Promise<Assets> {
+export async function loadSpriteSheet(source: string, rows: number, columns: number): Promise<SpriteSheet> {
     const image = await loadImage(source);
     const cellLength = Math.floor(image.width / columns);
     const verticalCellLength = Math.floor(image.height / rows);

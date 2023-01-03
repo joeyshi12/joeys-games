@@ -1,6 +1,6 @@
 import {Scene} from "./scenes/scene";
 import {Renderer} from "./renderer";
-import {loadSpriteSheet, loadFont} from "./assets";
+import {loadSpriteSheet, loadFont} from "./loadAssets";
 import SoundPlayer from "./soundPlayer";
 import Login from "./scenes/login";
 import {Point} from "./scenes/gui";

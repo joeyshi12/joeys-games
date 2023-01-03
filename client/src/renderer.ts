@@ -1,6 +1,6 @@
 import {PlayerMetadata, Vector} from "../../src/types/entityMetadata";
 import {Stage} from "./scenes/stage";
-import {Assets} from "./assets";
+import {SpriteSheet} from "./loadAssets";
 import {Button, TextElement, TextInput} from "./scenes/gui";
 
 
@@ -10,7 +10,7 @@ export class Renderer {
 
   private _cameraPosition: Vector;
   private _context: CanvasRenderingContext2D;
-  private _spriteSheet: Assets;
+  private _spriteSheet: SpriteSheet;
 
   public constructor() {
     this._cameraPosition = {x: 0, y: 0};
@@ -20,7 +20,7 @@ export class Renderer {
     this._context = val;
   }
 
-  public set spriteSheet(val: Assets) {
+  public set spriteSheet(val: SpriteSheet) {
     this._spriteSheet = val;
   }
 
