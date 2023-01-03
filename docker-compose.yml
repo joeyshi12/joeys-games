@@ -1,7 +1,0 @@
-version: '2'
-services:
-  gamehub:
-    container_name: gamehub
-    image: gamehub
-    ports:
-      - 3141:8080
