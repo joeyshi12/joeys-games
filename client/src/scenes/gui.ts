@@ -1,35 +1,30 @@
-import { Vector } from "../../../src/types/entityMetadata";
-
-export class TextElement {
-  public readonly width: number;
-
-  constructor(public text: string,
-              public readonly textSize: number,
-              public position: Vector) {
-    this.width = text.length * textSize / 2;
-  }
-
-  public get height(): number {
-    return this.textSize;
-  }
+export type Point = {
+  x: number;
+  y: number;
 }
 
-export class Button {
-  public element: TextElement;
+export type TextElement = {
+  x: number;
+  y: number;
+  text: string;
+  fontSize: number;
+}
 
-  constructor(text: string,
-              textSize: number,
-              position: Vector,
-              public callback: () => void) {
-    this.element = new TextElement(text, textSize, position);
-  }
+export type TextInput = TextElement & {
+  width: number;
+}
 
-  public isHovered(mouseX: number, mouseY: number): boolean {
-    if (this.element.position.x < mouseX && mouseX < this.element.position.x + this.element.width) {
-      if (this.element.position.y < mouseY && mouseY < this.element.position.y + this.element.height) {
-        return true;
-      }
-    }
-    return false;
+export type Button = TextElement & {
+  width: number;
+  height: number;
+  isHovered: boolean;
+}
+
+export function updateIsHovered(button: Button, point: Point): void {
+  if (point.x < button.x || point.x > button.x + button.width
+      || point.y < button.y || point.y > button.y + button.height) {
+    button.isHovered = false;
+    return;
   }
+  button.isHovered = true;
 }

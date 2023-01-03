@@ -17,16 +17,16 @@ export interface EntityMetadata {
 }
 
 export enum PlayerState {
-    standing = "standing",
-    walking = "walking",
-    falling = "falling",
-    dead = "dead"
+    STANDING,
+    WALKING,
+    FALLING,
+    DEAD
 }
 
 export enum Character {
-    blue = "blue",
-    orange = "orange",
-    green = "green"
+    BLUE,
+    ORANGE,
+    GREEN
 }
 
 export interface PlayerMetadata extends EntityMetadata {

@@ -1,15 +1,15 @@
 import { Character, PlayerMetadata, PlayerState, Vector } from "../../../src/types/entityMetadata";
 import { Stage } from "../scenes/stage";
 import { AnimationControl } from "./animationControl";
-import { SoundPlayerService } from "../services/soundPlayerService";
-import { RendererService } from "../services/rendererService";
+import { Renderer } from "../renderer";
+import SoundPlayer from "../soundPlayer";
 
 export class ControlledPlayer {
-  public static ACCELERATION: number = 2.2;
-  public static GRAVITY: number = 0.6;
-  public static MAX_SPEED: number = 5.6;
-  public static JUMP_VELOCITY: number = 12;
-  public static FRICTION: number = 0.7;
+  public static ACCELERATION: number = 1.8;
+  public static GRAVITY: number = 0.5;
+  public static MAX_SPEED: number = 5;
+  public static JUMP_VELOCITY: number = 8;
+  public static FRICTION: number = 0.8;
   private _velocity: Vector = {x: 0, y: 0};
   private _acceleration: Vector = {x: 0, y: 0};
   private _animationControl: AnimationControl;
@@ -22,14 +22,14 @@ export class ControlledPlayer {
     return this._metadata;
   }
 
-  public keyPressed(key: string, soundPlayerService: SoundPlayerService): void {
+  public keyPressed(key: string, soundPlayer: SoundPlayer): void {
     switch (key.toLocaleUpperCase()) {
       case "W":
         if (this._isGrounded) {
-          soundPlayerService.playJump();
+          soundPlayer.playSound("jump");
           this._metadata.position.y--;
           this._velocity.y = -ControlledPlayer.JUMP_VELOCITY;
-          this._animationControl.state = PlayerState.falling;
+          this._animationControl.state = PlayerState.FALLING;
         }
         break;
       case "A":
@@ -58,17 +58,16 @@ export class ControlledPlayer {
     }
   }
 
-  public update(stage: Stage, soundPlayerService: SoundPlayerService): void {
-    if (this._animationControl.state === PlayerState.dead) {
+  public update(stage: Stage, soundPlayer: SoundPlayer): void {
+    if (this._animationControl.state === PlayerState.DEAD) {
       return;
     }
     if (this._isDamaged(stage)) {
-      this._animationControl.state = PlayerState.dead;
+      this._animationControl.state = PlayerState.DEAD;
       setTimeout(() => this._reset(), 2000)
     }
-    if (this._metadata.position.y > stage.mapData.rows * RendererService.SPRITE_LENGTH) {
-      this._metadata.position = {x: 80, y: 500};
-      this._velocity = {x: 0, y: 0}
+    if (this._metadata.position.y > stage.mapData.rows * Renderer.SPRITE_LENGTH) {
+      this._reset();
       return;
     }
 
@@ -105,24 +104,24 @@ export class ControlledPlayer {
     if (collisionEventBelow && this._velocity.y >= 0) {
       this._metadata.position.y = collisionEventBelow.position;
       this._acceleration.y = 0;
-      if (this._animationControl.state === PlayerState.falling) {
-        this._animationControl.state = PlayerState.standing;
-        soundPlayerService.playLand();
+      if (this._animationControl.state === PlayerState.FALLING) {
+        this._animationControl.state = PlayerState.STANDING;
+        soundPlayer.playSound("land");
       }
       if (this._velocity.x === 0) {
-        if (this._animationControl.state !== PlayerState.standing) {
-          this._animationControl.state = PlayerState.standing;
+        if (this._animationControl.state !== PlayerState.STANDING) {
+          this._animationControl.state = PlayerState.STANDING;
         }
       } else {
-        if (this._animationControl.state === PlayerState.standing) {
-          this._animationControl.state = PlayerState.walking;
-        } else if (this._animationControl.state === PlayerState.walking) {
+        if (this._animationControl.state === PlayerState.STANDING) {
+          this._animationControl.state = PlayerState.WALKING;
+        } else if (this._animationControl.state === PlayerState.WALKING) {
           this._animationControl.update();
         }
       }
     } else {
       this._acceleration.y = ControlledPlayer.GRAVITY;
-      this._animationControl.state = PlayerState.falling;
+      this._animationControl.state = PlayerState.FALLING;
     }
     this._metadata.spriteIndex = this._animationControl.spriteIndex;
 
@@ -141,46 +140,49 @@ export class ControlledPlayer {
     }
   }
 
-  private _buildAnimationStates(character: Character): Map<string, number[]> {
+  private _buildAnimationStates(character: Character): Map<PlayerState, number[]> {
     switch (character) {
-      case Character.orange:
+      case Character.ORANGE:
         return new Map([
-          [PlayerState.standing, [402]],
-          [PlayerState.walking, [402, 403, 404, 405]],
-          [PlayerState.falling, [406]],
-          [PlayerState.dead, [407]]
+          [PlayerState.STANDING, [402]],
+          [PlayerState.WALKING, [402, 403, 404, 405]],
+          [PlayerState.FALLING, [406]],
+          [PlayerState.DEAD, [407]]
         ]);
-      case Character.green:
+      case Character.GREEN:
         return new Map([
-          [PlayerState.standing, [450]],
-          [PlayerState.walking, [450, 451, 452, 453]],
-          [PlayerState.falling, [454]],
-          [PlayerState.dead, [455]]
+          [PlayerState.STANDING, [450]],
+          [PlayerState.WALKING, [450, 451, 452, 453]],
+          [PlayerState.FALLING, [454]],
+          [PlayerState.DEAD, [455]]
         ]);
       default: // blue
         return new Map([
-          [PlayerState.standing, [354]],
-          [PlayerState.walking, [354, 355, 356, 357]],
-          [PlayerState.falling, [358]],
-          [PlayerState.dead, [359]]
+          [PlayerState.STANDING, [354]],
+          [PlayerState.WALKING, [354, 355, 356, 357]],
+          [PlayerState.FALLING, [358]],
+          [PlayerState.DEAD, [359]]
         ]);
     }
   }
 
   private get _isGrounded(): boolean {
-    return this._animationControl.state === PlayerState.standing
-      || this._animationControl.state === PlayerState.walking;
+    return this._animationControl.state === PlayerState.STANDING
+      || this._animationControl.state === PlayerState.WALKING;
   }
 
   private _isDamaged(stage: Stage): boolean {
-    const row = Math.floor((this._metadata.position.y + this._metadata.collisionBox.offset.y + this._metadata.collisionBox.height / 2) / RendererService.SPRITE_LENGTH);
-    const col = Math.floor((this._metadata.position.x + this._metadata.collisionBox.offset.x + this._metadata.collisionBox.width / 2) / RendererService.SPRITE_LENGTH);
+    const row = Math.floor((this._metadata.position.y + this._metadata.collisionBox.offset.y + this._metadata.collisionBox.height / 2) / Renderer.SPRITE_LENGTH);
+    const col = Math.floor((this._metadata.position.x + this._metadata.collisionBox.offset.x + this._metadata.collisionBox.width / 2) / Renderer.SPRITE_LENGTH);
     return stage.mapData.spriteData[row * stage.mapData.cols + col] === 22;
   }
 
   private _reset(): void {
-    this._metadata.position = {x: 80, y: 500};
-    this._velocity = {x: 0, y: 0};
-    this._animationControl.state = PlayerState.falling;
+    this._metadata.position.x = 120;
+    this._metadata.position.y = 200;
+    this._velocity.x = 0;
+    this._velocity.y = 0;
+    this._animationControl.state = PlayerState.FALLING;
+    this._metadata.isFlipped = false;
   }
 }

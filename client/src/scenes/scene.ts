@@ -1,16 +1,16 @@
-import * as p5 from "p5";
-import {PlatformerSketch} from "../platformerSketch";
+import Game from "../game";
+import {Point} from "./gui";
 
 export abstract class Scene {
-  protected constructor(protected _sketch: PlatformerSketch) {}
+  protected constructor(protected game: Game) {}
 
-  public mouseMoved(context: p5): void {};
+  public mouseMoved(point: Point): void {};
 
-  public mouseClicked(context: p5): void {};
+  public mouseClicked(point: Point): void {};
 
-  public keyPressed(context: p5): void {};
+  public keyPressed(event: KeyboardEvent): void {};
 
-  public keyReleased(context: p5): void {};
+  public keyReleased(event: KeyboardEvent): void {};
 
-  public draw(context: p5): void {};
+  public update(): void {};
 }

@@ -10,7 +10,7 @@ export function joinRoom(socket: Socket, playerService: PlayerService): (_: stri
       return;
     }
     Log.info(`Creating player [${userName}]`);
-    const randomCharacter = <Character>Object.keys(Character)[Math.floor(Math.random() * 3)];
+    const randomCharacter = <Character>+Object.keys(Character)[Math.floor(Math.random() * 3)];
     const player: PlayerMetadata = {
       name: userName,
       character: randomCharacter,
@@ -18,9 +18,9 @@ export function joinRoom(socket: Socket, playerService: PlayerService): (_: stri
       spriteIndex: 354,
       isFlipped: false,
       collisionBox: {
-        width: 30,
-        height: 30,
-        offset: {x: 3, y: 6}
+        width: 16,
+        height: 16,
+        offset: {x: 0, y: 0}
       }
     };
     const updatedPlayer = playerService.update(socket.id, player);

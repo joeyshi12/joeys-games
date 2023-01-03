@@ -1,18 +1,20 @@
+import {PlayerState} from "../../../src/types/entityMetadata";
+
 export class AnimationControl {
   public static ANIMATION_BUFFER: number = 6;
-  private _state: string;
+  private _state: PlayerState;
   private _stateIndex: number;
   private _animationTimer: number;
 
-  constructor(private _animationStates: Map<string, number[]>) {
+  constructor(private _animationStates: Map<PlayerState, number[]>) {
     this.state = this._animationStates.keys().next().value;
   }
 
-  public get state(): string {
+  public get state(): PlayerState {
     return this._state;
   }
 
-  public set state(val: string) {
+  public set state(val: PlayerState) {
     this._state = val;
     this._stateIndex = 0;
     this._animationTimer = AnimationControl.ANIMATION_BUFFER;
