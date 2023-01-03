@@ -1,4 +1,4 @@
-import { EntityMetadata } from "../../../src/types/entityMetadata";
+import { EntityMetadata } from "../../../src/types/playerMetadata";
 import { Renderer } from "../renderer";
 
 /**
@@ -12,18 +12,22 @@ interface MapData {
     platformIndices: Set<number>;
 }
 
-export type Tile = "solid" | "platform";
+export enum TileType {
+    SOLID,
+    PLATFORM
+}
 
 /**
  * Collision event with a given tile type and position in the direction normal to the tile surface
  */
 export interface CollisionEvent {
-    tile: Tile;
+    tile: TileType;
     position: number;
 }
 
 export class Stage {
-    constructor(private _mapData: MapData) {}
+    constructor(private _mapData: MapData) {
+    }
 
     public get mapData(): MapData {
         return this._mapData;
@@ -43,7 +47,7 @@ export class Stage {
         if ((this.mapData.solidIndices.has(topLeftTileIdx) || this.mapData.solidIndices.has(topRightTileIdx))
             && y < topPos) {
             return {
-                tile: <Tile>"solid",
+                tile: TileType.SOLID,
                 position: topPos - entity.collisionBox.offset.y
             };
         } else {
@@ -65,7 +69,7 @@ export class Stage {
         if ((this.mapData.solidIndices.has(upperLeftTileIdx) || this.mapData.solidIndices.has(lowerLeftTileIdx))
             && x <= leftPos) {
             return {
-                tile: <Tile>"solid",
+                tile: TileType.SOLID,
                 position: leftPos - entity.collisionBox.offset.x
             };
         } else {
@@ -91,7 +95,7 @@ export class Stage {
             || this.mapData.platformIndices.has(bottomRightTileIdx);
         if (existsGroundBelow && y + vy + entity.collisionBox.height >= bottomPos) {
             return {
-                tile: <Tile>"solid",
+                tile: TileType.SOLID,
                 position: bottomPos - entity.collisionBox.offset.y - entity.collisionBox.height
             };
         } else {
@@ -113,7 +117,7 @@ export class Stage {
         if ((this.mapData.solidIndices.has(upperRightTileIdx) || this.mapData.solidIndices.has(lowerRightTileIdx))
             && x + entity.collisionBox.width >= rightPos) {
             return {
-                tile: <Tile>"solid",
+                tile: TileType.SOLID,
                 position: rightPos - entity.collisionBox.offset.x - entity.collisionBox.width
             };
         } else {

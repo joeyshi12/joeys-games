@@ -21,10 +21,10 @@ export type Button = TextElement & {
 }
 
 export function updateIsHovered(button: Button, point: Point): void {
-  if (point.x < button.x || point.x > button.x + button.width
+    if (point.x < button.x || point.x > button.x + button.width
       || point.y < button.y || point.y > button.y + button.height) {
-    button.isHovered = false;
-    return;
-  }
-  button.isHovered = true;
+        button.isHovered = false;
+        return;
+    }
+    button.isHovered = true;
 }

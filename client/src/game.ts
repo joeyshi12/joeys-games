@@ -2,7 +2,7 @@ import {Scene} from "./scenes/scene";
 import {Renderer} from "./renderer";
 import {loadSpriteSheet, loadFont} from "./loadAssets";
 import SoundPlayer from "./soundPlayer";
-import Login from "./scenes/login";
+import LoginScene from "./scenes/loginScene";
 import {Point} from "./scenes/gui";
 import {Socket} from "socket.io-client";
 import {ControlledPlayer} from "./entities/controlledPlayer";
@@ -28,7 +28,7 @@ export default class Game {
         this.renderer.resizeCanvas();
 
         this._loadAssets().then(() => {
-            this._scene = new Login(this);
+            this._scene = new LoginScene(this);
 
             window.addEventListener("keydown", (event: KeyboardEvent) => {
                 this._scene.keyPressed(event);

@@ -1,15 +1,15 @@
-export interface Vector {
+export type Vector = {
     x: number;
     y: number;
 }
 
-export interface CollisionBox {
+export type CollisionBox = {
     width: number;
     height: number;
     offset: Vector;
 }
 
-export interface EntityMetadata {
+export type EntityMetadata = {
     position: Vector;
     spriteIndex: number;
     isFlipped: boolean;
@@ -29,7 +29,7 @@ export enum Character {
     GREEN
 }
 
-export interface PlayerMetadata extends EntityMetadata {
+export type PlayerMetadata = {
     name: string;
     character: Character;
-}
+} & EntityMetadata

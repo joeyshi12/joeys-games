@@ -3,7 +3,7 @@ const AudioContext = window.AudioContext ?? (window as any).webkitAudioContext a
 
 export default class SoundPlayer {
     public readonly audioContext: AudioContext;
-    private _gainNode: GainNode;
+    private readonly _gainNode: GainNode;
     private _soundMap: Map<string, AudioBuffer>;
 
     public constructor() {
@@ -17,7 +17,7 @@ export default class SoundPlayer {
         if (this._soundMap.has(id)) {
             throw new Error(`Already loaded sound with id [${id}]`);
         }
-        const audioBuffer = await this._fetchAudioBuffer(source)
+        const audioBuffer = await this._fetchAudioBuffer(source);
         this._soundMap.set(id, audioBuffer);
     }
 
@@ -35,7 +35,7 @@ export default class SoundPlayer {
 
     private async _fetchAudioBuffer(source: string): Promise<AudioBuffer> {
         const arrayBuffer = await (await fetch(source)).arrayBuffer();
-        return new Promise((resolve, reject) => {
+        return await new Promise((resolve, reject) => {
             this.audioContext.decodeAudioData(
                 arrayBuffer,
                 buffer => resolve(buffer),

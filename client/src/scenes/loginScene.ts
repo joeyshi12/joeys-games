@@ -1,11 +1,11 @@
 import {Scene} from "./scene";
 import Game from "../game";
 import {Button, Point, TextElement, TextInput, updateIsHovered} from "./gui";
-import Hub from "./hub";
-import {PlayerMetadata} from "../../../src/types/entityMetadata";
+import StageScene from "./stageScene";
+import {PlayerMetadata} from "../../../src/types/playerMetadata";
 import {ControlledPlayer} from "../entities/controlledPlayer";
 
-export default class Login extends Scene {
+export default class LoginScene extends Scene {
     private readonly _titleElement: TextElement;
     private readonly _textInput: TextInput;
     private readonly _submitButton: Button;
@@ -28,21 +28,21 @@ export default class Login extends Scene {
         this._submitButton = {
             x: 95,
             y: 160,
-            text: "Login",
+            text: "LoginScene",
             fontSize: 12,
             width: 42,
             height: 16,
             isHovered: false
         };
-        this.game.socket.on("joinRoomSuccess", (metadata: PlayerMetadata) => {
+        this.game.socket.on("joinSuccess", (metadata: PlayerMetadata) => {
             if (!this.game.controlledPlayer) {
                 this.game.controlledPlayer = new ControlledPlayer(metadata);
-                this.game.socket.removeAllListeners("joinRoomSuccess");
-                this.game.socket.removeAllListeners("joinRoomFailure");
-                this.game.scene = new Hub(this.game);
+                this.game.socket.removeAllListeners("joinSuccess");
+                this.game.socket.removeAllListeners("joinFailure");
+                this.game.scene = new StageScene(this.game);
             }
         });
-        this.game.socket.on("joinRoomError", (msg: string) => {
+        this.game.socket.on("joinError", (msg: string) => {
             alert(msg);
         });
     }
@@ -53,13 +53,14 @@ export default class Login extends Scene {
 
     public mouseClicked(point: Point) {
         if (this._submitButton.isHovered) {
-            this.game.socket.emit("joinRoom", this._textInput.text);
+            this.game.socket.emit("login", this._textInput.text);
         }
     }
 
     public keyPressed(event: KeyboardEvent) {
+        console.log(event.key);
         if (event.key === "Enter") {
-            this.game.socket.emit("joinRoom", this._textInput.text);
+            this.game.socket.emit("login", this._textInput.text);
         } else if (event.key === "Backspace") {
             this._textInput.text = this._textInput.text.substring(0, this._textInput.text.length - 1);
         } else if (event.key.length === 1 && event.key !== " ") {
