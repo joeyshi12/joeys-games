@@ -1,20 +1,40 @@
 import {Scene} from "./scenes/scene";
 import {Renderer} from "./renderer";
 import {loadSpriteSheet, loadFont} from "./loadAssets";
-import SoundPlayer from "./soundPlayer";
 import LoginScene from "./scenes/loginScene";
 import {Point} from "./scenes/gui";
 import {Socket} from "socket.io-client";
-import {ControlledPlayer} from "./entities/controlledPlayer";
+import {Player} from "./entities/player";
+import {loadAudioBuffer, Sound} from "./sound";
 
 export default class Game {
-    private _player: ControlledPlayer;
+    private _player: Player;
     private _scene: Scene;
+    private _sounds: Map<string, Sound>;
     private readonly nextFrame = this._gameLoop.bind(this);
 
     public constructor(public readonly renderer: Renderer,
-                       public readonly soundPlayer: SoundPlayer,
                        public readonly socket: Socket) {
+    }
+
+    public get player(): Player {
+        return this._player;
+    }
+
+    public set player(val: Player) {
+        this._player = val;
+    }
+
+    public set scene(val: Scene) {
+        this._scene = val;
+    }
+
+    public getSound(key: string): Sound {
+        const sound = this._sounds.get(key);
+        if (!sound) {
+            throw new Error(`Invalid sound key ${key}`);
+        }
+        return sound;
     }
 
     public start(): void {
@@ -50,18 +70,6 @@ export default class Game {
         });
     }
 
-    public get controlledPlayer(): ControlledPlayer {
-        return this._player;
-    }
-
-    public set controlledPlayer(val: ControlledPlayer) {
-        this._player = val;
-    }
-
-    public set scene(val: Scene) {
-        this._scene = val;
-    }
-
     private _gameLoop(): void {
         this._scene.update();
         requestAnimationFrame(this.nextFrame);
@@ -72,13 +80,19 @@ export default class Game {
      * @private
      */
     private async _loadAssets(): Promise<void> {
-        const fontFace = await loadFont("Inconsolata", "assets/inconsolata.otf");
+        const [spriteSheet, fontFace, clickSound, jumpSound, landSound] = await Promise.all([
+            loadSpriteSheet("assets/spritesheet.png", 22, 48),
+            loadFont("Inconsolata", "assets/inconsolata.otf"),
+            loadAudioBuffer("assets/click.mp3"),
+            loadAudioBuffer("assets/jump.mp3"),
+            loadAudioBuffer("assets/land.mp3")
+        ])
+        this.renderer.spriteSheet = spriteSheet;
         document.fonts.add(fontFace);
-        this.renderer.spriteSheet = await loadSpriteSheet("assets/spritesheet.png", 22, 48);
-        await Promise.all([
-            this.soundPlayer.loadSound("assets/click.mp3", "click"),
-            this.soundPlayer.loadSound("assets/jump.mp3", "jump"),
-            this.soundPlayer.loadSound("assets/land.mp3", "land"),
+        this._sounds = new Map([
+            ["click", new Sound(clickSound)],
+            ["jump", new Sound(jumpSound)],
+            ["land", new Sound(landSound)]
         ]);
     }
 

@@ -22,23 +22,23 @@ export default class StageScene extends Scene {
     }
 
     public keyPressed(event: KeyboardEvent) {
-        this.game.controlledPlayer.keyPressed(event.key, this.game.soundPlayer);
+        this.game.player.keyPressed(event.key);
     }
 
     public keyReleased(event: KeyboardEvent) {
-        this.game.controlledPlayer.keyReleased(event.key);
+        this.game.player.keyReleased(event.key);
     }
 
     public update() {
-        this.game.controlledPlayer.update(this._stage, this.game.soundPlayer);
-        this.game.socket.emit("update", this.game.controlledPlayer.metadata);
-        this.game.renderer.updateCameraPosition(this.game.controlledPlayer.metadata.position, this._stage);
+        this.game.player.update(this._stage);
+        this.game.socket.emit("update", this.game.player.metadata);
+        this.game.renderer.updateCameraPosition(this.game.player.metadata.position, this._stage);
         this.game.renderer.drawStage(this._stage);
         for (const player of this._playerMetadata) {
-            if (player.name !== this.game.controlledPlayer.metadata.name) {
+            if (player.name !== this.game.player.metadata.name) {
                 this.game.renderer.drawPlayer(player);
             }
         }
-        this.game.renderer.drawPlayer(this.game.controlledPlayer.metadata);
+        this.game.renderer.drawPlayer(this.game.player.metadata);
     }
 }

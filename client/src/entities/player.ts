@@ -2,19 +2,22 @@ import { Character, PlayerMetadata, PlayerState, Vector } from "../../../src/typ
 import { Stage, TileType } from "../scenes/stage";
 import { AnimationControl } from "./animationControl";
 import { Renderer } from "../renderer";
-import SoundPlayer from "../soundPlayer";
+import {Sound} from "../sound";
 
-export class ControlledPlayer {
+export class Player {
     public static ACCELERATION = 1;
     public static GRAVITY = 0.3;
     public static MAX_SPEED = 3;
     public static JUMP_VELOCITY = 6;
     public static FRICTION = 0.4;
+
     private _velocity: Vector = {x: 0, y: 0};
     private _acceleration: Vector = {x: 0, y: 0};
     private _animationControl: AnimationControl;
 
-    constructor(private _metadata: PlayerMetadata) {
+    constructor(private _metadata: PlayerMetadata,
+                private _jumpSound: Sound,
+                private _landSound: Sound) {
         this._animationControl = new AnimationControl(this._buildAnimationStates(_metadata.character));
     }
 
@@ -22,21 +25,21 @@ export class ControlledPlayer {
         return this._metadata;
     }
 
-    public keyPressed(key: string, soundPlayer: SoundPlayer): void {
+    public keyPressed(key: string): void {
         switch (key.toLocaleUpperCase()) {
             case "W":
                 if (this._isGrounded) {
-                    soundPlayer.playSound("jump");
+                    this._jumpSound.play();
                     this._metadata.position.y--;
-                    this._velocity.y = -ControlledPlayer.JUMP_VELOCITY;
+                    this._velocity.y = -Player.JUMP_VELOCITY;
                     this._animationControl.state = PlayerState.FALLING;
                 }
                 return;
             case "A":
-                this._acceleration.x = -ControlledPlayer.ACCELERATION;
+                this._acceleration.x = -Player.ACCELERATION;
                 return;
             case "D":
-                this._acceleration.x = ControlledPlayer.ACCELERATION;
+                this._acceleration.x = Player.ACCELERATION;
                 break;
             default:
         }
@@ -58,7 +61,7 @@ export class ControlledPlayer {
         }
     }
 
-    public update(stage: Stage, soundPlayer: SoundPlayer): void {
+    public update(stage: Stage): void {
         if (this._animationControl.state === PlayerState.DEAD) {
             return;
         }
@@ -86,18 +89,18 @@ export class ControlledPlayer {
             this._velocity.x = 0;
         } else {
             if (this._acceleration.x === 0) {
-                if (Math.abs(this._velocity.x) < ControlledPlayer.FRICTION) {
+                if (Math.abs(this._velocity.x) < Player.FRICTION) {
                     this._velocity.x = 0;
                 } else {
                     this._velocity.x = this._velocity.x > 0
-                        ? this._velocity.x - ControlledPlayer.FRICTION
-                        : this._velocity.x + ControlledPlayer.FRICTION;
+                        ? this._velocity.x - Player.FRICTION
+                        : this._velocity.x + Player.FRICTION;
                 }
             }
-            if (this._velocity.x >= ControlledPlayer.MAX_SPEED) {
-                this._velocity.x = ControlledPlayer.MAX_SPEED;
-            } else if (this._velocity.x <= -ControlledPlayer.MAX_SPEED) {
-                this._velocity.x = -ControlledPlayer.MAX_SPEED;
+            if (this._velocity.x >= Player.MAX_SPEED) {
+                this._velocity.x = Player.MAX_SPEED;
+            } else if (this._velocity.x <= -Player.MAX_SPEED) {
+                this._velocity.x = -Player.MAX_SPEED;
             }
         }
 
@@ -107,7 +110,7 @@ export class ControlledPlayer {
             this._acceleration.y = 0;
             if (this._animationControl.state === PlayerState.FALLING) {
                 this._animationControl.state = PlayerState.STANDING;
-                soundPlayer.playSound("land");
+                this._landSound.play();
             }
             if (this._velocity.x === 0) {
                 if (this._animationControl.state !== PlayerState.STANDING) {
@@ -121,7 +124,7 @@ export class ControlledPlayer {
                 }
             }
         } else {
-            this._acceleration.y = ControlledPlayer.GRAVITY;
+            this._acceleration.y = Player.GRAVITY;
             this._animationControl.state = PlayerState.FALLING;
         }
         this._metadata.spriteIndex = this._animationControl.spriteIndex;

@@ -3,7 +3,7 @@ import Game from "../game";
 import {Button, Point, TextElement, TextInput, updateIsHovered} from "./gui";
 import StageScene from "./stageScene";
 import {PlayerMetadata} from "../../../src/types/playerMetadata";
-import {ControlledPlayer} from "../entities/controlledPlayer";
+import {Player} from "../entities/player";
 
 export default class LoginScene extends Scene {
     private readonly _titleElement: TextElement;
@@ -35,8 +35,12 @@ export default class LoginScene extends Scene {
             isHovered: false
         };
         this.game.socket.on("joinSuccess", (metadata: PlayerMetadata) => {
-            if (!this.game.controlledPlayer) {
-                this.game.controlledPlayer = new ControlledPlayer(metadata);
+            if (!this.game.player) {
+                this.game.player = new Player(
+                    metadata,
+                    this.game.getSound("jump"),
+                    this.game.getSound("land")
+                );
                 this.game.socket.removeAllListeners("joinSuccess");
                 this.game.socket.removeAllListeners("joinFailure");
                 this.game.scene = new StageScene(this.game);

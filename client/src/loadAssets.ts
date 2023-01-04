@@ -1,4 +1,4 @@
-export interface SpriteSheet {
+export type SpriteSheet = {
     rows: number;
     columns: number;
     cellLength: number;

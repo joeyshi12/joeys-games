@@ -1,14 +1,9 @@
 import * as path from "node:path";
-import { Configuration } from "webpack";
+import { Configuration, DefinePlugin } from "webpack";
 import CopyPlugin from "copy-webpack-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 
-const mode = process.env["NODE_ENV"] === "production"
-    ? "production"
-    : "development";
-
 const config: Configuration = {
-    mode: mode,
     entry: "./src/index.ts",
     output: {
         path: path.join(__dirname, "../dist/client"),
@@ -19,7 +14,6 @@ const config: Configuration = {
     resolve: {
         extensions: [".ts", ".js"]
     },
-    devtool: "source-map",
     module: {
         rules: [
             {
@@ -45,6 +39,20 @@ const config: Configuration = {
             ]
         })
     ]
-};
+}
+
+if (process.env["NODE_ENV"] === "production") {
+    config.mode = "production"
+    config.devtool = false;
+    config.plugins?.push(new DefinePlugin({
+        SERVER_URL: "\"http://pi.joeyshi.com:3141\""
+    }));
+} else {
+    config.mode = "development"
+    config.devtool = "source-map";
+    config.plugins?.push(new DefinePlugin({
+        SERVER_URL: "\"http://localhost:8080\""
+    }));
+}
 
 export default config;

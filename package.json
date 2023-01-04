@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Novel arcade games played with friends",
   "scripts": {
-    "dev": "npm run build:client && tsc && node dist/app.js",
+    "start": "npm run build:client && tsc && node dist/app.js",
     "build": "tsc && npm run build:client",
     "build:client": "npm --prefix ./client run build",
     "postinstall": "tsc && npm --prefix ./client install"
