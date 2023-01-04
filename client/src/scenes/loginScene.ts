@@ -28,7 +28,7 @@ export default class LoginScene extends Scene {
         this._submitButton = {
             x: 95,
             y: 160,
-            text: "LoginScene",
+            text: "Login",
             fontSize: 12,
             width: 42,
             height: 16,
