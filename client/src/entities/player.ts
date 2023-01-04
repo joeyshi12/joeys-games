@@ -68,7 +68,6 @@ export class Player {
         if (this._isDamaged(stage)) {
             this._animationControl.state = PlayerState.DEAD;
             setTimeout(() => this._reset(), 2000);
-            return;
         }
         if (this._metadata.position.y > stage.mapData.rows * Renderer.SPRITE_LENGTH) {
             this._reset();
