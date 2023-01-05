@@ -28,7 +28,14 @@ const config: Configuration = {
     plugins: [
         new HtmlWebpackPlugin({
             template: "index.html",
-            favicon: "favicon.ico"
+            favicon: "favicon.ico",
+            filename: "index.html"
+        }),
+        new HtmlWebpackPlugin({
+            template: "404.html",
+            favicon: "favicon.ico",
+            inject: false,
+            filename: "404.html"
         }),
         new CopyPlugin({
             patterns: [
