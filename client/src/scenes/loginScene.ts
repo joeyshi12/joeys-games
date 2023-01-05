@@ -62,7 +62,6 @@ export default class LoginScene extends Scene {
     }
 
     public keyPressed(event: KeyboardEvent) {
-        console.log(event.key);
         if (event.key === "Enter") {
             this.game.socket.emit("login", this._textInput.text);
         } else if (event.key === "Backspace") {
