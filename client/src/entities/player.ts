@@ -177,7 +177,7 @@ export class Player {
     private _isDamaged(stage: Stage): boolean {
         const row = Math.floor((this._metadata.position.y + this._metadata.collisionBox.offset.y + this._metadata.collisionBox.height / 2) / Renderer.SPRITE_LENGTH);
         const col = Math.floor((this._metadata.position.x + this._metadata.collisionBox.offset.x + this._metadata.collisionBox.width / 2) / Renderer.SPRITE_LENGTH);
-        return stage.mapData.spriteData[row * stage.mapData.cols + col] === 22;
+        return stage.mapData.spriteData[row * stage.mapData.columns + col] === 22;
     }
 
     private _reset(): void {

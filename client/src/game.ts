@@ -86,7 +86,7 @@ export default class Game {
             loadAudioBuffer("assets/click.mp3"),
             loadAudioBuffer("assets/jump.mp3"),
             loadAudioBuffer("assets/land.mp3")
-        ])
+        ]);
         this.renderer.spriteSheet = spriteSheet;
         document.fonts.add(fontFace);
         this._sounds = new Map([

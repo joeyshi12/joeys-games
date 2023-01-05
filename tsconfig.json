@@ -18,10 +18,12 @@
     "allowSyntheticDefaultImports": true,
     "strictNullChecks": false,
     "strictPropertyInitialization": false,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
   },
   "include": [
-    "src/**/*.ts"
+    "src/**/*.ts",
+    "src/**/*.json"
   ],
   "exclude": [
     "node_modules"

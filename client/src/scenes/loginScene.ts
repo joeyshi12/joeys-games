@@ -1,14 +1,16 @@
 import {Scene} from "./scene";
 import Game from "../game";
 import {Button, Point, TextElement, TextInput, updateIsHovered} from "./gui";
-import StageScene from "./stageScene";
 import {PlayerMetadata} from "../../../src/types/playerMetadata";
 import {Player} from "../entities/player";
+import { StageMap } from "./stage";
+import { MapData } from "../../../src/types/mapData";
+import StageScene from "./stageScene";
 
 export default class LoginScene extends Scene {
     private readonly _titleElement: TextElement;
     private readonly _textInput: TextInput;
-    private readonly _submitButton: Button;
+    private readonly _loginButton: Button;
 
     public constructor(game: Game) {
         super(game);
@@ -25,7 +27,7 @@ export default class LoginScene extends Scene {
             fontSize: 12,
             width: 120
         };
-        this._submitButton = {
+        this._loginButton = {
             x: 95,
             y: 160,
             text: "Login",
@@ -35,7 +37,10 @@ export default class LoginScene extends Scene {
             isHovered: false
         };
         this.game.socket.on("joinSuccess", (metadata: PlayerMetadata) => {
-            if (!this.game.player) {
+            if (this.game.player) {
+                return;
+            }
+            this._fetchDefaultMap().then((stageMap: StageMap) => {
                 this.game.player = new Player(
                     metadata,
                     this.game.getSound("jump"),
@@ -43,8 +48,8 @@ export default class LoginScene extends Scene {
                 );
                 this.game.socket.removeAllListeners("joinSuccess");
                 this.game.socket.removeAllListeners("joinFailure");
-                this.game.scene = new StageScene(this.game);
-            }
+                this.game.scene = new StageScene(this.game, stageMap);
+            });
         });
         this.game.socket.on("joinError", (msg: string) => {
             alert(msg);
@@ -52,11 +57,11 @@ export default class LoginScene extends Scene {
     }
 
     public mouseMoved(point: Point) {
-        updateIsHovered(this._submitButton, point);
+        updateIsHovered(this._loginButton, point);
     }
 
     public mouseClicked(point: Point) {
-        if (this._submitButton.isHovered) {
+        if (this._loginButton.isHovered) {
             this.game.socket.emit("login", this._textInput.text);
         }
     }
@@ -75,6 +80,19 @@ export default class LoginScene extends Scene {
         this.game.renderer.fill("#1C1C1C");
         this.game.renderer.drawText(this._titleElement);
         this.game.renderer.drawTextInput(this._textInput);
-        this.game.renderer.drawButton(this._submitButton);
+        this.game.renderer.drawButton(this._loginButton);
+    }
+
+    private async _fetchDefaultMap(): Promise<StageMap> {
+        const mapDataRepository: MapData[] = await (await fetch("/map")).json();
+        const mapData = mapDataRepository.find((map) => map.name === "default")
+            ?? mapDataRepository[0];
+        return {
+            rows: mapData.rows,
+            columns: mapData.columns,
+            spriteData: mapData.spriteData,
+            solidIndices: new Set(mapData.solidIndices),
+            platformIndices: new Set(mapData.platformIndices)
+        };
     }
 }
