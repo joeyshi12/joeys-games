@@ -4,9 +4,9 @@ import { Renderer } from "../renderer";
 /**
  * Contains info needed to render the tilemap describe which
  */
-interface MapData {
+export type StageMap = {
     rows: number;
-    cols: number;
+    columns: number;
     spriteData: number[];
     solidIndices: Set<number>;
     platformIndices: Set<number>;
@@ -26,11 +26,11 @@ export interface CollisionEvent {
 }
 
 export class Stage {
-    constructor(private _mapData: MapData) {
+    constructor(private _stageMap: StageMap) {
     }
 
-    public get mapData(): MapData {
-        return this._mapData;
+    public get mapData(): StageMap {
+        return this._stageMap;
     }
 
     public getCollisionEventAbove(entity: EntityMetadata): CollisionEvent | undefined {
@@ -41,8 +41,8 @@ export class Stage {
 
         const topPos = (topRow + 1) * Renderer.SPRITE_LENGTH + 1;
 
-        const topLeftTileIdx = topRow * this.mapData.cols + leftCol;
-        const topRightTileIdx = topRow * this.mapData.cols + rightCol;
+        const topLeftTileIdx = topRow * this.mapData.columns + leftCol;
+        const topRightTileIdx = topRow * this.mapData.columns + rightCol;
 
         if ((this.mapData.solidIndices.has(topLeftTileIdx) || this.mapData.solidIndices.has(topRightTileIdx))
             && y < topPos) {
@@ -64,8 +64,8 @@ export class Stage {
 
         const leftPos = (leftCol + 1) * Renderer.SPRITE_LENGTH + 1;
 
-        const upperLeftTileIdx = upperRow * this.mapData.cols + leftCol;
-        const lowerLeftTileIdx = lowerRow * this.mapData.cols + leftCol;
+        const upperLeftTileIdx = upperRow * this.mapData.columns + leftCol;
+        const lowerLeftTileIdx = lowerRow * this.mapData.columns + leftCol;
         if ((this.mapData.solidIndices.has(upperLeftTileIdx) || this.mapData.solidIndices.has(lowerLeftTileIdx))
             && x <= leftPos) {
             return {
@@ -86,8 +86,8 @@ export class Stage {
 
         const bottomPos = bottomRow * Renderer.SPRITE_LENGTH - 1;
 
-        const bottomLeftTileIdx = bottomRow * this.mapData.cols + leftCol;
-        const bottomRightTileIdx = bottomRow * this.mapData.cols + rightCol;
+        const bottomLeftTileIdx = bottomRow * this.mapData.columns + leftCol;
+        const bottomRightTileIdx = bottomRow * this.mapData.columns + rightCol;
 
         const existsGroundBelow = this.mapData.solidIndices.has(bottomLeftTileIdx)
             || this.mapData.solidIndices.has(bottomRightTileIdx)
@@ -112,8 +112,8 @@ export class Stage {
 
         const rightPos = rightCol * Renderer.SPRITE_LENGTH - 1;
 
-        const upperRightTileIdx = upperRow * this.mapData.cols + rightCol;
-        const lowerRightTileIdx = lowerRow * this.mapData.cols + rightCol;
+        const upperRightTileIdx = upperRow * this.mapData.columns + rightCol;
+        const lowerRightTileIdx = lowerRow * this.mapData.columns + rightCol;
         if ((this.mapData.solidIndices.has(upperRightTileIdx) || this.mapData.solidIndices.has(lowerRightTileIdx))
             && x + entity.collisionBox.width >= rightPos) {
             return {

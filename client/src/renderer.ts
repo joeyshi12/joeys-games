@@ -41,6 +41,7 @@ export class Renderer {
     }
 
     public drawPlayer(entity: PlayerMetadata) {
+        this._context.save();
         this._context.fillStyle = "#ffffff";
         this._context.font = "8px \"Inconsolata\"";
         const textWidth = this._context.measureText(entity.name).width;
@@ -51,7 +52,6 @@ export class Renderer {
         );
 
         if (entity.isFlipped) {
-            this._context.save();
             this._context.translate(2 * (entity.position.x - this._cameraPosition.x) + this.spriteLength, 0);
             this._context.scale(-1, 1);
         }
@@ -62,9 +62,7 @@ export class Renderer {
             this.spriteLength,
             this.spriteLength
         );
-        if (entity.isFlipped) {
-            this._context.restore();
-        }
+        this._context.restore();
     }
 
     public drawStage(stage: Stage) {
@@ -72,8 +70,8 @@ export class Renderer {
         const mapData = stage.mapData;
         const cellLength = this._spriteSheet.cellLength;
         for (let i = 0; i < mapData.rows; i++) {
-            for (let j = 0; j < mapData.cols; j++) {
-                const tileIdx = i * mapData.cols + j;
+            for (let j = 0; j < mapData.columns; j++) {
+                const tileIdx = i * mapData.columns + j;
                 const spriteId = mapData.spriteData[tileIdx];
                 if (spriteId === 0) {
                     continue;
@@ -94,7 +92,7 @@ export class Renderer {
         this._cameraPosition.x = focalPoint.x - canvas.width / (2 * Renderer.CONTEXT_SCALE);
         this._cameraPosition.y = focalPoint.y - canvas.height / (2 * Renderer.CONTEXT_SCALE);
 
-        const mapWidth = stage.mapData.cols * this.spriteLength;
+        const mapWidth = stage.mapData.columns * this.spriteLength;
         const mapHeight = stage.mapData.rows * this.spriteLength;
         const maxCameraX = mapWidth - canvas.width / 2;
         const maxCameraY = mapHeight - canvas.height / 2;

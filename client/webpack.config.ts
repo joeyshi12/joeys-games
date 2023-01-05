@@ -39,16 +39,16 @@ const config: Configuration = {
             ]
         })
     ]
-}
+};
 
 if (process.env["NODE_ENV"] === "production") {
-    config.mode = "production"
+    config.mode = "production";
     config.devtool = false;
     config.plugins?.push(new DefinePlugin({
         SERVER_URL: "\"http://pi.joeyshi.com:3141\""
     }));
 } else {
-    config.mode = "development"
+    config.mode = "development";
     config.devtool = "source-map";
     config.plugins?.push(new DefinePlugin({
         SERVER_URL: "\"http://localhost:8080\""
