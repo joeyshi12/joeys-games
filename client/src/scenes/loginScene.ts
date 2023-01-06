@@ -62,6 +62,7 @@ export default class LoginScene extends Scene {
 
     public mouseClicked(point: Point) {
         if (this._loginButton.isHovered) {
+            this.game.getSound("click").play();
             this.game.socket.emit("login", this._textInput.text);
         }
     }
