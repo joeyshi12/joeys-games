@@ -52,7 +52,7 @@ if (process.env["NODE_ENV"] === "production") {
     config.mode = "production";
     config.devtool = false;
     config.plugins?.push(new DefinePlugin({
-        SERVER_URL: "\"http://pi.joeyshi.com:3141\""
+        SERVER_URL: "\"http://pi.joeyshi.xyz:3141\""
     }));
 } else {
     config.mode = "development";
