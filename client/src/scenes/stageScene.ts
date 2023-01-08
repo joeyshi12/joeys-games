@@ -27,7 +27,7 @@ export default class StageScene extends Scene {
         this.game.player.update(this._stage);
         this.game.socket.emit("update", this.game.player.metadata);
         this.game.renderer.updateCameraPosition(this.game.player.metadata.position, this._stage);
-        this.game.renderer.drawStage(this._stage);
+        this.game.renderer.drawStage(this._stage.mapData);
         for (const player of this._playerMetadata) {
             if (player.name !== this.game.player.metadata.name) {
                 this.game.renderer.drawPlayer(player);

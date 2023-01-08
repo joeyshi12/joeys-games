@@ -6,6 +6,7 @@ import {Player} from "../entities/player";
 import { StageMap } from "./stage";
 import { MapData } from "../../../src/types/mapData";
 import StageScene from "./stageScene";
+import MapSelectionScene from "./mapSelectionScene";
 
 export default class LoginScene extends Scene {
     private readonly _titleElement: TextElement;
@@ -40,7 +41,7 @@ export default class LoginScene extends Scene {
             if (this.game.player) {
                 return;
             }
-            this._fetchDefaultMap().then((stageMap: StageMap) => {
+            this._fetchMaps().then((stageMaps: StageMap[]) => {
                 this.game.player = new Player(
                     metadata,
                     this.game.getSound("jump"),
@@ -48,7 +49,7 @@ export default class LoginScene extends Scene {
                 );
                 this.game.socket.removeAllListeners("joinSuccess");
                 this.game.socket.removeAllListeners("joinFailure");
-                this.game.scene = new StageScene(this.game, stageMap);
+                this.game.scene = new MapSelectionScene(this.game, stageMaps);
             });
         });
         this.game.socket.on("joinError", (msg: string) => {
@@ -84,16 +85,17 @@ export default class LoginScene extends Scene {
         this.game.renderer.drawButton(this._loginButton);
     }
 
-    private async _fetchDefaultMap(): Promise<StageMap> {
+    private async _fetchMaps(): Promise<StageMap[]> {
         const mapDataRepository: MapData[] = await (await fetch("/map")).json();
-        const mapData = mapDataRepository.find((map) => map.name === "default")
-            ?? mapDataRepository[0];
-        return {
-            rows: mapData.rows,
-            columns: mapData.columns,
-            spriteData: mapData.spriteData,
-            solidIndices: new Set(mapData.solidIndices),
-            platformIndices: new Set(mapData.platformIndices)
-        };
+        return mapDataRepository.map(mapData => {
+            return {
+                name: mapData.name,
+                rows: mapData.rows,
+                columns: mapData.columns,
+                spriteData: mapData.spriteData,
+                solidIndices: new Set(mapData.solidIndices),
+                platformIndices: new Set(mapData.platformIndices)
+            }
+        });
     }
 }

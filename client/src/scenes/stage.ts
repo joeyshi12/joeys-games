@@ -5,6 +5,7 @@ import { Renderer } from "../renderer";
  * Contains info needed to render the tilemap describe which
  */
 export type StageMap = {
+    name: string;
     rows: number;
     columns: number;
     spriteData: number[];

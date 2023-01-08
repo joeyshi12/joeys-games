@@ -6,8 +6,10 @@ import {Point} from "./scenes/gui";
 import {Socket} from "socket.io-client";
 import {Player} from "./entities/player";
 import {loadAudioBuffer, Sound} from "./sound";
+import {Context} from "copy-webpack-plugin";
 
 export default class Game {
+    private _context: Context;
     private _player: Player;
     private _scene: Scene;
     private _sounds: Map<string, Sound>;
@@ -102,5 +104,11 @@ export default class Game {
             x: (event.clientX - rect.left) / Renderer.CONTEXT_SCALE,
             y: (event.clientY - rect.top) / Renderer.CONTEXT_SCALE
         };
+    }
+
+    private _resizeCanvas() {
+        context.canvas.width = Math.min(1200, window.innerWidth);
+        context.canvas.height = Math.min(700, window.innerHeight);
+        context.scale(Renderer.CONTEXT_SCALE, Renderer.CONTEXT_SCALE);
     }
 }
