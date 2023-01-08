@@ -1,6 +1,7 @@
 # platform-party
 
-A real-time multiplayer browser platformer made with p5.
+A real-time multiplayer browser platformer made with the
+<a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/canvas">canvas scripting API</a>.
 
 Live demo hosted on a Raspberry Pi.
 
