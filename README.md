@@ -5,7 +5,7 @@ A real-time multiplayer browser platformer made with the
 
 Live demo hosted on a Raspberry Pi.
 
-<a href="http://pi.joeyshi.com:3141">
+<a href="http://pi.joeyshi.xyz:3141">
     <img src="./assets/join_game.png" width=178 alt="platform-party"/>
 </a>
 
