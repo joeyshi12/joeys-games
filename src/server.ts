@@ -29,7 +29,7 @@ app.use((req: Request, res: Response) => {
 });
 
 io.on("connection", (socket: Socket) => {
-    socket.on("login", playerController.createPlayer(socket));
+    socket.on("login", playerController.createPlayer(socket).bind(this));
     socket.on("update", playerController.updatePlayer(socket));
     socket.on("disconnect", playerController.deletePlayer(socket));
 });

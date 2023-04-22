@@ -4,10 +4,10 @@ import CopyPlugin from "copy-webpack-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 
 const config: Configuration = {
-    entry: "./src/index.ts",
+    entry: "./src/main.ts",
     output: {
         path: path.join(__dirname, "../dist/client"),
-        filename: "index.js",
+        filename: "main.js",
         chunkFormat: "array-push",
         hashFunction: "sha256"
     },
@@ -40,7 +40,7 @@ const config: Configuration = {
         new CopyPlugin({
             patterns: [
                 {
-                    from: "./src/assets",
+                    from: "./assets",
                     to: "assets"
                 }
             ]
@@ -50,13 +50,11 @@ const config: Configuration = {
 
 if (process.env["NODE_ENV"] === "production") {
     config.mode = "production";
-    config.devtool = false;
     config.plugins?.push(new DefinePlugin({
         SERVER_URL: "\"http://pi.joeyshi.xyz:3141\""
     }));
 } else {
     config.mode = "development";
-    config.devtool = "source-map";
     config.plugins?.push(new DefinePlugin({
         SERVER_URL: "\"http://localhost:8080\""
     }));

@@ -6,8 +6,8 @@ EXPOSE 8080
 
 WORKDIR /tmp
 COPY . .
-RUN npm install && mv dist /dist && mv node_modules /dist
+RUN npm install && npm run build && mv dist /dist
 WORKDIR /dist
 RUN rm -rf /tmp
 
-CMD ["node", "app.js"]
+CMD ["node", "server.js"]

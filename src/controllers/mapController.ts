@@ -5,7 +5,7 @@ import { Request, Response } from "express";
 import { isNumberArray } from "../util/util";
 
 export default class MapController {
-    public static readonly DATA_DIR = path.join(__dirname, "..", "data");
+    public static readonly DATA_DIR = path.join(__dirname, "data");
     private readonly _mapDataRepository: MapData[];
 
     public constructor() {

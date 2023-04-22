@@ -24,6 +24,6 @@ docker run -ti -p 5000:8080 joeyshi12/platform-party
 ## Running source code
 ```bash
 npm install
-node dist/src/app.js
+node dist/server.js
 ```
 *connect with url localhost:8080*
