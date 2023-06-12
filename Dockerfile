@@ -6,7 +6,7 @@ EXPOSE 8080
 
 WORKDIR /tmp
 COPY . .
-RUN npm install && mv dist /dist
+RUN npm install --dev && mv dist /dist
 WORKDIR /dist
 RUN rm -rf /tmp
 

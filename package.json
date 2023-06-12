@@ -8,7 +8,7 @@
     "build": "npm run build:server && npm run build:client",
     "build:server": "webpack",
     "build:client": "npm --prefix ./client run build",
-    "postinstall": "npm --prefix ./client install && npm run build"
+    "postinstall": "npm --prefix ./client install --dev && npm run build"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.48.0",
