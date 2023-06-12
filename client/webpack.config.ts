@@ -51,7 +51,7 @@ const config: Configuration = {
 if (process.env["NODE_ENV"] === "production") {
     config.mode = "production";
     config.plugins?.push(new DefinePlugin({
-        SERVER_URL: "\"http://pi.joeyshi.xyz:3141\""
+        SERVER_URL: "\"http://platform-party.joeyshi.xyz:1337\""
     }));
 } else {
     config.mode = "development";
