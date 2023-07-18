@@ -1,0 +1,6 @@
+version: '3.3'
+services:
+  platformer:
+    build: ./
+    ports:
+      - "3141:8080"
