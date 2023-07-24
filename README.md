@@ -5,12 +5,12 @@ A real-time multiplayer browser platformer made with the
 
 Live demo hosted on a Raspberry Pi.
 
-<a href="http://platform-party.joeyshi.xyz:1337">
-    <img src="./assets/join_game.png" width=178 alt="platform-party"/>
+<a href="https://platform-party.joeyshi.xyz">
+    <img src="./images/join_game.png" width=178 alt="platform-party"/>
 </a>
 
 
-![Platform Party](./assets/snapshot.png)
+![Platform Party](./images/snapshot.png)
 
 
 ## Running with docker

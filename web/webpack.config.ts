@@ -1,12 +1,13 @@
 import * as path from "node:path";
-import { Configuration, DefinePlugin } from "webpack";
+import { DefinePlugin } from "webpack";
 import CopyPlugin from "copy-webpack-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 
-const config: Configuration = {
+module.exports = {
+    mode: process.env["NODE_ENV"] === "production" ? "production" : "development",
     entry: "./src/main.ts",
     output: {
-        path: path.join(__dirname, "../dist/client"),
+        path: path.join(__dirname, "../dist/web"),
         filename: "main.js",
         chunkFormat: "array-push",
         hashFunction: "sha256"
@@ -26,6 +27,9 @@ const config: Configuration = {
         ]
     },
     plugins: [
+        new DefinePlugin({
+            SERVER_URL: "\"" + (process.env["SERVER_URL"] ?? "http://localhost:8080") + "\""
+        }),
         new HtmlWebpackPlugin({
             template: "index.html",
             favicon: "favicon.ico",
@@ -47,17 +51,3 @@ const config: Configuration = {
         })
     ]
 };
-
-if (process.env["NODE_ENV"] === "production") {
-    config.mode = "production";
-    config.plugins?.push(new DefinePlugin({
-        SERVER_URL: "\"https://platform-party.joeyshi.xyz\""
-    }));
-} else {
-    config.mode = "development";
-    config.plugins?.push(new DefinePlugin({
-        SERVER_URL: "\"http://localhost:8080\""
-    }));
-}
-
-export default config;

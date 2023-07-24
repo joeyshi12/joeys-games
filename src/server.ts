@@ -10,22 +10,17 @@ import { Request, Response } from "express";
 const app = express();
 const httpServer = createServer(app);
 const port = process.env["PORT"] || 8080;
-const io = new Server(httpServer, {
-    cors: {
-        origin: "*",
-        methods: ["GET", "POST"]
-    }
-});
+const io = new Server(httpServer);
 
 const playerController = new PlayerController();
 const mapController = new MapController();
 
-app.use(express.static(path.join(__dirname, "client")));
+app.use(express.static(path.join(__dirname, "web")));
 app.get("/map", (req: Request, res: Response) => mapController.getAllMaps(req, res));
 app.post("/map", (req: Request, res: Response) => mapController.uploadMap(req, res));
 app.use((req: Request, res: Response) => {
     res.status(404);
-    res.sendFile(path.join(__dirname, "client", "404.html"));
+    res.sendFile(path.join(__dirname, "web", "404.html"));
 });
 
 io.on("connection", (socket: Socket) => {
