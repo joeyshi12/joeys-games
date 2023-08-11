@@ -47,7 +47,7 @@ export class PlayerController {
             if (player) {
                 Log.info(`Removing player [${player.name}]`);
                 this._playerRepository.delete(socket.id);
-                socket.broadcast.emit("receivePlayers", this._players);
+                socket.broadcast.emit("receivePlayer", this._players);
             }
         };
     }
