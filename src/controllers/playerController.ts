@@ -37,7 +37,7 @@ export class PlayerController {
     public updatePlayer(socket: Socket): (_: PlayerMetadata) => void {
         return (metadata: PlayerMetadata) => {
             this._playerRepository.set(socket.id, metadata);
-            socket.broadcast.volatile.emit("receivePlayers", this._players);
+            socket.broadcast.emit("receivePlayer", metadata);
         };
     }
 

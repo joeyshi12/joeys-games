@@ -61,6 +61,10 @@ export class Player {
         }
     }
 
+    public get isMoving(): boolean {
+        return this._velocity.x !== 0 || this._velocity.y !== 0;
+    }
+
     public update(stage: Stage): void {
         if (this._animationControl.state === PlayerState.DEAD) {
             return;

@@ -10,8 +10,13 @@ export default class StageScene extends Scene {
     public constructor(game: Game, stageMap: StageMap) {
         super(game);
         this._stage = new Stage(stageMap);
-        this.game.socket.on("receivePlayers", (players: PlayerMetadata[]) => {
-            this._playerMetadata = players;
+        this.game.socket.on("receivePlayer", (updatedPlayer: PlayerMetadata) => {
+            const playerIndex = this._playerMetadata.findIndex(p => p.name === updatedPlayer.name);
+            if (playerIndex === -1) {
+                this._playerMetadata.push(updatedPlayer);
+            } else {
+                this._playerMetadata[playerIndex] = updatedPlayer;
+            }
         });
     }
 
@@ -25,7 +30,9 @@ export default class StageScene extends Scene {
 
     public update() {
         this.game.player.update(this._stage);
-        this.game.socket.emit("update", this.game.player.metadata);
+        if (this.game.player.isMoving) {
+            this.game.socket.emit("updatePlayer", this.game.player.metadata);
+        }
         this.game.renderer.updateCameraPosition(this.game.player.metadata.position, this._stage);
         this.game.renderer.drawStage(this._stage);
         for (const player of this._playerMetadata) {
