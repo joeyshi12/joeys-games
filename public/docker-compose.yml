@@ -1,0 +1,12 @@
+version: '3.3'
+services:
+  platformer:
+    image: node:16.13.1
+    command: sh -c "node server.js"
+    working_dir: "/app"
+    volumes:
+      - "./:/app"
+    environment:
+      - PORT=8080
+    ports:
+      - "3141:8080"

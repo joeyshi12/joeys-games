@@ -1,0 +1,28 @@
+body {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #363636;
+}
+
+.header-container {
+    justify-content: flex-start;
+    padding: 0.5rem 1rem;
+}
+
+.header-container a {
+    text-decoration: none;
+    color: black;
+}
+
+.header {
+    padding: 0 1rem;
+}
+
+#canvas-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}

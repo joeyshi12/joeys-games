@@ -1,0 +1,27 @@
+body {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+}
+
+.header-container {
+    justify-content: flex-start;
+    padding: 0.5rem 1rem;
+}
+
+.header-container a {
+    text-decoration: none;
+    color: black;
+}
+
+.header {
+    padding: 0 1rem;
+}
+
+.game-container {
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    padding-top: 4rem;
+}

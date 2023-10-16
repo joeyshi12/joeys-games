@@ -1,0 +1,67 @@
+@font-face {
+    font-family: 'M Plus Rounded 1c';
+    src: url('/fonts/MPLUSRounded1c-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "M Plus Rounded 1c", serif;
+}
+
+.header-container {
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    padding: 0.5rem 2rem;
+    background: #ccc;
+    border-radius: 2rem;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    padding-right: 0.5rem;
+}
+
+.games-list-container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.games-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-gap: 0.2rem;
+    grid-template-rows: auto;
+    margin: 0;
+    padding: 0;
+}
+
+.games-list li {
+    margin: 0.5rem;
+}
+
+.game-item {
+    width: 20rem;
+    height: 8rem;
+    color: black;
+    background: red;
+    border: 3px solid;
+    border-radius: 2rem;
+    transition: 0.1s;
+}
+
+.game-item:hover {
+    transform: scale(1.02);
+    filter: drop-shadow(3px 3px 5px rgba(0,0,0,.17));
+}
