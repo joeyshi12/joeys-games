@@ -15,11 +15,11 @@ export default class Snake {
         this._positions_y.unshift(this._positions_y[0] + this._dy);
         this._positions_x.pop();
         this._positions_y.pop();
-        this._ctx.fillStyle = "black";
+        this._ctx.fillStyle = "#008800";
         for (let i = 0; i < this._size; i++) {
             this._ctx.fillRect(
-                this._positions_x[i],
-                this._positions_y[i],
+                this._positions_x[i] * this._unitLength,
+                this._positions_y[i] * this._unitLength,
                 this._unitLength,
                 this._unitLength
             );

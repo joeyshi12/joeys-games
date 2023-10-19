@@ -1,4 +1,6 @@
 body {
+    display: flex;
+    flex-direction: column;
     margin: 0;
     padding: 0;
     width: 100vw;
@@ -22,7 +24,9 @@ body {
 
 #canvas-container {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100%;
+    flex: 1 1 auto;
+    padding-bottom: 5rem;
 }

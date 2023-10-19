@@ -44,7 +44,7 @@ export default class Game {
             throw new Error("2d context is not supported by browser");
         }
         this.renderer.context = context;
-        document.body.appendChild(canvas);
+        document.getElementById("canvas-container")?.appendChild(canvas);
         this.renderer.resizeCanvas();
 
         this._loadAssets().then(() => {
