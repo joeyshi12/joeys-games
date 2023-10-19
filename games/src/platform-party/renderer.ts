@@ -37,7 +37,6 @@ export class Renderer {
     public fill(color: string): void {
         this._context.fillStyle = color;
         this._context.fillRect(0, 0, this._context.canvas.width, this._context.canvas.height);
-        this._context.fillRect(0, 0, this._context.canvas.width, this._context.canvas.height);
     }
 
     public drawPlayer(entity: PlayerMetadata) {

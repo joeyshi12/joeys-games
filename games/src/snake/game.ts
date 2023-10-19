@@ -1,25 +1,30 @@
+import Snake from "./snake";
+
 export default class Game {
     private readonly nextFrame = this._gameLoop.bind(this);
 
-    public constructor() {
+    public constructor(private _snake: Snake) {
     }
 
     public start(): void {
-        const canvas = document.createElement("canvas");
-        const context = canvas.getContext("2d", {alpha: false});
-        if (!context) {
-            throw new Error("2d context is not supported by browser");
-        }
-        document.body.appendChild(canvas);
-
         this._loadAssets().then(() => {
             window.addEventListener("keydown", (event: KeyboardEvent) => {
+                switch (event.key.toLowerCase()) {
+                    case "w":
+                        this._snake.setDirection(0, -1);
+                        break;
+                    case "a":
+                        this._snake.setDirection(-1, 0);
+                        break;
+                    case "s":
+                        this._snake.setDirection(0, 1);
+                        break;
+                    case "d":
+                        this._snake.setDirection(1, 0);
+                        break;
+                }
             });
             window.addEventListener("keyup", (event: KeyboardEvent) => {
-            });
-            canvas.addEventListener("mousemove", (event: MouseEvent) => {
-            });
-            canvas.addEventListener("mousedown", (event: MouseEvent) => {
             });
             window.addEventListener("resize", () => {
             });
@@ -28,7 +33,7 @@ export default class Game {
     }
 
     private _gameLoop(): void {
-        // TODO: update game
+        this._snake.update();
         requestAnimationFrame(this.nextFrame);
     }
 
