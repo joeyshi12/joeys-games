@@ -81,11 +81,11 @@ export default class Game {
      */
     private async _loadAssets(): Promise<void> {
         const [spriteSheet, fontFace, clickSound, jumpSound, landSound] = await Promise.all([
-            loadSpriteSheet("/assets/spritesheet.png", 22, 48),
-            loadFont("Inconsolata", "/assets/inconsolata.otf"),
-            loadAudioBuffer("/assets/click.mp3"),
-            loadAudioBuffer("/assets/jump.mp3"),
-            loadAudioBuffer("/assets/land.mp3")
+            loadSpriteSheet("/images/spritesheet.png", 22, 48),
+            loadFont("Inconsolata", "/fonts/inconsolata.otf"),
+            loadAudioBuffer("/sounds/click.mp3"),
+            loadAudioBuffer("/sounds/jump.mp3"),
+            loadAudioBuffer("/sounds/land.mp3")
         ]);
         this.renderer.spriteSheet = spriteSheet;
         document.fonts.add(fontFace);

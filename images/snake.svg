@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="200mm"
+   height="80mm"
+   viewBox="0 0 200 80"
+   version="1.1"
+   id="svg1"
+   inkscape:export-filename="snake_preview.webp"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   inkscape:version="1.3 (0e150ed6c4, 2023-07-21)"
+   sodipodi:docname="snake.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#ffffff"
+     borderopacity="0.24705882"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#ffffff"
+     inkscape:document-units="mm"
+     inkscape:zoom="1.4142136"
+     inkscape:cx="464.2156"
+     inkscape:cy="114.90485"
+     inkscape:window-width="2560"
+     inkscape:window-height="1369"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1">
+    <rect
+       x="1075.3984"
+       y="356.82812"
+       width="860.07031"
+       height="676.85156"
+       id="rect3" />
+    <rect
+       x="-396.21094"
+       y="194.64844"
+       width="1304.2109"
+       height="618"
+       id="rect2" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(270.97467,-54.512432)">
+    <rect
+       style="fill:#f2f2f2;fill-opacity:1;stroke:none;stroke-width:0.229931"
+       id="rect4"
+       width="200"
+       height="80"
+       x="-270.97467"
+       y="54.512432" />
+    <path
+       style="fill:#00a317;fill-opacity:0.668865;stroke-width:0.265781"
+       d="m -172.53342,118.77796 c 9.28968,-6.74576 14.00362,-8.3641 17.53335,-8.3641 4.3086,0 4.76154,6.90002 10.53354,6.95737 5.772,0.0573 32.29786,2.25615 36.22855,-1.67454 4.92513,-4.92513 10.584771,-47.008685 1.50708,-47.008685 -12.80108,0 -47.39807,-0.7777 -47.39807,-3.88069 0,-3.29363 54.242061,-5.3205 57.304811,-2.25776 2.91814,2.91813 1.74564,58.598565 -0.51957,62.281975 -2.26521,3.68342 -43.530571,-0.93533 -46.828031,-0.64401 -3.29747,0.29133 -8.40768,6.65859 -11.24408,6.55193 -2.83639,-0.10667 -9.98702,-3.80614 -17.11758,-11.96149 z"
+       id="path1"
+       sodipodi:nodetypes="csssssssssc" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:28.1873px;font-family:'Nimbus Roman';-inkscape-font-specification:'Nimbus Roman, ';fill:#00a317;fill-opacity:0.668865;stroke-width:0.265781"
+       x="-220.58682"
+       y="101.06325"
+       id="text1"><tspan
+         sodipodi:role="line"
+         id="tspan1"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:28.1873px;font-family:'Nimbus Roman';-inkscape-font-specification:'Nimbus Roman, ';stroke-width:0.265782"
+         x="-220.58682"
+         y="101.06325">SNAKE</tspan></text>
+    <text
+       xml:space="preserve"
+       transform="scale(0.26458333)"
+       id="text3"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:192px;font-family:'Liberation Serif';-inkscape-font-specification:'Liberation Serif';white-space:pre;shape-inside:url(#rect3);fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.81039" />
+    <ellipse
+       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.478999"
+       id="path4"
+       cx="-162.4335"
+       cy="116.80502"
+       rx="2.8747599"
+       ry="1.43738" />
+    <ellipse
+       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.478999"
+       id="path5"
+       cx="-161.29132"
+       cy="116.77362"
+       rx="1.7542857"
+       ry="1.2401052" />
+    <path
+       style="fill:#bc2c2c;fill-opacity:1;stroke:none;stroke-width:0.478999"
+       d="m -172.46622,118.75309 c 0,0 -1.22008,-4.6191 -4.38991,-4.25633 -3.16983,0.36277 -6.2606,5.12165 -6.2606,5.12165 l 1.66114,-0.0563 0.58162,1.2219 c 0,0 1.64201,-2.97424 3.55249,-3.49101 1.91048,-0.51676 4.31472,2.93018 4.31472,2.93018 1.64666,1.48324 2.53098,0.70006 2.53098,0.70006 z"
+       id="path6"
+       sodipodi:nodetypes="cscccsccc" />
+  </g>
+</svg>

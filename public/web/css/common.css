@@ -55,10 +55,10 @@ body {
     width: 20rem;
     height: 8rem;
     color: black;
-    background: red;
     border: 3px solid;
     border-radius: 2rem;
     transition: 0.1s;
+    object-fit: cover;
 }
 
 .game-item:hover {
