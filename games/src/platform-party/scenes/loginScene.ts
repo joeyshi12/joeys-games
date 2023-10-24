@@ -14,21 +14,21 @@ export default class LoginScene extends Scene {
     public constructor(game: Game) {
         super(game);
         this._titleElement = {
-            x: 100,
-            y: 100,
+            x: 300,
+            y: 200,
             text: "Platform Party",
             fontSize: 16,
         };
         this._textInput = {
-            x: 100,
-            y: 130,
+            x: 300,
+            y: 230,
             text: "",
             fontSize: 12,
             width: 120
         };
         this._loginButton = {
-            x: 95,
-            y: 160,
+            x: 295,
+            y: 260,
             text: "Login",
             fontSize: 12,
             width: 42,

@@ -1,16 +1,17 @@
 body {
-    display: flex;
-    flex-direction: column;
     margin: 0;
     padding: 0;
     width: 100vw;
     height: 100vh;
-    background-color: #363636;
 }
 
 .header-container {
-    justify-content: flex-start;
-    padding: 0.5rem 1rem;
+    position: absolute;
+    padding: 0.5rem 0.5rem;
+}
+
+.header-container h2 {
+    margin: 1rem 0;
 }
 
 .header-container a {
@@ -20,13 +21,4 @@ body {
 
 .header {
     padding: 0 1rem;
-}
-
-#canvas-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    flex: 1 1 auto;
-    padding-bottom: 5rem;
 }

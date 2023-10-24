@@ -10,16 +10,19 @@ import { Request, Response } from "express";
 const app = express();
 const httpServer = createServer(app);
 const port = process.env["PORT"] || 8080;
-const io = new Server(httpServer, {path: "/platform-party/socket.io"});
+const io = new Server(httpServer);
 
 const snakeController = new SnakeController();
 const platformPartyController = new PlatformPartyController();
 
 app.use(express.static(path.join(__dirname, "web")));
+
 app.get("/snake/scores", (req: Request, res: Response) => snakeController.getAllScores(req, res));
 app.put("/snake/scores", (req: Request, res: Response) => snakeController.submitScore(req, res));
+
 app.get("/platform-party/maps", (req: Request, res: Response) => platformPartyController.getAllMaps(req, res));
 app.put("/platform-party/maps", (req: Request, res: Response) => platformPartyController.uploadMap(req, res));
+
 app.use((_: Request, res: Response) => {
     res.status(404);
     res.sendFile(path.join(__dirname, "web", "404.html"));

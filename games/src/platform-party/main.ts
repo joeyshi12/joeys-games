@@ -3,7 +3,7 @@ import {Renderer} from "./renderer";
 import {io} from "socket.io-client";
 
 // @ts-ignore
-const socket = io(`${SERVER_URL}/platform-party`); // webpack environment variable
+const socket = io(SERVER_URL); // webpack environment variable
 const renderer = new Renderer();
 const game = new Game(renderer, socket);
 game.start();

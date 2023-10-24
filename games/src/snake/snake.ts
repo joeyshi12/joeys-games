@@ -2,24 +2,31 @@ export default class Snake {
     public isDead = false;
     private _dx = 1;
     private _dy = 0;
-    private _positions_x: number[] = [5, 4, 3];
-    private _positions_y: number[] = [10, 10, 10];
-    private _size = 3;
+    private _posX: number[] = [5, 4, 3];
+    private _posY: number[] = [10, 10, 10];
 
     constructor(private _ctx: CanvasRenderingContext2D,
+                private _gridSize: number,
                 private _unitLength: number) {
     }
 
-    public update() {
-        this._positions_x.unshift(this._positions_x[0] + this._dx);
-        this._positions_y.unshift(this._positions_y[0] + this._dy);
-        this._positions_x.pop();
-        this._positions_y.pop();
-        this._ctx.fillStyle = "#008800";
-        for (let i = 0; i < this._size; i++) {
+    public draw() {
+        if (!this.isDead) {
+            this.isDead = this._hasCollided();
+        }
+
+        if (!this.isDead) {
+            this._posX.unshift(this._posX[0] + this._dx);
+            this._posY.unshift(this._posY[0] + this._dy);
+            this._posX.pop();
+            this._posY.pop();
+        }
+
+        this._ctx.fillStyle = this.isDead ? "#880000" : "#008800";
+        for (let i = 0; i < this.size; i++) {
             this._ctx.fillRect(
-                this._positions_x[i] * this._unitLength,
-                this._positions_y[i] * this._unitLength,
+                this._posX[i] * this._unitLength,
+                this._posY[i] * this._unitLength,
                 this._unitLength,
                 this._unitLength
             );
@@ -27,22 +34,37 @@ export default class Snake {
     }
 
     public setDirection(dx: number, dy: number) {
-        this._dx = dx;
-        this._dy = dy;
+        if (this._dx !== 0 && dx === 0) {
+            this._dx = 0;
+            this._dy = dy;
+        } else if (this._dy !== 0 && dy === 0) {
+            this._dx = dx;
+            this._dy = 0;
+        }
     }
 
     public grow() {
-        this._positions_x.push(2 * this._positions_x[this._size - 1] - this._positions_x[this._size - 2]);
-        this._positions_y.push(2 * this._positions_y[this._size - 1] - this._positions_y[this._size - 2]);
-        this._size++;
+        this._posX.push(2 * this._posX[this.size - 1] - this._posX[this.size - 2]);
+        this._posY.push(2 * this._posY[this.size - 1] - this._posY[this.size - 2]);
     }
 
-    public checkCollide() {
-        for (let i = 1; i < this._size; i++) {
-            if (this._positions_x[0] === this._positions_x[i] && this._positions_y[0] === this._positions_y[i]) {
+    private _hasCollided() {
+        for (let i = 1; i < this.size; i++) {
+            if (this._posX[0] === this._posX[i] && this._posY[0] === this._posY[i]) {
                 return true;
             }
         }
-        return this._positions_x[0] === 0 || this._positions_x[0] === this._size - 1 || this._positions_y[0] === 0 || this._positions_y[0] === this._size - 1;
+        return this._posX[0] < 0
+            || this._posX[0] >= this._gridSize
+            || this._posY[0] < 0
+            || this._posY[0] >= this._gridSize;
+    }
+
+    public get size() {
+        return this._posX.length;
+    }
+
+    public isHeadAtPos(x: number, y: number) {
+        return this._posX[0] === x && this._posY[0] === y;
     }
 }
