@@ -9,7 +9,7 @@ services:
     environment:
       - PORT=3141
       - DB_HOST=localhost
-      - DB_USER=joey
-      - DB_PASS=cm1234
-      - DB_NAME=joey_games
+      - DB_USER=games_user
+      - DB_PASS=jg1234
+      - DB_NAME=joeys_games
     network_mode: host
