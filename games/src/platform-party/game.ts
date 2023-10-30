@@ -9,6 +9,7 @@ import {loadAudioBuffer, Sound} from "./sound";
 export default class Game {
     private _scene: Scene;
     private _sounds: Map<string, Sound>;
+    private _previousTimeStamp: number;
     private readonly nextFrame = this._gameLoop.bind(this);
 
     public constructor(public readonly renderer: Renderer,
@@ -66,11 +67,19 @@ export default class Game {
             this.renderer.resizeCanvas();
         });
 
-        requestAnimationFrame(this.nextFrame);
+        requestAnimationFrame((timeStamp: number) => {
+            this._previousTimeStamp = timeStamp;
+            requestAnimationFrame(this.nextFrame);
+        });
     }
 
-    private _gameLoop(): void {
-        this._scene.update();
+    private _gameLoop(timeStamp: number): void {
+        const elapsedTime = timeStamp - this._previousTimeStamp;
+        // Draw a frame every 16 ms
+        if (elapsedTime > 16) {
+            this._scene.update();
+            this._previousTimeStamp = timeStamp;
+        }
         requestAnimationFrame(this.nextFrame);
     }
 
