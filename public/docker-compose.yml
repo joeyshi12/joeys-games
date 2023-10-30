@@ -7,6 +7,9 @@ services:
     volumes:
       - "./:/app"
     environment:
-      - PORT=8080
-    ports:
-      - "3141:8080"
+      - PORT=3141
+      - DB_HOST=localhost
+      - DB_USER=joey
+      - DB_PASS=cm1234
+      - DB_NAME=joey_games
+    network_mode: host
