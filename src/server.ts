@@ -6,16 +6,24 @@ import Log from "./util/logger";
 import { SnakeController } from "./controllers/snakeController";
 import { PlatformPartyController } from "./controllers/platformPartyController";
 import { Request, Response } from "express";
+import * as mariadb from "mariadb";
 
 const app = express();
 const httpServer = createServer(app);
 const port = process.env["PORT"] || 8080;
 const io = new Server(httpServer);
 
-const snakeController = new SnakeController();
+const dbHost = process.env.DB_HOST || "0.0.0.0";
+const dbUser = process.env.DB_USER || "my_user";
+const dbName = process.env.DB_NAME || "test";
+const dbPassword = process.env.DB_PASS || "password";
+const pool = mariadb.createPool({host: dbHost, user: dbUser, password: dbPassword, database: dbName, connectionLimit: 5});
+
+const snakeController = new SnakeController(pool);
 const platformPartyController = new PlatformPartyController();
 
 app.use(express.static(path.join(__dirname, "web")));
+app.use(express.json());
 
 app.get("/snake/scores", (req: Request, res: Response) => snakeController.getAllScores(req, res));
 app.put("/snake/scores", (req: Request, res: Response) => snakeController.submitScore(req, res));

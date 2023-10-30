@@ -1,16 +1,17 @@
 import Game from "../game";
 import {Point} from "./gui";
+import {Sound} from "../sound";
 
 export abstract class Scene {
     protected constructor(protected game: Game) {}
 
-    public mouseMoved(point: Point): void {}
+    public abstract mouseMoved(point: Point): void
 
-    public mouseClicked(point: Point): void {}
+    public abstract mouseClicked(point: Point): void
 
-    public keyPressed(event: KeyboardEvent): void {}
+    public abstract keyPressed(event: KeyboardEvent): void
 
-    public keyReleased(event: KeyboardEvent): void {}
+    public abstract keyReleased(event: KeyboardEvent): void
 
-    public update(): void {}
+    public abstract update(): void
 }

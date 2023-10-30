@@ -29,8 +29,8 @@ export class Renderer {
     }
 
     public resizeCanvas() {
-        this._context.canvas.width = window.innerWidth;
-        this._context.canvas.height = window.innerHeight;
+        this._context.canvas.width = Math.min(1200, window.innerWidth);
+        this._context.canvas.height = Math.min(700, window.innerHeight);
         this._context.scale(Renderer.CONTEXT_SCALE, Renderer.CONTEXT_SCALE);
     }
 

@@ -22,3 +22,11 @@ body {
 .header {
     padding: 0 1rem;
 }
+
+#canvas-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #363636;
+    height: 100%;
+}

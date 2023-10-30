@@ -2,9 +2,10 @@ import Snake from "./snake";
 import Food from "./food";
 
 export default class Game {
-    private previousTimeStamp: number;
+    private _previousTimeStamp: number;
 
     public constructor(private _ctx: CanvasRenderingContext2D,
+                       private _scoreElement: HTMLSpanElement,
                        private _snake: Snake,
                        private _food: Food,
                        private _gridSize: number,
@@ -14,21 +15,23 @@ export default class Game {
     public start(): void {
         this._ctx.fillStyle = "#fff";
         this._ctx.fillRect(0, 0, this._ctx.canvas.width, this._ctx.canvas.height);
-        this._loadAssets().then(() => {
-            window.addEventListener("keydown", this._handleKeyDown.bind(this));
-            requestAnimationFrame((timeStamp: number) => {
-                this.previousTimeStamp = timeStamp;
-                requestAnimationFrame(this._gameLoop.bind(this));
-            });
+        window.addEventListener("keydown", this._handleKeyDown.bind(this));
+        requestAnimationFrame((timeStamp: number) => {
+            this._previousTimeStamp = timeStamp;
+            requestAnimationFrame(this._gameLoop.bind(this));
         });
     }
 
+    public get score(): number {
+        return this._snake.size - 3;
+    }
+
     private _gameLoop(timeStamp: number): void {
-        const elapsedTime = timeStamp - this.previousTimeStamp;
+        const elapsedTime = timeStamp - this._previousTimeStamp;
         // Draw a frame every 80 ms
         if (elapsedTime > 80) {
             this._draw();
-            this.previousTimeStamp = timeStamp;
+            this._previousTimeStamp = timeStamp;
         }
         requestAnimationFrame(this._gameLoop.bind(this));
     }
@@ -41,6 +44,7 @@ export default class Game {
         if (this._snake.isHeadAtPos(this._food.posX, this._food.posY)) {
             this._snake.grow();
             this._food.updatePosition();
+            this._updateScoreText();
         }
         this._ctx.fillStyle = "#000";
         for (let i = 1; i < this._gridSize; i++) {
@@ -53,20 +57,35 @@ export default class Game {
     private _handleKeyDown(event: KeyboardEvent) {
         switch (event.key.toLowerCase()) {
             case "w":
+            case "arrowup":
                 this._snake.setDirection(0, -1);
                 break;
             case "a":
+            case "arrowleft":
                 this._snake.setDirection(-1, 0);
                 break;
             case "s":
+            case "arrowdown":
                 this._snake.setDirection(0, 1);
                 break;
             case "d":
+            case "arrowright":
                 this._snake.setDirection(1, 0);
+                break;
+            case "r":
+                this._resetGame();
                 break;
         }
     }
 
-    private async _loadAssets(): Promise<void> {
+    private _resetGame() {
+        this._snake.reset();
+        this._food.posX = 10;
+        this._food.posY = 10;
+        this._updateScoreText();
+    }
+
+    private _updateScoreText() {
+        this._scoreElement.textContent = String(this.score);
     }
 }

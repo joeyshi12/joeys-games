@@ -1,11 +1,16 @@
+import { Sound } from "./sound";
+
 export default class Snake {
     public isDead = false;
-    private _dx = 1;
+    private _dx = 0;
     private _dy = 0;
     private _posX: number[] = [5, 4, 3];
     private _posY: number[] = [10, 10, 10];
 
     constructor(private _ctx: CanvasRenderingContext2D,
+                private _nameInputElement: HTMLInputElement,
+                private _submitButtonElement: HTMLButtonElement,
+                private _growSound: Sound,
                 private _gridSize: number,
                 private _unitLength: number) {
     }
@@ -13,9 +18,13 @@ export default class Snake {
     public draw() {
         if (!this.isDead) {
             this.isDead = this._hasCollided();
+            if (this.isDead) {
+                this._nameInputElement.disabled = false;
+                this._submitButtonElement.disabled = false;
+            }
         }
 
-        if (!this.isDead) {
+        if (!this.isStationary() && !this.isDead) {
             this._posX.unshift(this._posX[0] + this._dx);
             this._posY.unshift(this._posY[0] + this._dy);
             this._posX.pop();
@@ -34,18 +43,23 @@ export default class Snake {
     }
 
     public setDirection(dx: number, dy: number) {
-        if (this._dx !== 0 && dx === 0) {
-            this._dx = 0;
-            this._dy = dy;
-        } else if (this._dy !== 0 && dy === 0) {
-            this._dx = dx;
-            this._dy = 0;
+        const dirX = this._posX[0] - this._posX[1];
+        const dirY = this._posY[0] - this._posY[1];
+        if (dirX * dx < 0 || dirY * dy < 0) {
+            return;
         }
+        this._dx = dx;
+        this._dy = dy;
     }
 
     public grow() {
+        this._growSound.play();
         this._posX.push(2 * this._posX[this.size - 1] - this._posX[this.size - 2]);
         this._posY.push(2 * this._posY[this.size - 1] - this._posY[this.size - 2]);
+    }
+
+    public isStationary() {
+        return this._dx === 0 && this._dy === 0;
     }
 
     private _hasCollided() {
@@ -66,5 +80,15 @@ export default class Snake {
 
     public isHeadAtPos(x: number, y: number) {
         return this._posX[0] === x && this._posY[0] === y;
+    }
+
+    public reset() {
+        this._dx = 0;
+        this._dy = 0;
+        this._posX = [5, 4, 3];
+        this._posY = [10, 10, 10];
+        this.isDead = false;
+        this._nameInputElement.disabled = true;
+        this._submitButtonElement.disabled = true;
     }
 }

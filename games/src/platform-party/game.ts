@@ -4,25 +4,15 @@ import {loadSpriteSheet, loadFont} from "./loadAssets";
 import LoginScene from "./scenes/loginScene";
 import {Point} from "./scenes/gui";
 import {Socket} from "socket.io-client";
-import {Player} from "./entities/player";
 import {loadAudioBuffer, Sound} from "./sound";
 
 export default class Game {
-    private _player: Player;
     private _scene: Scene;
     private _sounds: Map<string, Sound>;
     private readonly nextFrame = this._gameLoop.bind(this);
 
     public constructor(public readonly renderer: Renderer,
                        public readonly socket: Socket) {
-    }
-
-    public get player(): Player {
-        return this._player;
-    }
-
-    public set player(val: Player) {
-        this._player = val;
     }
 
     public set scene(val: Scene) {
@@ -37,49 +27,10 @@ export default class Game {
         return sound;
     }
 
-    public start(): void {
-        const canvas = document.createElement("canvas");
-        const context = canvas.getContext("2d", {alpha: false});
-        if (!context) {
-            throw new Error("2d context is not supported by browser");
-        }
-        this.renderer.context = context;
-        document.getElementById("canvas-container")?.appendChild(canvas);
-        this.renderer.resizeCanvas();
-
-        this._loadAssets().then(() => {
-            this._scene = new LoginScene(this);
-
-            window.addEventListener("keydown", (event: KeyboardEvent) => {
-                this._scene.keyPressed(event);
-            });
-            window.addEventListener("keyup", (event: KeyboardEvent) => {
-                this._scene.keyReleased(event);
-            });
-            canvas.addEventListener("mousemove", (event: MouseEvent) => {
-                this._scene.mouseMoved(this._getMousePosition(canvas, event));
-            });
-            canvas.addEventListener("mousedown", (event: MouseEvent) => {
-                this._scene.mouseClicked(this._getMousePosition(canvas, event));
-            });
-            window.addEventListener("resize", () => {
-                this.renderer.resizeCanvas();
-            });
-
-            requestAnimationFrame(this.nextFrame);
-        });
-    }
-
-    private _gameLoop(): void {
-        this._scene.update();
-        requestAnimationFrame(this.nextFrame);
-    }
-
     /**
      * Load images and sound files
-     * @private
      */
-    private async _loadAssets(): Promise<void> {
+    public async preload(): Promise<void> {
         const [spriteSheet, fontFace, clickSound, jumpSound, landSound] = await Promise.all([
             loadSpriteSheet("/images/spritesheet.png", 22, 48),
             loadFont("Inconsolata", "/fonts/inconsolata.otf"),
@@ -94,6 +45,33 @@ export default class Game {
             ["jump", new Sound(jumpSound)],
             ["land", new Sound(landSound)]
         ]);
+    }
+
+    public start(canvas: HTMLCanvasElement): void {
+        this._scene = new LoginScene(this);
+
+        window.addEventListener("keydown", (event: KeyboardEvent) => {
+            this._scene.keyPressed(event);
+        });
+        window.addEventListener("keyup", (event: KeyboardEvent) => {
+            this._scene.keyReleased(event);
+        });
+        canvas.addEventListener("mousemove", (event: MouseEvent) => {
+            this._scene.mouseMoved(this._getMousePosition(canvas, event));
+        });
+        canvas.addEventListener("mousedown", (event: MouseEvent) => {
+            this._scene.mouseClicked(this._getMousePosition(canvas, event));
+        });
+        window.addEventListener("resize", () => {
+            this.renderer.resizeCanvas();
+        });
+
+        requestAnimationFrame(this.nextFrame);
+    }
+
+    private _gameLoop(): void {
+        this._scene.update();
+        requestAnimationFrame(this.nextFrame);
     }
 
     private _getMousePosition(canvas: HTMLCanvasElement, event: MouseEvent): Point {

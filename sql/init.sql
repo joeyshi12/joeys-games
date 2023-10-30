@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS snake_score (
-    username CHAR(64),
+    player_name CHAR(8),
     score INT,
-    date DATE
+    creation_date DATE
 );

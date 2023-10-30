@@ -14,21 +14,21 @@ export default class LoginScene extends Scene {
     public constructor(game: Game) {
         super(game);
         this._titleElement = {
-            x: 300,
-            y: 200,
+            x: 200,
+            y: 100,
             text: "Platform Party",
             fontSize: 16,
         };
         this._textInput = {
-            x: 300,
-            y: 230,
+            x: 200,
+            y: 130,
             text: "",
             fontSize: 12,
             width: 120
         };
         this._loginButton = {
-            x: 295,
-            y: 260,
+            x: 195,
+            y: 160,
             text: "Login",
             fontSize: 12,
             width: 42,
@@ -36,18 +36,15 @@ export default class LoginScene extends Scene {
             isHovered: false
         };
         this.game.socket.on("joinSuccess", (metadata: PlayerMetadata) => {
-            if (this.game.player) {
-                return;
-            }
             this._fetchDefaultMap().then((stageMap: StageMap) => {
-                this.game.player = new Player(
+                const player = new Player(
                     metadata,
                     this.game.getSound("jump"),
                     this.game.getSound("land")
                 );
                 this.game.socket.removeAllListeners("joinSuccess");
                 this.game.socket.removeAllListeners("joinFailure");
-                this.game.scene = new StageScene(this.game, stageMap);
+                this.game.scene = new StageScene(this.game, stageMap, player);
             });
         });
         this.game.socket.on("joinError", (msg: string) => {
@@ -95,4 +92,6 @@ export default class LoginScene extends Scene {
             platformIndices: new Set(mapData.platformIndices)
         };
     }
+
+    keyReleased(event: KeyboardEvent): void {}
 }

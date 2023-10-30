@@ -24,12 +24,44 @@ body {
     padding: 0 1rem;
 }
 
-#canvas-container {
+main {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+}
+
+.game-container {
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
+.score-board-container {
+    height: 544px;
+    overflow-x: auto;
+    overflow-y: auto;
+    border: 2px solid;
+    border-color: black;
+    font-size: 14px;
+    transform: translate(-2px, 0);
+}
+
+.score-board {
+    padding: 1rem;
+    width: 14rem;
+}
+
+th {
+    text-align: left;
+}
+
+td {
+    min-width: 3rem;
+}
+
+#submit-button {
+    margin: 1rem 0;
 }
 
 canvas {
