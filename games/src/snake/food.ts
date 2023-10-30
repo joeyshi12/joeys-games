@@ -3,7 +3,6 @@ export default class Food {
                 public posX: number,
                 public posY: number,
                 private _sprite: HTMLImageElement,
-                private _gridSize: number,
                 private _unitLength: number) {
     }
 
@@ -17,8 +16,8 @@ export default class Food {
         );
     }
 
-    public updatePosition() {
-        this.posX = Math.floor(Math.random() * this._gridSize);
-        this.posY = Math.floor(Math.random() * this._gridSize);
+    public updatePosition(x: number, y: number) {
+        this.posX = x;
+        this.posY = y;
     }
 }

@@ -82,6 +82,15 @@ export default class Snake {
         return this._posX[0] === x && this._posY[0] === y;
     }
 
+    public contains(x: number, y: number) {
+        for (let i = 0; i < this.size; i++) {
+            if (this._posX[i] === x && this._posY[y] === y) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public reset() {
         this._dx = 0;
         this._dy = 0;

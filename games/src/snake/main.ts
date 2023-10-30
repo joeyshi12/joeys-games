@@ -51,7 +51,7 @@ Promise.all([
 ]).then(([image, popAudioBuffer]) => {
     const growSound = new Sound(popAudioBuffer);
     const snake = new Snake(context, nameInputElement, submitButtonElement, growSound, gridSize, unitLength);
-    const food = new Food(context, 10, 10, image, gridSize, unitLength);
+    const food = new Food(context, 10, 10, image, unitLength);
     const game = new Game(context, scoreElement, snake, food, gridSize, unitLength);
 
     submitButtonElement.addEventListener("click", () => {

@@ -43,7 +43,7 @@ export default class Game {
         this._snake.draw();
         if (this._snake.isHeadAtPos(this._food.posX, this._food.posY)) {
             this._snake.grow();
-            this._food.updatePosition();
+            this._setNextFoodPosition();
             this._updateScoreText();
         }
         this._ctx.fillStyle = "#000";
@@ -83,6 +83,20 @@ export default class Game {
         this._food.posX = 10;
         this._food.posY = 10;
         this._updateScoreText();
+    }
+
+    private _setNextFoodPosition() {
+        const numCells = this._gridSize * this._gridSize;
+        const shift = Math.floor(Math.random() * numCells);
+        for (let pos = 0; pos < numCells; pos++) {
+            const nextPos = (pos + shift) % numCells;
+            const x = nextPos % this._gridSize;
+            const y = Math.floor(nextPos / this._gridSize);
+            if (!this._snake.contains(x, y)) {
+                this._food.updatePosition(x, y);
+                break;
+            }
+        }
     }
 
     private _updateScoreText() {
