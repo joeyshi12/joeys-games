@@ -17,7 +17,7 @@ function loadImage(source: string): Promise<HTMLImageElement> {
     });
 }
 
-const gridSize = 18;
+const gridSize = 16;
 const unitLength = 30;
 const canvas = document.createElement("canvas");
 document.getElementById("canvas-container")?.appendChild(canvas);

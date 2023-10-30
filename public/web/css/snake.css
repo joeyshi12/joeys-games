@@ -38,7 +38,7 @@ main {
 }
 
 .score-board-container {
-    height: 544px;
+    height: 484px;
     overflow-x: auto;
     overflow-y: auto;
     border: 2px solid;
