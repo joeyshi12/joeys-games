@@ -90,14 +90,4 @@ export default class Snake {
         }
         return false;
     }
-
-    public reset() {
-        this._dx = 0;
-        this._dy = 0;
-        this._posX = [5, 4, 3];
-        this._posY = [10, 10, 10];
-        this.isDead = false;
-        this._nameInputElement.disabled = true;
-        this._submitButtonElement.disabled = true;
-    }
 }

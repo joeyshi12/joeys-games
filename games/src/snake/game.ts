@@ -72,17 +72,7 @@ export default class Game {
             case "arrowright":
                 this._snake.setDirection(1, 0);
                 break;
-            case "r":
-                this._resetGame();
-                break;
         }
-    }
-
-    private _resetGame() {
-        this._snake.reset();
-        this._food.posX = 10;
-        this._food.posY = 10;
-        this._updateScoreText();
     }
 
     private _setNextFoodPosition() {
