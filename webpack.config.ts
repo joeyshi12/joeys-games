@@ -1,7 +1,7 @@
 import * as path from "node:path";
-import { Configuration } from "webpack";
+const NodemonPlugin = require("nodemon-webpack-plugin");
 
-const config: Configuration = {
+module.exports = {
     entry: "./src/server.ts",
     target: "node",
     mode: "development",
@@ -30,7 +30,12 @@ const config: Configuration = {
             "utf-8-validate": "commonjs utf-8-validate",
             bufferutil: "commonjs bufferutil"
         },
+    ],
+    plugins: [
+        new NodemonPlugin({
+            script: "./public/server.js",
+            delay: 1000,
+            verbose: true
+        })
     ]
 };
-
-export default config;

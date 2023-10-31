@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "description": "Collection of web games",
   "scripts": {
-    "dev": "nodemon ./public/server.js",
-    "watch": "webpack --watch",
+    "dev": "webpack --watch",
     "build": "webpack && npm --prefix ./games run build",
     "postinstall": "npm --prefix ./games install --include=dev"
   },
@@ -12,6 +11,7 @@
     "@typescript-eslint/eslint-plugin": "^5.48.0",
     "@typescript-eslint/parser": "^5.48.0",
     "eslint": "^8.31.0",
+    "nodemon-webpack-plugin": "^4.8.2",
     "ts-loader": "^9.4.2",
     "ts-node": "^10.9.1",
     "tslib": "^2.3.0",
@@ -23,7 +23,6 @@
     "@types/express": "^4.17.15",
     "express": "^4.17.2",
     "mariadb": "^3.2.2",
-    "nodemon": "^3.0.1",
     "socket.io": "^4.5.4"
   }
 }
