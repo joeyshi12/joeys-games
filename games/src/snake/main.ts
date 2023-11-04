@@ -55,6 +55,9 @@ Promise.all([
     const game = new Game(context, scoreElement, snake, food, gridSize, unitLength);
 
     submitButtonElement.addEventListener("click", () => {
+        nameInputElement.disabled = true;
+        submitButtonElement.disabled = true;
+
         const name = nameInputElement.value;
         if (name.length < 3) {
             alert("Name is too short");
@@ -79,6 +82,9 @@ Promise.all([
             window.location.reload();
         }).catch((e) => {
             console.error(e);
+        }).finally(() => {
+            nameInputElement.disabled = false;
+            submitButtonElement.disabled = false;
         });
     });
     game.start();
@@ -108,4 +114,6 @@ fetch("/snake/scores").then((res) => {
             dateCell.appendChild(dateNode);
         }
     });
+}).catch((e) => {
+    console.error(e);
 });

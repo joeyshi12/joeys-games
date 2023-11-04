@@ -54,8 +54,9 @@ export default class Snake {
 
     public grow() {
         this._growSound.play();
-        this._posX.push(2 * this._posX[this.size - 1] - this._posX[this.size - 2]);
-        this._posY.push(2 * this._posY[this.size - 1] - this._posY[this.size - 2]);
+        const size = this.size;
+        this._posX.push(2 * this._posX[size - 1] - this._posX[size - 2]);
+        this._posY.push(2 * this._posY[size - 1] - this._posY[size - 2]);
     }
 
     public isStationary() {
@@ -84,7 +85,7 @@ export default class Snake {
 
     public contains(x: number, y: number) {
         for (let i = 0; i < this.size; i++) {
-            if (this._posX[i] === x && this._posY[y] === y) {
+            if (this._posX[i] === x && this._posY[i] === y) {
                 return true;
             }
         }

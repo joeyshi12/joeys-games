@@ -3,6 +3,8 @@ import Food from "./food";
 
 export default class Game {
     private _previousTimeStamp: number;
+    // shift food position by this amount if spawned inside snake; value should be coprime with number of tiles
+    private _foodSpawnStride = 13;
 
     public constructor(private _ctx: CanvasRenderingContext2D,
                        private _scoreElement: HTMLSpanElement,
@@ -77,15 +79,15 @@ export default class Game {
 
     private _setNextFoodPosition() {
         const numCells = this._gridSize * this._gridSize;
-        const shift = Math.floor(Math.random() * numCells);
-        for (let pos = 0; pos < numCells; pos++) {
-            const nextPos = (pos + shift) % numCells;
-            const x = nextPos % this._gridSize;
-            const y = Math.floor(nextPos / this._gridSize);
+        let newPosition = Math.floor(Math.random() * numCells);
+        for (let i = 0; i < numCells; i++) {
+            const x = newPosition % this._gridSize;
+            const y = Math.floor(newPosition / this._gridSize);
             if (!this._snake.contains(x, y)) {
                 this._food.updatePosition(x, y);
                 break;
             }
+            newPosition = (newPosition + this._foodSpawnStride) % numCells;
         }
     }
 
