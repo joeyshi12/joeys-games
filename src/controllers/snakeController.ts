@@ -22,6 +22,7 @@ export class SnakeController {
             Log.error(message);
             res.status(422);
             res.send(message);
+            return;
         }
         score.creationDate = new Date().toISOString().split("T")[0];
         this._insertScore(score).then(() => {
