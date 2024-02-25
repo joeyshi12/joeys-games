@@ -1,21 +1,6 @@
 import * as path from "node:path";
-import { DefinePlugin } from "webpack";
 
-let params;
-if (process.env["NODE_ENV"] === "production") {
-    params = {
-        mode: "production",
-        serverUrl: "https://play.joeyshi.xyz"
-    };
-} else {
-    params = {
-        mode: "development",
-        serverUrl: "http://localhost:8080"
-    };
-}
-
-module.exports = {
-    mode: params.mode,
+export const commonConfig = {
     entry: {
         "platform-party": "./src/platform-party/main.ts",
         "snake": "./src/snake/main.ts"
@@ -39,10 +24,5 @@ module.exports = {
                 }
             }
         ]
-    },
-    plugins: [
-        new DefinePlugin({
-            SERVER_URL: `"${params.serverUrl}"`
-        })
-    ]
+    }
 };

@@ -2,8 +2,8 @@
   "name": "Joey's Games Web",
   "version": "1.0.0",
   "scripts": {
-    "watch": "webpack --watch",
-    "build": "NODE_ENV=production webpack"
+    "watch": "webpack --watch --config ./webpack.config.dev.ts",
+    "build": "webpack --config ./webpack.config.prod.ts"
   },
   "devDependencies": {
     "ts-loader": "^9.4.2",
