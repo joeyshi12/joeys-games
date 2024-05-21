@@ -3,6 +3,7 @@
     src: url('/fonts/MPLUSRounded1c-Bold.ttf') format('truetype');
     font-weight: bold;
     font-style: normal;
+    font-display: swap;
 }
 
 body {
@@ -25,10 +26,9 @@ body {
     border-radius: 2rem;
 }
 
-.logo-container {
-    display: flex;
-    align-items: center;
-    padding-right: 0.5rem;
+.header img {
+    width: 90px;
+    vertical-align: middle;
 }
 
 .games-list-container {
