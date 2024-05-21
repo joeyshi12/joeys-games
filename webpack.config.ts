@@ -4,7 +4,7 @@ const NodemonPlugin = require("nodemon-webpack-plugin");
 module.exports = {
     entry: "./src/server.ts",
     target: "node",
-    mode: "development",
+    mode: "production",
     output: {
         path: path.join(__dirname, "./public"),
         filename: "server.js",
@@ -35,7 +35,14 @@ module.exports = {
         new NodemonPlugin({
             script: "./public/server.js",
             delay: 1000,
-            verbose: true
+            verbose: true,
+            env: {
+                PORT: 8080,
+                DB_HOST: "0.0.0.0",
+                DB_USER: "my_user",
+                DB_NAME: "test",
+                DB_PASS: "password"
+            }
         })
     ]
 };

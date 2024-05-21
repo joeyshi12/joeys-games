@@ -5,22 +5,8 @@ body {
     height: 100vh;
 }
 
-.header-container {
-    position: absolute;
-    padding: 0.5rem 0.5rem;
-}
-
-.header-container h2 {
-    margin: 1rem 0;
-}
-
-.header-container a {
-    text-decoration: none;
-    color: black;
-}
-
-.header {
-    padding: 0 1rem;
+.logo-secondary {
+    color: #ddd;
 }
 
 #canvas-container {

@@ -10,19 +10,20 @@ import * as mariadb from "mariadb";
 
 const app = express();
 const httpServer = createServer(app);
-const port = process.env["PORT"] || 8080;
+const port = process.env["PORT"];
 const io = new Server(httpServer);
-
-const dbHost = process.env.DB_HOST || "0.0.0.0";
-const dbUser = process.env.DB_USER || "my_user";
-const dbName = process.env.DB_NAME || "test";
-const dbPassword = process.env.DB_PASS || "password";
-const pool = mariadb.createPool({host: dbHost, user: dbUser, password: dbPassword, database: dbName, connectionLimit: 5});
+const pool = mariadb.createPool({
+    host: process.env["DB_HOST"],
+    user: process.env["DB_USER"],
+    password: process.env["DB_PASS"],
+    database: process.env["DB_NAME"],
+    connectionLimit: 5
+});
 
 const snakeController = new SnakeController(pool);
 const platformPartyController = new PlatformPartyController();
 
-app.use(express.static(path.join(__dirname, "web")));
+app.use(express.static(path.join(__dirname, "static")));
 app.use(express.json());
 
 app.get("/snake/scores", (req: Request, res: Response) => snakeController.getAllScores(req, res));
@@ -33,7 +34,7 @@ app.put("/platform-party/maps", (req: Request, res: Response) => platformPartyCo
 
 app.use((_: Request, res: Response) => {
     res.status(404);
-    res.sendFile(path.join(__dirname, "web", "404.html"));
+    res.sendFile(path.join(__dirname, "static", "404.html"));
 });
 
 io.on("connection", (socket: Socket) => {

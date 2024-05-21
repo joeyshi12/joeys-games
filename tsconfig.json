@@ -6,16 +6,6 @@
     "noImplicitAny": true,
     "removeComments": true,
     "preserveConstEnums": true,
-    "sourceMap": true,
-    "lib": [
-      "es7",
-      "es2017.object",
-      "dom"
-    ],
-    "typeRoots": [
-      "./node_modules/@types"
-    ],
-    "allowSyntheticDefaultImports": true,
     "strictNullChecks": false,
     "strictPropertyInitialization": false,
     "skipLibCheck": true,

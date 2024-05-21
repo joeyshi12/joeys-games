@@ -6,7 +6,7 @@ export const commonConfig = {
         "snake": "./src/snake/main.ts"
     },
     output: {
-        path: path.join(__dirname, "../public/web"),
+        path: path.join(__dirname, "../public/static"),
         filename: "js/[name].js",
         chunkFormat: "array-push",
         hashFunction: "sha256"
