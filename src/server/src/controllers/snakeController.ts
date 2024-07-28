@@ -1,5 +1,5 @@
 import * as mariadb from "mariadb";
-import Log from "../util/logger";
+import Log from "../logger";
 import { Request, Response } from "express";
 import { SnakeScore } from "../../../models/snakeModels";
 

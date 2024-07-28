@@ -2,7 +2,7 @@ import * as path from "path";
 import { createServer } from "http";
 import * as express from "express";
 import { Server, Socket } from "socket.io";
-import Log from "./util/logger";
+import Log from "./logger";
 import { SnakeController } from "./controllers/snakeController";
 import { PlatformPartyController } from "./controllers/platformPartyController";
 import { Request, Response } from "express";

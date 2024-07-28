@@ -1,10 +1,10 @@
 import * as fs from "fs";
 import * as path from "path";
-import Log from "../util/logger";
+import Log from "../logger";
 import { Socket } from "socket.io";
 import { Character, MapData, MapError, PlayerMetadata } from "../../../models/platformPartyModels";
 import { Request, Response } from "express";
-import { isNumberArray } from "../util/util";
+import { isNumberArray } from "../util";
 
 
 export class PlatformPartyController {
@@ -92,8 +92,8 @@ export class PlatformPartyController {
 
     private _isInvalidUserName(userName: string): boolean {
         return userName === ""
-      || userName.length > 20
-      || this._players.some((metadata: PlayerMetadata) => metadata.name === userName);
+            || userName.length > 20
+            || this._players.some((metadata: PlayerMetadata) => metadata.name === userName);
     }
 
     private _loadMaps(): void {

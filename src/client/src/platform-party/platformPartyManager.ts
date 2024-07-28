@@ -1,11 +1,11 @@
 import { Scene } from "./scenes/scene";
-import { Renderer } from "./renderer";
+import { Renderer, CONTEXT_SCALE } from "./renderer";
 import { loadSpriteSheet, loadFont } from "./loadAssets";
 import LoginScene from "./scenes/loginScene";
-import { Point } from "./scenes/gui";
 import { Socket } from "socket.io-client";
 import GameManager from "../core/gameManager";
 import { loadSound, Sound } from "../core/sound";
+import { Point } from "./scenes/gui";
 
 export default class PlatformPartyManager extends GameManager {
     public readonly renderer: Renderer;
@@ -81,8 +81,8 @@ export default class PlatformPartyManager extends GameManager {
     private _getMousePosition(canvas: HTMLCanvasElement, event: MouseEvent): Point {
         const rect = canvas.getBoundingClientRect();
         return {
-            x: (event.clientX - rect.left) / Renderer.CONTEXT_SCALE,
-            y: (event.clientY - rect.top) / Renderer.CONTEXT_SCALE
+            x: (event.clientX - rect.left) / CONTEXT_SCALE,
+            y: (event.clientY - rect.top) / CONTEXT_SCALE
         };
     }
 }

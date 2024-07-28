@@ -3,17 +3,16 @@ import { Stage } from "./scenes/stage";
 import { SpriteSheet } from "./loadAssets";
 import { Button, TextElement, TextInput } from "./scenes/gui";
 
+export const CONTEXT_SCALE = 2;
+export const SPRITE_LENGTH = 16;
 
 export class Renderer {
-    public static readonly CONTEXT_SCALE: number = 2;
-    public static readonly SPRITE_LENGTH: number = 16;
-
-    private _cameraPosition: Vector;
     private _context: CanvasRenderingContext2D;
+    private _translation: Vector;
     private _spriteSheet: SpriteSheet;
 
     public constructor() {
-        this._cameraPosition = {x: 0, y: 0};
+        this._translation = {x: 0, y: 0};
     }
 
     public set context(val: CanvasRenderingContext2D) {
@@ -31,7 +30,7 @@ export class Renderer {
     public resizeCanvas() {
         this._context.canvas.width = Math.min(1000, window.innerWidth);
         this._context.canvas.height = Math.min(600, window.innerHeight);
-        this._context.scale(Renderer.CONTEXT_SCALE, Renderer.CONTEXT_SCALE);
+        this._context.scale(CONTEXT_SCALE, CONTEXT_SCALE);
     }
 
     public fill(color: string): void {
@@ -46,18 +45,18 @@ export class Renderer {
         const textWidth = this._context.measureText(entity.name).width;
         this._context.fillText(
             entity.name,
-            entity.position.x - this._cameraPosition.x - (textWidth - this.spriteLength) / 2,
-            entity.position.y - this._cameraPosition.y
+            entity.position.x - this._translation.x - (textWidth - this.spriteLength) / 2,
+            entity.position.y - this._translation.y
         );
 
         if (entity.isFlipped) {
-            this._context.translate(2 * (entity.position.x - this._cameraPosition.x) + this.spriteLength, 0);
+            this._context.translate(2 * (entity.position.x - this._translation.x) + this.spriteLength, 0);
             this._context.scale(-1, 1);
         }
         this._context.drawImage(
             this._spriteSheet.sprites[entity.spriteIndex],
-            Math.floor(entity.position.x - this._cameraPosition.x),
-            Math.floor(entity.position.y - this._cameraPosition.y),
+            Math.floor(entity.position.x - this._translation.x),
+            Math.floor(entity.position.y - this._translation.y),
             this.spriteLength,
             this.spriteLength
         );
@@ -77,8 +76,8 @@ export class Renderer {
                 }
                 this._context.drawImage(
                     this._spriteSheet.sprites[spriteId],
-                    Math.floor(j * cellLength - this._cameraPosition.x),
-                    Math.floor(i * cellLength - this._cameraPosition.y),
+                    Math.floor(j * cellLength - this._translation.x),
+                    Math.floor(i * cellLength - this._translation.y),
                     cellLength,
                     cellLength
                 );
@@ -88,21 +87,21 @@ export class Renderer {
 
     public updateCameraPosition(focalPoint: Vector, stage: Stage): void {
         const canvas = this._context.canvas;
-        this._cameraPosition.x = focalPoint.x - canvas.width / (2 * Renderer.CONTEXT_SCALE);
-        this._cameraPosition.y = focalPoint.y - canvas.height / (2 * Renderer.CONTEXT_SCALE);
+        this._translation.x = focalPoint.x - canvas.width / (2 * CONTEXT_SCALE);
+        this._translation.y = focalPoint.y - canvas.height / (2 * CONTEXT_SCALE);
 
         const mapWidth = stage.mapData.columns * this.spriteLength;
         const mapHeight = stage.mapData.rows * this.spriteLength;
         const maxCameraX = mapWidth - canvas.width / 2;
         const maxCameraY = mapHeight - canvas.height / 2;
-        if (this._cameraPosition.x > maxCameraX) {
-            this._cameraPosition.x = maxCameraX;
+        if (this._translation.x > maxCameraX) {
+            this._translation.x = maxCameraX;
         }
-        if (this._cameraPosition.x < 0) {
-            this._cameraPosition.x = 0;
+        if (this._translation.x < 0) {
+            this._translation.x = 0;
         }
-        if (this._cameraPosition.y > maxCameraY) {
-            this._cameraPosition.y = maxCameraY;
+        if (this._translation.y > maxCameraY) {
+            this._translation.y = maxCameraY;
         }
     }
 

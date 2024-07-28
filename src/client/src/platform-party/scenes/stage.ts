@@ -1,5 +1,5 @@
 import { EntityMetadata } from "../../../../models/platformPartyModels";
-import { Renderer } from "../renderer";
+import { SPRITE_LENGTH } from "../renderer";
 
 /**
  * Contains info needed to render the tilemap describe which
@@ -35,11 +35,11 @@ export class Stage {
 
     public getCollisionEventAbove(entity: EntityMetadata): CollisionEvent | undefined {
         const [x, y] = this._getEntityOffsettedPosition(entity);
-        const topRow = Math.floor((y + entity.collisionBox.height / 2) / Renderer.SPRITE_LENGTH) - 1;
-        const leftCol = Math.floor((x + 1) / Renderer.SPRITE_LENGTH);
-        const rightCol = Math.floor((x + entity.collisionBox.width - 1) / Renderer.SPRITE_LENGTH);
+        const topRow = Math.floor((y + entity.collisionBox.height / 2) / SPRITE_LENGTH) - 1;
+        const leftCol = Math.floor((x + 1) / SPRITE_LENGTH);
+        const rightCol = Math.floor((x + entity.collisionBox.width - 1) / SPRITE_LENGTH);
 
-        const topPos = (topRow + 1) * Renderer.SPRITE_LENGTH + 1;
+        const topPos = (topRow + 1) * SPRITE_LENGTH + 1;
 
         const topLeftTileIdx = topRow * this.mapData.columns + leftCol;
         const topRightTileIdx = topRow * this.mapData.columns + rightCol;
@@ -58,11 +58,11 @@ export class Stage {
     public getCollisionEventLeft(entity: EntityMetadata): CollisionEvent | undefined {
         const [x, y] = this._getEntityOffsettedPosition(entity);
 
-        const leftCol = Math.floor((x + entity.collisionBox.width / 2) / Renderer.SPRITE_LENGTH) - 1;
-        const upperRow = Math.floor((y + 1) / Renderer.SPRITE_LENGTH);
-        const lowerRow = Math.floor((y + entity.collisionBox.height - 1) / Renderer.SPRITE_LENGTH);
+        const leftCol = Math.floor((x + entity.collisionBox.width / 2) / SPRITE_LENGTH) - 1;
+        const upperRow = Math.floor((y + 1) / SPRITE_LENGTH);
+        const lowerRow = Math.floor((y + entity.collisionBox.height - 1) / SPRITE_LENGTH);
 
-        const leftPos = (leftCol + 1) * Renderer.SPRITE_LENGTH + 1;
+        const leftPos = (leftCol + 1) * SPRITE_LENGTH + 1;
 
         const upperLeftTileIdx = upperRow * this.mapData.columns + leftCol;
         const lowerLeftTileIdx = lowerRow * this.mapData.columns + leftCol;
@@ -80,11 +80,11 @@ export class Stage {
     public getCollisionEventBelow(entity: EntityMetadata, vy: number): CollisionEvent | undefined {
         const [x, y] = this._getEntityOffsettedPosition(entity);
 
-        const leftCol = Math.floor((x + 1) / Renderer.SPRITE_LENGTH);
-        const bottomRow = Math.floor((y + entity.collisionBox.height) / Renderer.SPRITE_LENGTH) + 1;
-        const rightCol = Math.floor((x + entity.collisionBox.width - 1) / Renderer.SPRITE_LENGTH);
+        const leftCol = Math.floor((x + 1) / SPRITE_LENGTH);
+        const bottomRow = Math.floor((y + entity.collisionBox.height) / SPRITE_LENGTH) + 1;
+        const rightCol = Math.floor((x + entity.collisionBox.width - 1) / SPRITE_LENGTH);
 
-        const bottomPos = bottomRow * Renderer.SPRITE_LENGTH - 1;
+        const bottomPos = bottomRow * SPRITE_LENGTH - 1;
 
         const bottomLeftTileIdx = bottomRow * this.mapData.columns + leftCol;
         const bottomRightTileIdx = bottomRow * this.mapData.columns + rightCol;
@@ -106,11 +106,11 @@ export class Stage {
     public getCollisionEventRight(entity: EntityMetadata): CollisionEvent | undefined {
         const [x, y] = this._getEntityOffsettedPosition(entity);
 
-        const rightCol = Math.floor((x + entity.collisionBox.width / 2) / Renderer.SPRITE_LENGTH) + 1;
-        const upperRow = Math.floor((y + 1) / Renderer.SPRITE_LENGTH);
-        const lowerRow = Math.floor((y + entity.collisionBox.height - 1) / Renderer.SPRITE_LENGTH);
+        const rightCol = Math.floor((x + entity.collisionBox.width / 2) / SPRITE_LENGTH) + 1;
+        const upperRow = Math.floor((y + 1) / SPRITE_LENGTH);
+        const lowerRow = Math.floor((y + entity.collisionBox.height - 1) / SPRITE_LENGTH);
 
-        const rightPos = rightCol * Renderer.SPRITE_LENGTH - 1;
+        const rightPos = rightCol * SPRITE_LENGTH - 1;
 
         const upperRightTileIdx = upperRow * this.mapData.columns + rightCol;
         const lowerRightTileIdx = lowerRow * this.mapData.columns + rightCol;

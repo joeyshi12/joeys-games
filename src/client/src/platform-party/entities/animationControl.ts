@@ -1,7 +1,8 @@
 import { PlayerState } from "../../../../models/platformPartyModels";
 
+const ANIMATION_BUFFER = 6;
+
 export class AnimationControl {
-    public static ANIMATION_BUFFER = 6;
     private _state: PlayerState;
     private _stateIndex: number;
     private _animationTimer: number;
@@ -17,7 +18,7 @@ export class AnimationControl {
     public set state(val: PlayerState) {
         this._state = val;
         this._stateIndex = 0;
-        this._animationTimer = AnimationControl.ANIMATION_BUFFER;
+        this._animationTimer = ANIMATION_BUFFER;
     }
 
     public get spriteIndex(): number {
@@ -27,7 +28,7 @@ export class AnimationControl {
     public update(): void {
         if (this._animationTimer <= 0) {
             this._stateIndex = (this._stateIndex + 1) % this._spriteIndices.length;
-            this._animationTimer = AnimationControl.ANIMATION_BUFFER;
+            this._animationTimer = ANIMATION_BUFFER;
         } else {
             this._animationTimer--;
         }

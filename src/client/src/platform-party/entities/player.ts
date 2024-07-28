@@ -1,16 +1,16 @@
 import { Character, PlayerMetadata, PlayerState, Vector } from "../../../../models/platformPartyModels";
 import { Stage, TileType } from "../scenes/stage";
 import { AnimationControl } from "./animationControl";
-import { Renderer } from "../renderer";
+import { SPRITE_LENGTH } from "../renderer";
 import { Sound } from "../../core/sound";
 
-export class Player {
-    public static ACCELERATION = 1;
-    public static GRAVITY = 0.3;
-    public static MAX_SPEED = 3;
-    public static JUMP_VELOCITY = 6;
-    public static FRICTION = 0.4;
+const ACCELERATION = 1;
+const GRAVITY = 0.3;
+const MAX_SPEED = 3;
+const JUMP_VELOCITY = 6;
+const FRICTION = 0.4;
 
+export class Player {
     private _velocity: Vector = {x: 0, y: 0};
     private _acceleration: Vector = {x: 0, y: 0};
     private _animationControl: AnimationControl;
@@ -18,7 +18,7 @@ export class Player {
     constructor(private _metadata: PlayerMetadata,
                 private _jumpSound: Sound,
                 private _landSound: Sound) {
-        this._animationControl = new AnimationControl(this._buildAnimationStates(_metadata.character));
+        this._animationControl = new AnimationControl(buildAnimationStates(_metadata.character));
     }
 
     public get metadata(): PlayerMetadata {
@@ -31,15 +31,15 @@ export class Player {
                 if (this._isGrounded) {
                     this._jumpSound.play();
                     this._metadata.position.y--;
-                    this._velocity.y = -Player.JUMP_VELOCITY;
+                    this._velocity.y = -JUMP_VELOCITY;
                     this._animationControl.state = PlayerState.FALLING;
                 }
                 return;
             case "A":
-                this._acceleration.x = -Player.ACCELERATION;
+                this._acceleration.x = -ACCELERATION;
                 return;
             case "D":
-                this._acceleration.x = Player.ACCELERATION;
+                this._acceleration.x = ACCELERATION;
                 break;
             default:
         }
@@ -73,7 +73,7 @@ export class Player {
             this._animationControl.state = PlayerState.DEAD;
             setTimeout(() => this._reset(), 2000);
         }
-        if (this._metadata.position.y > stage.mapData.rows * Renderer.SPRITE_LENGTH) {
+        if (this._metadata.position.y > stage.mapData.rows * SPRITE_LENGTH) {
             this._reset();
             return;
         }
@@ -92,18 +92,18 @@ export class Player {
             this._velocity.x = 0;
         } else {
             if (this._acceleration.x === 0) {
-                if (Math.abs(this._velocity.x) < Player.FRICTION) {
+                if (Math.abs(this._velocity.x) < FRICTION) {
                     this._velocity.x = 0;
                 } else {
                     this._velocity.x = this._velocity.x > 0
-                        ? this._velocity.x - Player.FRICTION
-                        : this._velocity.x + Player.FRICTION;
+                        ? this._velocity.x - FRICTION
+                        : this._velocity.x + FRICTION;
                 }
             }
-            if (this._velocity.x >= Player.MAX_SPEED) {
-                this._velocity.x = Player.MAX_SPEED;
-            } else if (this._velocity.x <= -Player.MAX_SPEED) {
-                this._velocity.x = -Player.MAX_SPEED;
+            if (this._velocity.x >= MAX_SPEED) {
+                this._velocity.x = MAX_SPEED;
+            } else if (this._velocity.x <= -MAX_SPEED) {
+                this._velocity.x = -MAX_SPEED;
             }
         }
 
@@ -127,7 +127,7 @@ export class Player {
                 }
             }
         } else {
-            this._acceleration.y = Player.GRAVITY;
+            this._acceleration.y = GRAVITY;
             this._animationControl.state = PlayerState.FALLING;
         }
         this._metadata.spriteIndex = this._animationControl.spriteIndex;
@@ -147,40 +147,14 @@ export class Player {
         }
     }
 
-    private _buildAnimationStates(character: Character): Map<PlayerState, number[]> {
-        switch (character) {
-            case Character.ORANGE:
-                return new Map([
-                    [PlayerState.STANDING, [402]],
-                    [PlayerState.WALKING, [402, 403, 404, 405]],
-                    [PlayerState.FALLING, [406]],
-                    [PlayerState.DEAD, [407]]
-                ]);
-            case Character.GREEN:
-                return new Map([
-                    [PlayerState.STANDING, [450]],
-                    [PlayerState.WALKING, [450, 451, 452, 453]],
-                    [PlayerState.FALLING, [454]],
-                    [PlayerState.DEAD, [455]]
-                ]);
-            default: // blue
-                return new Map([
-                    [PlayerState.STANDING, [354]],
-                    [PlayerState.WALKING, [354, 355, 356, 357]],
-                    [PlayerState.FALLING, [358]],
-                    [PlayerState.DEAD, [359]]
-                ]);
-        }
-    }
-
     private get _isGrounded(): boolean {
         return this._animationControl.state === PlayerState.STANDING
           || this._animationControl.state === PlayerState.WALKING;
     }
 
     private _isDamaged(stage: Stage): boolean {
-        const row = Math.floor((this._metadata.position.y + this._metadata.collisionBox.offset.y + this._metadata.collisionBox.height / 2) / Renderer.SPRITE_LENGTH);
-        const col = Math.floor((this._metadata.position.x + this._metadata.collisionBox.offset.x + this._metadata.collisionBox.width / 2) / Renderer.SPRITE_LENGTH);
+        const row = Math.floor((this._metadata.position.y + this._metadata.collisionBox.offset.y + this._metadata.collisionBox.height / 2) / SPRITE_LENGTH);
+        const col = Math.floor((this._metadata.position.x + this._metadata.collisionBox.offset.x + this._metadata.collisionBox.width / 2) / SPRITE_LENGTH);
         return stage.mapData.spriteData[row * stage.mapData.columns + col] === 22;
     }
 
@@ -191,5 +165,31 @@ export class Player {
         this._velocity.y = 0;
         this._animationControl.state = PlayerState.FALLING;
         this._metadata.isFlipped = false;
+    }
+}
+
+function buildAnimationStates(character: Character): Map<PlayerState, number[]> {
+    switch (character) {
+        case Character.ORANGE:
+            return new Map([
+                [PlayerState.STANDING, [402]],
+                [PlayerState.WALKING, [402, 403, 404, 405]],
+                [PlayerState.FALLING, [406]],
+                [PlayerState.DEAD, [407]]
+            ]);
+        case Character.GREEN:
+            return new Map([
+                [PlayerState.STANDING, [450]],
+                [PlayerState.WALKING, [450, 451, 452, 453]],
+                [PlayerState.FALLING, [454]],
+                [PlayerState.DEAD, [455]]
+            ]);
+        default: // blue
+            return new Map([
+                [PlayerState.STANDING, [354]],
+                [PlayerState.WALKING, [354, 355, 356, 357]],
+                [PlayerState.FALLING, [358]],
+                [PlayerState.DEAD, [359]]
+            ]);
     }
 }
