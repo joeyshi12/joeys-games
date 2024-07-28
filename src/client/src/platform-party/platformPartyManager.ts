@@ -1,22 +1,20 @@
 import { Scene } from "./scenes/scene";
-import { Renderer, CONTEXT_SCALE } from "./renderer";
-import { loadSpriteSheet, loadFont } from "./loadAssets";
+import { loadSpriteSheet, loadFont, SpriteSheet } from "./loadAssets";
 import LoginScene from "./scenes/loginScene";
 import { Socket } from "socket.io-client";
 import GameManager from "../core/gameManager";
 import { loadSound, Sound } from "../core/sound";
-import { Point } from "./scenes/gui";
+
+export const SPRITE_LENGTH = 16;
 
 export default class PlatformPartyManager extends GameManager {
-    public readonly renderer: Renderer;
+    public spriteSheet: SpriteSheet;
     private _scene: Scene;
     private _sounds: Map<string, Sound>;
 
     public constructor(parentSelector: string,
                        public readonly socket: Socket) {
         super(parentSelector, 16);
-        this.renderer = new Renderer();
-        this.renderer.context = this.ctx;
     }
 
     public set scene(val: Scene) {
@@ -39,8 +37,8 @@ export default class PlatformPartyManager extends GameManager {
             loadSound("/sounds/jump.mp3"),
             loadSound("/sounds/land.mp3")
         ]);
-        this.renderer.spriteSheet = spriteSheet;
-        this.renderer.resizeCanvas();
+        this.spriteSheet = spriteSheet;
+        this._resizeCanvas();
         document.fonts.add(fontFace);
         this._sounds = new Map([
             ["click", clickSound],
@@ -68,21 +66,26 @@ export default class PlatformPartyManager extends GameManager {
             this._scene.keyReleased(event);
         });
         window.addEventListener("resize", () => {
-            this.renderer.resizeCanvas();
+            this._resizeCanvas();
         });
         canvas.addEventListener("mousemove", (event: MouseEvent) => {
-            this._scene.mouseMoved(this._getMousePosition(canvas, event));
+            const rect = canvas.getBoundingClientRect();
+            this._scene.mouseMoved({
+                x: event.clientX - rect.x,
+                y: event.clientY - rect.y
+            });
         });
         canvas.addEventListener("mousedown", (event: MouseEvent) => {
-            this._scene.mouseClicked(this._getMousePosition(canvas, event));
+            const rect = canvas.getBoundingClientRect();
+            this._scene.mouseClicked({
+                x: event.clientX - rect.x,
+                y: event.clientY - rect.y
+            });
         });
     }
 
-    private _getMousePosition(canvas: HTMLCanvasElement, event: MouseEvent): Point {
-        const rect = canvas.getBoundingClientRect();
-        return {
-            x: (event.clientX - rect.left) / CONTEXT_SCALE,
-            y: (event.clientY - rect.top) / CONTEXT_SCALE
-        };
+    private _resizeCanvas(): void {
+        this.ctx.canvas.width = Math.min(1000, window.innerWidth);
+        this.ctx.canvas.height = Math.min(600, window.innerHeight);
     }
 }

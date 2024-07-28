@@ -1,5 +1,7 @@
 import { loadImage } from "../core/image";
 
+export const SPRITE_LENGTH = 16;
+
 export type SpriteSheet = {
     rows: number;
     columns: number;

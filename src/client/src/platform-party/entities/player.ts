@@ -1,8 +1,8 @@
 import { Character, PlayerMetadata, PlayerState, Vector } from "../../../../models/platformPartyModels";
 import { Stage, TileType } from "../scenes/stage";
 import { AnimationControl } from "./animationControl";
-import { SPRITE_LENGTH } from "../renderer";
 import { Sound } from "../../core/sound";
+import { SPRITE_LENGTH } from "../loadAssets";
 
 const ACCELERATION = 1;
 const GRAVITY = 0.3;
@@ -149,7 +149,7 @@ export class Player {
 
     private get _isGrounded(): boolean {
         return this._animationControl.state === PlayerState.STANDING
-          || this._animationControl.state === PlayerState.WALKING;
+            || this._animationControl.state === PlayerState.WALKING;
     }
 
     private _isDamaged(stage: Stage): boolean {

@@ -1,5 +1,5 @@
 import { EntityMetadata } from "../../../../models/platformPartyModels";
-import { SPRITE_LENGTH } from "../renderer";
+import { SpriteSheet, SPRITE_LENGTH } from "../loadAssets";
 
 /**
  * Contains info needed to render the tilemap describe which
@@ -26,11 +26,41 @@ export interface CollisionEvent {
 }
 
 export class Stage {
-    constructor(private _stageMap: StageMap) {
+    constructor(private _ctx: CanvasRenderingContext2D,
+                private _stageMap: StageMap,
+                private _spriteSheet: SpriteSheet) {
     }
 
     public get mapData(): StageMap {
         return this._stageMap;
+    }
+
+    public get width(): number {
+        return this._stageMap.columns * SPRITE_LENGTH;
+    }
+
+    public get height(): number {
+        return this._stageMap.rows * SPRITE_LENGTH;
+    }
+
+    public draw(): void {
+        const cellLength = this._spriteSheet.cellLength;
+        for (let i = 0; i < this._stageMap.rows; i++) {
+            for (let j = 0; j < this._stageMap.columns; j++) {
+                const tileIdx = i * this._stageMap.columns + j;
+                const spriteId = this._stageMap.spriteData[tileIdx];
+                if (spriteId === 0) {
+                    continue;
+                }
+                this._ctx.drawImage(
+                    this._spriteSheet.sprites[spriteId],
+                    Math.floor(j * cellLength),
+                    Math.floor(i * cellLength),
+                    cellLength,
+                    cellLength
+                );
+            }
+        }
     }
 
     public getCollisionEventAbove(entity: EntityMetadata): CollisionEvent | undefined {

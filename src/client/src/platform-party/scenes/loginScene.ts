@@ -1,40 +1,19 @@
 import { Scene } from "./scene";
 import PlatformPartyManager from "../platformPartyManager";
-import { Button, Point, TextElement, TextInput, updateIsHovered } from "./gui";
+import { ButtonElement, Point, TextElement, TextInputElement } from "./gui";
 import { MapData, PlayerMetadata } from "../../../../models/platformPartyModels";
 import { Player } from "../entities/player";
 import { StageMap } from "./stage";
 import StageScene from "./stageScene";
 
 export default class LoginScene extends Scene {
-    private readonly _titleElement: TextElement;
-    private readonly _textInput: TextInput;
-    private readonly _loginButton: Button;
+    private _titleElement: TextElement;
+    private _textInput: TextInputElement;
+    private _loginButton: ButtonElement;
 
     public constructor(manager: PlatformPartyManager) {
         super(manager);
-        this._titleElement = {
-            x: 150,
-            y: 100,
-            text: "Platform Party",
-            fontSize: 16,
-        };
-        this._textInput = {
-            x: 150,
-            y: 130,
-            text: "",
-            fontSize: 12,
-            width: 120
-        };
-        this._loginButton = {
-            x: 145,
-            y: 160,
-            text: "Login",
-            fontSize: 12,
-            width: 42,
-            height: 16,
-            isHovered: false
-        };
+        this._initGUIElements();
         this.manager.socket.on("joinSuccess", (metadata: PlayerMetadata) => {
             this._fetchDefaultMap().then((stageMap: StageMap) => {
                 const player = new Player(
@@ -53,10 +32,10 @@ export default class LoginScene extends Scene {
     }
 
     public override mouseMoved(point: Point) {
-        updateIsHovered(this._loginButton, point);
+        this._loginButton.mouseMoved(point);
     }
 
-    public override mouseClicked(_: Point) {
+    public override mouseClicked(point: Point) {
         if (this._loginButton.isHovered) {
             this.manager.getSound("click").play();
             this.manager.socket.emit("login", this._textInput.text);
@@ -74,10 +53,18 @@ export default class LoginScene extends Scene {
     }
 
     public override draw() {
-        this.manager.renderer.fill("#1C1C1C");
-        this.manager.renderer.drawText(this._titleElement);
-        this.manager.renderer.drawTextInput(this._textInput);
-        this.manager.renderer.drawButton(this._loginButton);
+        const ctx = this.manager.ctx;
+        ctx.fillStyle = "#1C1C1C";
+        ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        this._titleElement.draw();
+        this._textInput.draw();
+        this._loginButton.draw();
+    }
+
+    private _initGUIElements(): void {
+        this._titleElement = new TextElement(this.manager.ctx, "Platform Party", 120, 100, 32);
+        this._textInput = new TextInputElement(this.manager.ctx, 120, 140, 200, 20);
+        this._loginButton = new ButtonElement(this.manager.ctx, "Login", 120, 180, 80, 32, 22);
     }
 
     private async _fetchDefaultMap(): Promise<StageMap> {
