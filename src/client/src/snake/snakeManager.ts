@@ -45,7 +45,7 @@ export default class SnakeManager extends GameManager {
         return this._snake.size - 3;
     }
 
-    public override async setUp(): Promise<void> {
+    protected override async setUp(): Promise<void> {
         const [growSound, foodImage] = await Promise.all([
             loadSound("/sounds/pop.wav"),
             loadImage("/images/apple.png")
@@ -60,7 +60,7 @@ export default class SnakeManager extends GameManager {
         this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     }
 
-    public override draw(): void {
+    protected override draw(): void {
         this.ctx.fillStyle = "#fff";
         this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
         this._food.draw();
@@ -73,7 +73,7 @@ export default class SnakeManager extends GameManager {
         }
     }
 
-    public override update(): void {
+    protected override update(): void {
         this._snake.update();
         if (this._snake.isHeadAtPos(this._food.posX, this._food.posY)) {
             this._snake.grow();

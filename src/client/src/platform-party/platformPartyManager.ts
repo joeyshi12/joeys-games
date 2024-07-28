@@ -31,7 +31,7 @@ export default class PlatformPartyManager extends GameManager {
         return sound;
     }
 
-    public override async setUp(): Promise<void> {
+    protected override async setUp(): Promise<void> {
         const [spriteSheet, fontFace, clickSound, jumpSound, landSound] = await Promise.all([
             loadSpriteSheet("/images/spritesheet.png", 22, 48),
             loadFont("Inconsolata", "/fonts/inconsolata.otf"),
@@ -51,11 +51,11 @@ export default class PlatformPartyManager extends GameManager {
         this._initEventListeners();
     }
 
-    public override update() {
+    protected override update() {
         this._scene.update();
     }
 
-    public override draw() {
+    protected override draw() {
         this._scene.draw();
     }
 

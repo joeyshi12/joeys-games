@@ -24,11 +24,11 @@ export default abstract class GameManager {
         });
     }
 
-    public update(): void {
+    protected update(): void {
         // Do nothing
     }
 
-    public abstract draw(): void;
+    protected abstract draw(): void;
 
     protected abstract setUp(): Promise<void>;
 
