@@ -1,5 +1,5 @@
 import { Scene } from "./scene";
-import Game from "../game";
+import PlatformPartyManager from "../platformPartyManager";
 import { Button, Point, TextElement, TextInput, updateIsHovered } from "./gui";
 import { MapData, PlayerMetadata } from "../../../../models/platformPartyModels";
 import { Player } from "../entities/player";
@@ -11,8 +11,8 @@ export default class LoginScene extends Scene {
     private readonly _textInput: TextInput;
     private readonly _loginButton: Button;
 
-    public constructor(game: Game) {
-        super(game);
+    public constructor(manager: PlatformPartyManager) {
+        super(manager);
         this._titleElement = {
             x: 150,
             y: 100,
@@ -35,37 +35,37 @@ export default class LoginScene extends Scene {
             height: 16,
             isHovered: false
         };
-        this.game.socket.on("joinSuccess", (metadata: PlayerMetadata) => {
+        this.manager.socket.on("joinSuccess", (metadata: PlayerMetadata) => {
             this._fetchDefaultMap().then((stageMap: StageMap) => {
                 const player = new Player(
                     metadata,
-                    this.game.getSound("jump"),
-                    this.game.getSound("land")
+                    this.manager.getSound("jump"),
+                    this.manager.getSound("land")
                 );
-                this.game.socket.removeAllListeners("joinSuccess");
-                this.game.socket.removeAllListeners("joinFailure");
-                this.game.scene = new StageScene(this.game, stageMap, player);
+                this.manager.socket.removeAllListeners("joinSuccess");
+                this.manager.socket.removeAllListeners("joinFailure");
+                this.manager.scene = new StageScene(this.manager, stageMap, player);
             });
         });
-        this.game.socket.on("joinError", (msg: string) => {
+        this.manager.socket.on("joinError", (msg: string) => {
             alert(msg);
         });
     }
 
-    public mouseMoved(point: Point) {
+    public override mouseMoved(point: Point) {
         updateIsHovered(this._loginButton, point);
     }
 
-    public mouseClicked(point: Point) {
+    public override mouseClicked(_: Point) {
         if (this._loginButton.isHovered) {
-            this.game.getSound("click").play();
-            this.game.socket.emit("login", this._textInput.text);
+            this.manager.getSound("click").play();
+            this.manager.socket.emit("login", this._textInput.text);
         }
     }
 
-    public keyPressed(event: KeyboardEvent) {
+    public override keyPressed(event: KeyboardEvent) {
         if (event.key === "Enter") {
-            this.game.socket.emit("login", this._textInput.text);
+            this.manager.socket.emit("login", this._textInput.text);
         } else if (event.key === "Backspace") {
             this._textInput.text = this._textInput.text.substring(0, this._textInput.text.length - 1);
         } else if (event.key.length === 1 && event.key !== " ") {
@@ -73,11 +73,11 @@ export default class LoginScene extends Scene {
         }
     }
 
-    public update() {
-        this.game.renderer.fill("#1C1C1C");
-        this.game.renderer.drawText(this._titleElement);
-        this.game.renderer.drawTextInput(this._textInput);
-        this.game.renderer.drawButton(this._loginButton);
+    public override draw() {
+        this.manager.renderer.fill("#1C1C1C");
+        this.manager.renderer.drawText(this._titleElement);
+        this.manager.renderer.drawTextInput(this._textInput);
+        this.manager.renderer.drawButton(this._loginButton);
     }
 
     private async _fetchDefaultMap(): Promise<StageMap> {
@@ -92,6 +92,4 @@ export default class LoginScene extends Scene {
             platformIndices: new Set(mapData.platformIndices)
         };
     }
-
-    keyReleased(event: KeyboardEvent): void {}
 }

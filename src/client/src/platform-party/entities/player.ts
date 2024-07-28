@@ -2,7 +2,7 @@ import { Character, PlayerMetadata, PlayerState, Vector } from "../../../../mode
 import { Stage, TileType } from "../scenes/stage";
 import { AnimationControl } from "./animationControl";
 import { Renderer } from "../renderer";
-import { Sound } from "../sound";
+import { Sound } from "../../core/sound";
 
 export class Player {
     public static ACCELERATION = 1;

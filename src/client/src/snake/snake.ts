@@ -1,4 +1,4 @@
-import { Sound } from "./sound";
+import { Sound } from "../core/sound";
 
 export default class Snake {
     public isDead = false;
@@ -15,7 +15,19 @@ export default class Snake {
                 private _unitLength: number) {
     }
 
-    public draw() {
+    public draw(): void {
+        this._ctx.fillStyle = this.isDead ? "#880000" : "#008800";
+        for (let i = 0; i < this.size; i++) {
+            this._ctx.fillRect(
+                this._posX[i] * this._unitLength,
+                this._posY[i] * this._unitLength,
+                this._unitLength,
+                this._unitLength
+            );
+        }
+    }
+
+    public update(): void {
         if (!this.isDead) {
             this.isDead = this._hasCollided();
             if (this.isDead) {
@@ -29,16 +41,6 @@ export default class Snake {
             this._posY.unshift(this._posY[0] + this._dy);
             this._posX.pop();
             this._posY.pop();
-        }
-
-        this._ctx.fillStyle = this.isDead ? "#880000" : "#008800";
-        for (let i = 0; i < this.size; i++) {
-            this._ctx.fillRect(
-                this._posX[i] * this._unitLength,
-                this._posY[i] * this._unitLength,
-                this._unitLength,
-                this._unitLength
-            );
         }
     }
 

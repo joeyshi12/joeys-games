@@ -1,3 +1,5 @@
+import { loadImage } from "../core/image";
+
 export type SpriteSheet = {
     rows: number;
     columns: number;
@@ -35,19 +37,6 @@ export async function loadSpriteSheet(source: string, rows: number, columns: num
         cellLength: cellLength,
         sprites: await Promise.all(sprites)
     };
-}
-
-function loadImage(source: string): Promise<HTMLImageElement> {
-    const image = new Image();
-    return new Promise((resolve, reject) => {
-        image.onload = () => {
-            resolve(image);
-        };
-        image.onerror = () => {
-            reject(`Could not load image [${source}]`);
-        };
-        image.src = source;
-    });
 }
 
 export function loadFont(family: string, source: string): Promise<FontFace> {

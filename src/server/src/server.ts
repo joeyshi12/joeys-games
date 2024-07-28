@@ -23,7 +23,7 @@ const pool = mariadb.createPool({
 const snakeController = new SnakeController(pool);
 const platformPartyController = new PlatformPartyController();
 
-app.use(express.static(path.join(__dirname, "static")));
+app.use(express.static(path.join(__dirname, "web")));
 app.use(express.json());
 
 app.get("/snake/scores", (req: Request, res: Response) => snakeController.getAllScores(req, res));
