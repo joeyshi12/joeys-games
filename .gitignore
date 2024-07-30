@@ -1,4 +1,6 @@
+# Webpack build files
 *.js
+*.LICENSE.txt
 
 ### Node ###
 # Logs

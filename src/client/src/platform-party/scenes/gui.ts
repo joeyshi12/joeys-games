@@ -21,29 +21,42 @@ export class TextElement {
 }
 
 export class TextInputElement {
+    public height: number;
     public text: string = "";
+    public isFocused: boolean = false;
+    private _horizontalPadding: number = 4;
 
     public constructor(private _ctx: CanvasRenderingContext2D,
                        public x: number,
                        public y: number,
                        public width: number,
                        public fontSize: number) {
+        this.height = fontSize + 8;
+    }
+
+    public mouseClicked(point: Point): void {
+        if (point.x < this.x || point.x > this.x + this.width
+            || point.y < this.y || point.y > this.y + this.height) {
+            this.isFocused = false;
+            return;
+        }
+        this.isFocused = true;
     }
 
     public draw(): void {
         this._ctx.save();
         this._ctx.font = `${this.fontSize}px "Arial"`;
-        this._ctx.fillStyle = "#fff";
-        this._ctx.fillRect(
-            this.x,
-            this.y,
-            this.width,
-            this.fontSize + 4 // vertical padding below
-        );
+        this._ctx.fillStyle = "#FFF";
+        this._ctx.fillRect(this.x, this.y, this.width, this.height);
 
-        const padding = 8;
+        if (this.isFocused) {
+            this._ctx.lineWidth = 2; 
+            this._ctx.strokeStyle = "#4400FF";
+            this._ctx.strokeRect(this.x, this.y, this.width, this.height);
+        }
+
         let startIndex = this.text.length - 1;
-        let textWidth = 2 * padding;
+        let textWidth = this._horizontalPadding * 2;
         while (startIndex > 0) {
             textWidth += this._ctx.measureText(this.text.charAt(startIndex)).width;
             if (textWidth > this.width) break;
@@ -51,7 +64,7 @@ export class TextInputElement {
         }
         const displayText = this.text.slice(startIndex);
         this._ctx.fillStyle = "#000";
-        this._ctx.fillText(displayText, this.x + padding, this.y + this.fontSize);
+        this._ctx.fillText(displayText, this.x + this._horizontalPadding, this.y + this.fontSize);
         this._ctx.restore();
     }
 }
@@ -59,17 +72,21 @@ export class TextInputElement {
 export class ButtonElement {
     public isHovered: boolean = false;
 
-    public constructor(private _ctx: CanvasRenderingContext2D,
-                       public text: string,
-                       public x: number,
-                       public y: number,
-                       public width: number,
-                       public height: number,
-                       public fontSize: number) {
+    public constructor(private readonly _ctx: CanvasRenderingContext2D,
+                       public readonly text: string,
+                       public readonly x: number,
+                       public readonly y: number,
+                       public readonly width: number,
+                       public readonly height: number,
+                       public readonly fontSize: number) {
     }
 
-    public get centerX(): number {
+    public get textX(): number {
         return this.x + (this.width - this._ctx.measureText(this.text).width) / 2;
+    }
+
+    public get textY(): number {
+        return this.y + this.height / 2;
     }
 
     public mouseMoved(point: Point): void {
@@ -84,13 +101,14 @@ export class ButtonElement {
     public draw(): void {
         this._ctx.save();
         this._ctx.fillStyle = "#444";
+        this._ctx.textBaseline = "middle";
         this._ctx.fillRect(this.x, this.y, this.width, this.height);
         this._ctx.font = `${this.fontSize}px "Inconsolata"`;
-        this._ctx.fillStyle = "#fff";
+        this._ctx.fillStyle = "#FFF";
         if (this.isHovered) {
             this._ctx.font = `${this.fontSize + 2}px "Inconsolata"`;
         }
-        this._ctx.fillText(this.text, this.centerX, this.y + this.fontSize);
+        this._ctx.fillText(this.text, this.textX, this.textY);
         this._ctx.restore();
     }
 }

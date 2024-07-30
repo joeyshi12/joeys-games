@@ -9,7 +9,7 @@ import StageScene from "./stageScene";
 export default class LoginScene extends Scene {
     private _titleElement: TextElement;
     private _textInput: TextInputElement;
-    private _loginButton: ButtonElement;
+    private _startButton: ButtonElement;
 
     public constructor(manager: PlatformPartyManager) {
         super(manager);
@@ -32,23 +32,26 @@ export default class LoginScene extends Scene {
     }
 
     public override mouseMoved(point: Point) {
-        this._loginButton.mouseMoved(point);
+        this._startButton.mouseMoved(point);
     }
 
     public override mouseClicked(point: Point) {
-        if (this._loginButton.isHovered) {
+        if (this._startButton.isHovered) {
             this.manager.getSound("click").play();
             this.manager.socket.emit("login", this._textInput.text);
         }
+        this._textInput.mouseClicked(point);
     }
 
     public override keyPressed(event: KeyboardEvent) {
-        if (event.key === "Enter") {
-            this.manager.socket.emit("login", this._textInput.text);
-        } else if (event.key === "Backspace") {
-            this._textInput.text = this._textInput.text.substring(0, this._textInput.text.length - 1);
-        } else if (event.key.length === 1 && event.key !== " ") {
-            this._textInput.text = this._textInput.text.concat(event.key);
+        if (this._textInput.isFocused) {
+            if (event.key === "Enter") {
+                this.manager.socket.emit("login", this._textInput.text);
+            } else if (event.key === "Backspace") {
+                this._textInput.text = this._textInput.text.substring(0, this._textInput.text.length - 1);
+            } else if (event.key.length === 1 && event.key !== " ") {
+                this._textInput.text = this._textInput.text.concat(event.key);
+            }
         }
     }
 
@@ -58,13 +61,13 @@ export default class LoginScene extends Scene {
         ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
         this._titleElement.draw();
         this._textInput.draw();
-        this._loginButton.draw();
+        this._startButton.draw();
     }
 
     private _initGUIElements(): void {
         this._titleElement = new TextElement(this.manager.ctx, "Platform Party", 120, 100, 32);
         this._textInput = new TextInputElement(this.manager.ctx, 120, 140, 200, 20);
-        this._loginButton = new ButtonElement(this.manager.ctx, "Login", 120, 180, 80, 32, 22);
+        this._startButton = new ButtonElement(this.manager.ctx, "Start", 120, 180, 100, 32, 20);
     }
 
     private async _fetchDefaultMap(): Promise<StageMap> {

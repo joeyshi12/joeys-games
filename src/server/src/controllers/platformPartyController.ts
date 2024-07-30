@@ -20,8 +20,16 @@ export class PlatformPartyController {
 
     public createPlayer(socket: Socket): (_: string) => void {
         return (userName: string) => {
-            if (this._isInvalidUserName(userName)) {
-                socket.emit("joinError", `"${userName}" is an unavailable or invalid name`);
+            if (userName === "") {
+                socket.emit("joinError", "Name can not be empty");
+                return;
+            }
+            if (userName.length > 20) {
+                socket.emit("joinError", "Name length can not be over 20 characters");
+                return;
+            }
+            if (this._players.some((metadata: PlayerMetadata) => metadata.name === userName)) {
+                socket.emit("joinError", `The name ${userName} is already taken`);
                 return;
             }
             Log.info(`Creating player [${userName}]`);
@@ -88,12 +96,6 @@ export class PlatformPartyController {
 
     private get _players(): PlayerMetadata[] {
         return Array.from(this._playerRepository.values());
-    }
-
-    private _isInvalidUserName(userName: string): boolean {
-        return userName === ""
-            || userName.length > 20
-            || this._players.some((metadata: PlayerMetadata) => metadata.name === userName);
     }
 
     private _loadMaps(): void {
