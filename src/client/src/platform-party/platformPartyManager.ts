@@ -30,6 +30,7 @@ export default class PlatformPartyManager extends GameManager {
     }
 
     protected override async setUp(): Promise<void> {
+        this._resizeCanvas();
         const [spriteSheet, fontFace, clickSound, jumpSound, landSound] = await Promise.all([
             loadSpriteSheet("/images/spritesheet.png", 22, 48),
             loadFont("Inconsolata", "/fonts/inconsolata.otf"),
@@ -38,7 +39,6 @@ export default class PlatformPartyManager extends GameManager {
             loadSound("/sounds/land.mp3")
         ]);
         this.spriteSheet = spriteSheet;
-        this._resizeCanvas();
         document.fonts.add(fontFace);
         this._sounds = new Map([
             ["click", clickSound],
