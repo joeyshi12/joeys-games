@@ -131,5 +131,4 @@ export class PlatformPartyController {
             throw new MapError("Map dimensions mismatches spriteData length");
         }
     }
-
 }

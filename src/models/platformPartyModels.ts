@@ -1,20 +1,20 @@
 export type Vector = {
     x: number;
     y: number;
-}
+};
 
 export type CollisionBox = {
     width: number;
     height: number;
     offset: Vector;
-}
+};
 
 export type EntityMetadata = {
     position: Vector;
     spriteIndex: number;
     isFlipped: boolean;
     collisionBox: CollisionBox;
-}
+};
 
 export enum PlayerState {
     STANDING,
@@ -32,7 +32,7 @@ export enum Character {
 export type PlayerMetadata = {
     name: string;
     character: Character;
-} & EntityMetadata
+} & EntityMetadata;
 
 export type MapData = {
     name: string;
@@ -41,7 +41,7 @@ export type MapData = {
     spriteData: number[];
     solidIndices: number[];
     platformIndices: number[];
-}
+};
 
 export class MapError extends Error {
     public constructor(msg: string) {
