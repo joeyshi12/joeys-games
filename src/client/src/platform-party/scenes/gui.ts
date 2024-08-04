@@ -1,14 +1,26 @@
-export type Point = {
-  x: number;
-  y: number;
+export abstract class GUIElement {
+    public mouseMove(point: Point): void {
+        // Do nothing
+    }
+
+    public mouseDown(point: Point): void {
+        // Do nothing
+    }
+
+    public keyDown(event: KeyboardEvent): void {
+        // Do nothing
+    }
+
+    public abstract draw(): void;
 }
 
-export class TextElement {
+export class TextElement extends GUIElement {
     public constructor(private _ctx: CanvasRenderingContext2D,
                        public text: string,
                        public x: number,
                        public y: number,
                        public fontSize: number) {
+        super();
     }
 
     public draw(): void {
@@ -20,7 +32,7 @@ export class TextElement {
     }
 }
 
-export class TextInputElement {
+export class TextInputElement extends GUIElement {
     public height: number;
     public text: string = "";
     public isFocused: boolean = false;
@@ -31,10 +43,11 @@ export class TextInputElement {
                        public y: number,
                        public width: number,
                        public fontSize: number) {
+        super();
         this.height = fontSize + 8;
     }
 
-    public mouseClicked(point: Point): void {
+    public override mouseDown(point: Point): void {
         if (point.x < this.x || point.x > this.x + this.width
             || point.y < this.y || point.y > this.y + this.height) {
             this.isFocused = false;
@@ -43,7 +56,7 @@ export class TextInputElement {
         this.isFocused = true;
     }
 
-    public draw(): void {
+    public override draw(): void {
         this._ctx.save();
         this._ctx.font = `${this.fontSize}px "Arial"`;
         this._ctx.fillStyle = "#FFF";
@@ -69,7 +82,7 @@ export class TextInputElement {
     }
 }
 
-export class ButtonElement {
+export class ButtonElement extends GUIElement {
     public isHovered: boolean = false;
 
     public constructor(private readonly _ctx: CanvasRenderingContext2D,
@@ -79,6 +92,7 @@ export class ButtonElement {
                        public readonly width: number,
                        public readonly height: number,
                        public readonly fontSize: number) {
+        super();
     }
 
     public get textX(): number {
@@ -89,7 +103,7 @@ export class ButtonElement {
         return this.y + this.height / 2;
     }
 
-    public mouseMoved(point: Point): void {
+    public override mouseMove(point: Point): void {
         if (point.x < this.x || point.x > this.x + this.width
             || point.y < this.y || point.y > this.y + this.height) {
             this.isHovered = false;
@@ -98,7 +112,11 @@ export class ButtonElement {
         this.isHovered = true;
     }
 
-    public draw(): void {
+    public override mouseDown(point: Point): void {
+        
+    }
+
+    public override draw(): void {
         this._ctx.save();
         this._ctx.fillStyle = "#444";
         this._ctx.textBaseline = "middle";
@@ -111,4 +129,22 @@ export class ButtonElement {
         this._ctx.fillText(this.text, this.textX, this.textY);
         this._ctx.restore();
     }
+}
+
+export class SpriteButtonElement extends GUIElement {
+    public isHovered: boolean = false;
+
+    public constructor(private readonly _ctx: CanvasRenderingContext2D,
+                       public readonly image: ImageBitmap) {
+        super();
+    }
+
+    public draw(): void {
+
+    }
+}
+
+export type Point = {
+  x: number;
+  y: number;
 }
