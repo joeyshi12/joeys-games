@@ -4,7 +4,7 @@ import LoginScene from "./scenes/loginScene";
 import { Socket } from "socket.io-client";
 import GameManager from "../core/gameManager";
 import { loadSound, Sound } from "../core/sound";
-import { Point } from "./scenes/gui";
+import { Point } from "./scenes/gui/guiElements";
 
 export default class PlatformPartyManager extends GameManager {
     public spriteSheet: SpriteSheet;

@@ -1,6 +1,6 @@
 import { Scene } from "./scene";
 import PlatformPartyManager from "../platformPartyManager";
-import { ButtonElement, TextElement, TextInputElement } from "./gui";
+import { ButtonElement, TextElement, TextInputElement } from "./gui/guiElements";
 import { MapData, PlayerMetadata } from "../../../../models/platformPartyModels";
 import { Player } from "../entities/player";
 import { StageMap } from "./stage";
@@ -33,7 +33,13 @@ export default class LoginScene extends Scene {
         });
     }
 
-    protected override onMouseDown(event: MouseEvent) {
+    public override mouseMove(event: MouseEvent): void {
+        const point = this.manager.getWorldMousePosition(event);
+        this._startButton.mouseMove(point);
+        this._buildMapButton.mouseMove(point);
+    }
+
+    public override mouseDown(event: MouseEvent) {
         if (this._startButton.isHovered) {
             this.manager.getSound("click").play();
             this.manager.socket.emit("login", this._textInput.text);
@@ -42,6 +48,7 @@ export default class LoginScene extends Scene {
             this.manager.getSound("click").play();
             this.manager.scene = new MapBuilderScene(this.manager);
         }
+        this._textInput.mouseDown(this.manager.getWorldMousePosition(event));
     }
 
     public override keyDown(event: KeyboardEvent) {
@@ -67,7 +74,7 @@ export default class LoginScene extends Scene {
     }
 
     private _initGUIElements(): void {
-        this.addGUIElement(new TextElement(this.manager.ctx, "Platform Party", 120, 100, 32));
+        this._titleElement = new TextElement(this.manager.ctx, "Platform Party", 120, 100, 32);
         this._textInput = new TextInputElement(this.manager.ctx, 120, 140, 200, 20);
         this._startButton = new ButtonElement(this.manager.ctx, "Start", 120, 180, 120, 32, 20);
         this._buildMapButton = new ButtonElement(this.manager.ctx, "Build map", 120, 220, 120, 32, 20);
