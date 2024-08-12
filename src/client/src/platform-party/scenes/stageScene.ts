@@ -78,8 +78,6 @@ export default class StageScene extends Scene {
             this.manager.spriteSheet.sprites[entity.spriteIndex],
             entity.position.x,
             entity.position.y,
-            SPRITE_LENGTH,
-            SPRITE_LENGTH
         );
         ctx.restore();
     }
