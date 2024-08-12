@@ -158,7 +158,7 @@ export default class MapBuilderScene extends Scene {
 
         const file = new Blob([JSON.stringify(stageMap, null, 2)], { type: "application/json" });
         downloadAnchor.href = URL.createObjectURL(file);
-        downloadAnchor.download = "bruo";
+        downloadAnchor.download = stageMap.name;
         downloadAnchor.click();
     }
 }
