@@ -23,11 +23,11 @@ export default class StageScene extends Scene {
         });
     }
 
-    public override keyPressed(event: KeyboardEvent) {
+    public override keyDown(event: KeyboardEvent) {
         this._player.keyPressed(event.key);
     }
 
-    public override keyReleased(event: KeyboardEvent) {
+    public override keyUp(event: KeyboardEvent) {
         this._player.keyReleased(event.key);
     }
 
@@ -78,8 +78,6 @@ export default class StageScene extends Scene {
             this.manager.spriteSheet.sprites[entity.spriteIndex],
             entity.position.x,
             entity.position.y,
-            SPRITE_LENGTH,
-            SPRITE_LENGTH
         );
         ctx.restore();
     }

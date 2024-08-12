@@ -1,10 +1,5 @@
-export type Point = {
-  x: number;
-  y: number;
-}
-
 export class TextElement {
-    public constructor(private _ctx: CanvasRenderingContext2D,
+    public constructor(private readonly _ctx: CanvasRenderingContext2D,
                        public text: string,
                        public x: number,
                        public y: number,
@@ -34,7 +29,7 @@ export class TextInputElement {
         this.height = fontSize + 8;
     }
 
-    public mouseClicked(point: Point): void {
+    public mouseDown(point: Point): void {
         if (point.x < this.x || point.x > this.x + this.width
             || point.y < this.y || point.y > this.y + this.height) {
             this.isFocused = false;
@@ -73,12 +68,12 @@ export class ButtonElement {
     public isHovered: boolean = false;
 
     public constructor(private readonly _ctx: CanvasRenderingContext2D,
-                       public readonly text: string,
-                       public readonly x: number,
-                       public readonly y: number,
-                       public readonly width: number,
-                       public readonly height: number,
-                       public readonly fontSize: number) {
+                       public text: string,
+                       public x: number,
+                       public y: number,
+                       public width: number,
+                       public height: number,
+                       public fontSize: number) {
     }
 
     public get textX(): number {
@@ -89,7 +84,7 @@ export class ButtonElement {
         return this.y + this.height / 2;
     }
 
-    public mouseMoved(point: Point): void {
+    public mouseMove(point: Point): void {
         if (point.x < this.x || point.x > this.x + this.width
             || point.y < this.y || point.y > this.y + this.height) {
             this.isHovered = false;
@@ -111,4 +106,9 @@ export class ButtonElement {
         this._ctx.fillText(this.text, this.textX, this.textY);
         this._ctx.restore();
     }
+}
+
+export type Point = {
+  x: number;
+  y: number;
 }

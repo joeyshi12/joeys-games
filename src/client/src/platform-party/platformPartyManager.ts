@@ -4,8 +4,7 @@ import LoginScene from "./scenes/loginScene";
 import { Socket } from "socket.io-client";
 import GameManager from "../core/gameManager";
 import { loadSound, Sound } from "../core/sound";
-
-export const SPRITE_LENGTH = 16;
+import { Point } from "./scenes/gui/guiElements";
 
 export default class PlatformPartyManager extends GameManager {
     public spriteSheet: SpriteSheet;
@@ -27,6 +26,14 @@ export default class PlatformPartyManager extends GameManager {
             throw new Error(`Invalid sound key ${key}`);
         }
         return sound;
+    }
+
+    public getWorldMousePosition(event: MouseEvent): Point {
+        const rect = this.ctx.canvas.getBoundingClientRect();
+        return {
+            x: event.clientX - rect.left,
+            y: event.clientY - rect.top
+        };
     }
 
     protected override async setUp(): Promise<void> {
@@ -60,28 +67,26 @@ export default class PlatformPartyManager extends GameManager {
     private _initEventListeners(): void {
         const canvas = this.ctx.canvas;
         window.addEventListener("keydown", (event: KeyboardEvent) => {
-            this._scene.keyPressed(event);
+            this._scene.keyDown(event);
         });
         window.addEventListener("keyup", (event: KeyboardEvent) => {
-            this._scene.keyReleased(event);
+            this._scene.keyUp(event);
         });
         window.addEventListener("resize", () => {
             this._resizeCanvas();
         });
         canvas.addEventListener("mousemove", (event: MouseEvent) => {
-            const rect = canvas.getBoundingClientRect();
-            this._scene.mouseMoved({
-                x: event.clientX - rect.x,
-                y: event.clientY - rect.y
-            });
+            this._scene.mouseMove(event);
         });
         canvas.addEventListener("mousedown", (event: MouseEvent) => {
-            const rect = canvas.getBoundingClientRect();
-            this._scene.mouseClicked({
-                x: event.clientX - rect.x,
-                y: event.clientY - rect.y
-            });
+            this._scene.mouseDown(event);
         });
+        canvas.addEventListener("mouseup", (event: MouseEvent) => {
+            this._scene.mouseUp(event);
+        });
+        canvas.addEventListener("wheel", (event: WheelEvent) => {
+            this._scene.wheel(event);
+        })
     }
 
     private _resizeCanvas(): void {

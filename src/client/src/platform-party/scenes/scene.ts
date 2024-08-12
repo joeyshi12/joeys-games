@@ -1,8 +1,8 @@
 import PlatformPartyManager from "../platformPartyManager";
-import { Point } from "./gui";
 
 export abstract class Scene {
-    protected constructor(protected manager: PlatformPartyManager) {}
+    protected constructor(protected manager: PlatformPartyManager) {
+    }
 
     public abstract draw(): void;
 
@@ -10,19 +10,27 @@ export abstract class Scene {
         // Do nothing
     }
 
-    public mouseMoved(point: Point): void {
+    public mouseMove(event: MouseEvent): void {
         // Do nothing
     }
 
-    public mouseClicked(point: Point): void {
+    public mouseDown(event: MouseEvent): void {
         // Do nothing
     }
 
-    public keyPressed(event: KeyboardEvent): void {
+    public mouseUp(event: MouseEvent): void {
         // Do nothing
     }
 
-    public keyReleased(event: KeyboardEvent): void {
+    public wheel(event: WheelEvent): void {
+        // Do nothing
+    }
+
+    public keyDown(event: KeyboardEvent): void {
+        // Do nothing
+    }
+
+    public keyUp(event: KeyboardEvent): void {
         // Do nothing
     }
 }
