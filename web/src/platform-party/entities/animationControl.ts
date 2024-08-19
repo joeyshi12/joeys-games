@@ -1,4 +1,4 @@
-import { PlayerState } from "../../../../models/platformPartyModels";
+import { PlayerState } from "../models";
 
 const ANIMATION_BUFFER = 6;
 

@@ -3,7 +3,7 @@ import Food from "./food";
 import GameManager from "../core/gameManager";
 import { loadImage } from "../core/image";
 import { loadSound } from "../core/sound";
-import { SnakeScore } from "../../../models/snakeModels";
+import { SnakeScore } from "./models";
 
 const GRID_SIZE = 16;
 const UNIT_LENGTH = 30;

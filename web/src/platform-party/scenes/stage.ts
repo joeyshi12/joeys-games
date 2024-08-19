@@ -1,4 +1,4 @@
-import { EntityMetadata } from "../../../../models/platformPartyModels";
+import { EntityMetadata } from "../models";
 import { SpriteSheet, SPRITE_LENGTH } from "../loadAssets";
 
 /**

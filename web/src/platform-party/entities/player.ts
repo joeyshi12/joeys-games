@@ -1,4 +1,4 @@
-import { Character, PlayerMetadata, PlayerState, Vector } from "../../../../models/platformPartyModels";
+import { Character, PlayerMetadata, PlayerState, Vector } from "../models";
 import { Stage, TileType } from "../scenes/stage";
 import { AnimationControl } from "./animationControl";
 import { Sound } from "../../core/sound";

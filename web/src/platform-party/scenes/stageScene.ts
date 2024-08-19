@@ -1,6 +1,6 @@
 import { Scene } from "./scene";
 import PlatformPartyManager from "../platformPartyManager";
-import { PlayerMetadata } from "../../../../models/platformPartyModels";
+import { PlayerMetadata } from "../models";
 import { Stage, StageMap } from "./stage";
 import { Player } from "../entities/player";
 import { SPRITE_LENGTH } from "../loadAssets";

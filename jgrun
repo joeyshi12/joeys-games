@@ -1,0 +1,12 @@
+#!/bin/sh
+
+go build -o public
+
+export PORT=8080
+export DB_USER=root
+export DB_PASS=password
+export DB_NAME=games
+
+pushd public
+./server
+popd

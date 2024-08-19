@@ -1,7 +1,7 @@
 import { Scene } from "./scene";
 import PlatformPartyManager from "../platformPartyManager";
 import { ButtonElement, TextElement, TextInputElement } from "./gui/guiElements";
-import { MapData, PlayerMetadata } from "../../../../models/platformPartyModels";
+import { MapData, PlayerMetadata } from "../models";
 import { Player } from "../entities/player";
 import { StageMap } from "./stage";
 import StageScene from "./stageScene";

@@ -1,5 +1,5 @@
 import SnakeManager from "./snakeManager";
-import { SnakeScore } from "../../../models/snakeModels";
+import { SnakeScore } from "./models";
 
 const manager = new SnakeManager("#canvas-container");
 manager.start();

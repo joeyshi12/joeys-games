@@ -1,4 +1,4 @@
-import { MapData } from "../../../../models/platformPartyModels";
+import { MapData } from "../models";
 import { SPRITE_LENGTH } from "../loadAssets";
 import PlatformPartyManager from "../platformPartyManager"
 import { ButtonElement, Point } from "./gui/guiElements";
