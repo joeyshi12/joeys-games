@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"math/rand"
 	"net/http"
 	"os"
 
@@ -15,7 +16,6 @@ import (
 
 type PlatformerServer struct {
     conns map[*websocket.Conn]bool
-    players map[*websocket.Conn]models.PlayerMetadata
 }
 
 func NewPlatformerServer() *PlatformerServer {
@@ -45,7 +45,6 @@ func (server *PlatformerServer) HandlePlatformerWS(w http.ResponseWriter, r *htt
         }
     }
     delete(server.conns, conn)
-    delete(server.players, conn)
 }
 
 func HandleGetPlatformerMaps(w http.ResponseWriter, r *http.Request) {
@@ -102,7 +101,7 @@ func (server *PlatformerServer) handlePlatformerWSEvent(
 func newPlayerMetadata(name string) *models.PlayerMetadata {
     return &models.PlayerMetadata {
         Name: name,
-        CharacterType: 0,
+        CharacterType: rand.Intn(3),
         Position: models.Vector {
             X: 80.,
             Y: 500.,
@@ -113,8 +112,8 @@ func newPlayerMetadata(name string) *models.PlayerMetadata {
             Width: 16,
             Height: 16,
             Offset: models.Vector {
-                X: 0.0,
-                Y: 0.0,
+                X: 0.,
+                Y: 0.,
             },
         },
     }
