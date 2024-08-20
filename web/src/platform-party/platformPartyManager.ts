@@ -1,19 +1,19 @@
 import { Scene } from "./scenes/scene";
 import { loadSpriteSheet, loadFont, SpriteSheet } from "./loadAssets";
 import LoginScene from "./scenes/loginScene";
-import { Socket } from "socket.io-client";
 import GameManager from "../core/gameManager";
 import { loadSound, Sound } from "../core/sound";
 import { Point } from "./scenes/gui/guiElements";
 
 export default class PlatformPartyManager extends GameManager {
     public spriteSheet: SpriteSheet;
+    public socket: WebSocket;
     private _scene: Scene;
     private _sounds: Map<string, Sound>;
 
-    public constructor(parentSelector: string,
-                       public readonly socket: Socket) {
+    public constructor(parentSelector: string) {
         super(parentSelector, 16);
+        this.socket = new WebSocket(`ws://${location.host}/platformer/ws`);
     }
 
     public set scene(val: Scene) {
@@ -86,6 +86,9 @@ export default class PlatformPartyManager extends GameManager {
         });
         canvas.addEventListener("wheel", (event: WheelEvent) => {
             this._scene.wheel(event);
+        })
+        this.socket.addEventListener("message", (event: MessageEvent) => {
+            this._scene.message(event);
         })
     }
 

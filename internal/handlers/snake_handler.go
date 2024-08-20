@@ -6,15 +6,11 @@ import (
 	"net/http"
 	"strings"
 	"time"
+
 	_ "github.com/go-sql-driver/mysql"
 	"play.joeyshi.xyz/server/internal/database"
+	"play.joeyshi.xyz/server/internal/models"
 )
-
-type SnakeScore struct {
-    Score           int     `json:"score"`
-    PlayerName      string  `json:"playerName"`
-    CreationDate    string  `json:"creationDate,omitempty"`
-}
 
 func HandleGetSnakeScores(w http.ResponseWriter, r *http.Request) { 
     scores, err := fetchSnakeScores()
@@ -27,7 +23,7 @@ func HandleGetSnakeScores(w http.ResponseWriter, r *http.Request) {
 }
 
 func HandlePutSnakeScore(w http.ResponseWriter, r *http.Request) {
-    var score SnakeScore
+    var score models.SnakeScore
     err := json.NewDecoder(r.Body).Decode(&score)
     if err != nil || score.Score < 0 || len(score.PlayerName) < 3 || len(score.PlayerName) > 8 {
         http.Error(w, "Invalid snake score", http.StatusBadRequest)
@@ -43,7 +39,7 @@ func HandlePutSnakeScore(w http.ResponseWriter, r *http.Request) {
     json.NewEncoder(w).Encode(score)
 }
 
-func fetchSnakeScores() ([]SnakeScore, error) {
+func fetchSnakeScores() ([]models.SnakeScore, error) {
     db, err := database.OpenGamesDatabase()
     if err != nil {
         log.Println("Error encountered when opening database connection")
@@ -58,9 +54,9 @@ func fetchSnakeScores() ([]SnakeScore, error) {
     }
     defer rows.Close()
 
-    var scores []SnakeScore
+    var scores []models.SnakeScore
     for rows.Next() {
-        var score SnakeScore
+        var score models.SnakeScore
         err = rows.Scan(&score.Score, &score.PlayerName, &score.CreationDate)
         if err != nil {
             log.Printf("Error encountered when scanning snake score: %v\n", err)
@@ -78,7 +74,7 @@ func fetchSnakeScores() ([]SnakeScore, error) {
     return scores, nil
 }
 
-func insertScore(score *SnakeScore) error {
+func insertScore(score *models.SnakeScore) error {
     db, err := database.OpenGamesDatabase()
     if err != nil {
         log.Println("Error encountered when opening database connection")

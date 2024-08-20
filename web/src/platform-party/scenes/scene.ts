@@ -33,4 +33,8 @@ export abstract class Scene {
     public keyUp(event: KeyboardEvent): void {
         // Do nothing
     }
+
+    public message(event: MessageEvent): void {
+        // Do nothing
+    }
 }

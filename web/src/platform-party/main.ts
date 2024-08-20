@@ -1,8 +1,4 @@
 import PlatformPartyManager from "./platformPartyManager";
-import { io } from "socket.io-client";
 
-// @ts-ignore
-const socket: Socket = io(SERVICE_URL); // webpack environment variable
-
-const game = new PlatformPartyManager("#canvas-container", socket);
+const game = new PlatformPartyManager("#canvas-container");
 game.start();

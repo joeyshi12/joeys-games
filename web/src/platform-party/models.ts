@@ -17,16 +17,16 @@ export type EntityMetadata = {
 };
 
 export enum PlayerState {
-    STANDING,
-    WALKING,
-    FALLING,
-    DEAD
+    STANDING = 0,
+    WALKING = 1,
+    FALLING = 2,
+    DEAD = 3
 }
 
 export enum Character {
-    BLUE,
-    ORANGE,
-    GREEN
+    BLUE = 0,
+    ORANGE = 1,
+    GREEN = 2
 }
 
 export type PlayerMetadata = {

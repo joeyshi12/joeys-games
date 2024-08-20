@@ -10,17 +10,12 @@ export default class StageScene extends Scene {
     private _scale: number = 2;
     private _playerMetadata: PlayerMetadata[] = [];
 
-    public constructor(manager: PlatformPartyManager, stageMap: StageMap, private _player: Player) {
+    public constructor(
+        manager: PlatformPartyManager,
+        stageMap: StageMap,
+        private _player: Player) {
         super(manager);
         this._stage = new Stage(manager.ctx, stageMap, manager.spriteSheet);
-        this.manager.socket.on("receivePlayer", (updatedPlayer: PlayerMetadata) => {
-            const playerIndex = this._playerMetadata.findIndex(p => p.name === updatedPlayer.name);
-            if (playerIndex === -1) {
-                this._playerMetadata.push(updatedPlayer);
-            } else {
-                this._playerMetadata[playerIndex] = updatedPlayer;
-            }
-        });
     }
 
     public override keyDown(event: KeyboardEvent) {
@@ -33,9 +28,9 @@ export default class StageScene extends Scene {
 
     public override update() {
         this._player.update(this._stage);
-        if (this._player.isMoving) {
-            this.manager.socket.emit("updatePlayer", this._player.metadata);
-        }
+        const encoder = new TextEncoder();
+        const message = `playerUpdate\0${JSON.stringify(this._player.metadata)}`;
+        this.manager.socket.send(encoder.encode(message));
     }
 
     public override draw() {
@@ -58,6 +53,16 @@ export default class StageScene extends Scene {
         }
         this._drawPlayer(ctx, this._player.metadata);
         ctx.restore();
+    }
+
+    public override message(event: MessageEvent): void {
+        const updatedPlayer = JSON.parse(event.data) as PlayerMetadata;
+        const playerIndex = this._playerMetadata.findIndex(p => p.name === updatedPlayer.name);
+        if (playerIndex === -1) {
+            this._playerMetadata.push(updatedPlayer);
+        } else {
+            this._playerMetadata[playerIndex] = updatedPlayer;
+        }
     }
 
     private _drawPlayer(ctx: CanvasRenderingContext2D, entity: PlayerMetadata) {

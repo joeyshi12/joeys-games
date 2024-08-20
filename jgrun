@@ -1,6 +1,6 @@
 #!/bin/sh
 
-go build -o public
+go build -o public || exit 1
 
 export PORT=8080
 export DB_USER=root

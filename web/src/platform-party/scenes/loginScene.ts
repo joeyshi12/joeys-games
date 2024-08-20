@@ -16,21 +16,6 @@ export default class LoginScene extends Scene {
     public constructor(manager: PlatformPartyManager) {
         super(manager);
         this._initGUIElements();
-        this.manager.socket.on("joinSuccess", (metadata: PlayerMetadata) => {
-            this._fetchDefaultMap().then((stageMap: StageMap) => {
-                const player = new Player(
-                    metadata,
-                    this.manager.getSound("jump"),
-                    this.manager.getSound("land")
-                );
-                this.manager.socket.removeAllListeners("joinSuccess");
-                this.manager.socket.removeAllListeners("joinFailure");
-                this.manager.scene = new StageScene(this.manager, stageMap, player);
-            });
-        });
-        this.manager.socket.on("joinError", (msg: string) => {
-            alert(msg);
-        });
     }
 
     public override mouseMove(event: MouseEvent): void {
@@ -42,7 +27,10 @@ export default class LoginScene extends Scene {
     public override mouseDown(event: MouseEvent) {
         if (this._startButton.isHovered) {
             this.manager.getSound("click").play();
-            this.manager.socket.emit("login", this._textInput.text);
+            const event = `login\0${this._textInput.text}`;
+            const encoder = new TextEncoder();
+            const message = encoder.encode(event)
+            this.manager.socket.send(message)
         }
         if (this._buildMapButton.isHovered) {
             this.manager.getSound("click").play();
@@ -54,7 +42,9 @@ export default class LoginScene extends Scene {
     public override keyDown(event: KeyboardEvent) {
         if (this._textInput.isFocused) {
             if (event.key === "Enter") {
-                this.manager.socket.emit("login", this._textInput.text);
+                const encoder = new TextEncoder();
+                const message = `login\0${this._textInput.text}`;
+                this.manager.socket.send(encoder.encode(message));
             } else if (event.key === "Backspace") {
                 this._textInput.text = this._textInput.text.substring(0, this._textInput.text.length - 1);
             } else if (event.key.length === 1 && event.key !== " ") {
@@ -73,6 +63,18 @@ export default class LoginScene extends Scene {
         this._buildMapButton.draw();
     }
 
+    public override message(event: MessageEvent): void {
+        const metadata = JSON.parse(event.data) as PlayerMetadata;
+        this._fetchDefaultMap().then((stageMap: StageMap) => {
+            const player = new Player(
+                metadata,
+                this.manager.getSound("jump"),
+                this.manager.getSound("land")
+            );
+            this.manager.scene = new StageScene(this.manager, stageMap, player);
+        });
+    }
+
     private _initGUIElements(): void {
         this._titleElement = new TextElement(this.manager.ctx, "Platform Party", 120, 100, 32);
         this._textInput = new TextInputElement(this.manager.ctx, 120, 140, 200, 20);
@@ -81,7 +83,7 @@ export default class LoginScene extends Scene {
     }
 
     private async _fetchDefaultMap(): Promise<StageMap> {
-        const mapDataRepository: MapData[] = await (await fetch("/platform-party/maps")).json();
+        const mapDataRepository: MapData[] = await (await fetch("/platformer/maps")).json();
         const mapData = mapDataRepository.find((map) => map.name === "default")
             ?? mapDataRepository[0];
         return {
