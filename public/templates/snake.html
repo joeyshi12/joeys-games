@@ -1,0 +1,53 @@
+{{template "base" .}}
+{{define "title"}}Snake{{end}}
+{{define "styles"}}
+<link rel="stylesheet" href="/static/css/common.css">
+<link rel="stylesheet" href="/static/css/snake.css">
+{{end}}
+{{define "content"}}
+<a href="/">
+    <div class="logo-secondary">
+        <div>
+            <img src="/static/images/logo.png"/>
+        </div>
+        <h2>Joey's Games</h2>
+    </div>
+</a>
+<main>
+    <div class="game-container">
+        <div id="canvas-container"></div>
+        <div class="score-board-container">
+            <div class="score-board">
+                <div>
+                    <div id="score-field">
+                        <label>Score:</label>
+                        <span>0</span>
+                    </div>
+                    <div id="name-field">
+                        <label>Name:</label>
+                        <input type="text" autocomplete=off disabled />
+                    </div>
+                    <div id="submit-button">
+                        <button autocomplete=off disabled>Submit</button>
+                    </div>
+                </div>
+                <table id="score-table">
+                    <thead>
+                        <tr>
+                            <th>Score</th>
+                            <th>Name</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+        <ul>
+            <li>Movement controls: WASD or arrow keys</li>
+            <li>Reset game: CTRL-R</li>
+        </ul>
+    </div>
+</main>
+<script src="/static/js/snake.js"></script>
+{{end}}
