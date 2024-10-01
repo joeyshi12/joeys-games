@@ -10,16 +10,19 @@ import (
 )
 
 func main() {
-    port := os.Getenv("PORT")
-    addr := fmt.Sprintf(":%s", port)
-    platformerServer := handlers.NewPlatformerServer()
+    addr := fmt.Sprintf(":%s", os.Getenv("PORT"))
+    mux := http.NewServeMux()
 
-    http.Handle("/", http.FileServer(http.Dir("./static")))
-    http.HandleFunc("GET /snake/scores", handlers.HandleGetSnakeScores)
-    http.HandleFunc("PUT /snake/scores", handlers.HandlePutSnakeScore)
-    http.HandleFunc("/platformer/ws", platformerServer.HandlePlatformerWS)
-    http.HandleFunc("GET /platformer/maps", handlers.HandleGetPlatformerMaps)
+    mux.Handle("/", handlers.IndexPageHandler("templates/index.html"))
+    fileServerHandler := http.FileServer(http.Dir("./static"))
+    mux.Handle("/static/", http.StripPrefix("/static/", fileServerHandler))
+
+    snakeHandler := handlers.NewSnakeHandler()
+    mux.Handle("/snake/", http.StripPrefix("/snake", snakeHandler))
+
+    platformPartyHandler := handlers.NewPlatformPartyHandler()
+    mux.Handle("/platform-party/", http.StripPrefix("/platform-party", platformPartyHandler))
 
     log.Printf("Listening on address %s\n", addr)
-    log.Fatal(http.ListenAndServe(addr, nil))
+    log.Fatal(http.ListenAndServe(addr, handlers.LoggingHandler(mux)))
 }

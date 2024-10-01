@@ -1,46 +1,13 @@
-package handlers
+package database
 
 import (
-	"encoding/json"
 	"log"
-	"net/http"
-	"strings"
-	"time"
-
 	_ "github.com/go-sql-driver/mysql"
-	"play.joeyshi.xyz/server/internal/database"
 	"play.joeyshi.xyz/server/internal/models"
 )
 
-func HandleGetSnakeScores(w http.ResponseWriter, r *http.Request) { 
-    scores, err := fetchSnakeScores()
-    if err != nil {
-        http.Error(w, "Error encountered while fetching snake scores", http.StatusInternalServerError)
-        return
-    }
-    w.Header().Set("Content-Type", "application/json")
-    json.NewEncoder(w).Encode(scores)
-}
-
-func HandlePutSnakeScore(w http.ResponseWriter, r *http.Request) {
-    var score models.SnakeScore
-    err := json.NewDecoder(r.Body).Decode(&score)
-    if err != nil || score.Score < 0 || len(score.PlayerName) < 3 || len(score.PlayerName) > 8 {
-        http.Error(w, "Invalid snake score", http.StatusBadRequest)
-        return
-    }
-    score.CreationDate = strings.Split(time.Now().Format(time.RFC3339), "T")[0]
-    err = insertScore(&score)
-    if err != nil {
-        http.Error(w, "Failed to insert snake score", http.StatusInternalServerError)
-        return
-    }
-    w.Header().Set("Content-Type", "application/json")
-    json.NewEncoder(w).Encode(score)
-}
-
-func fetchSnakeScores() ([]models.SnakeScore, error) {
-    db, err := database.OpenGamesDatabase()
+func GetSnakeScores() ([]models.SnakeScore, error) {
+    db, err := openGamesDatabase()
     if err != nil {
         log.Println("Error encountered when opening database connection")
         return nil, err
@@ -54,7 +21,7 @@ func fetchSnakeScores() ([]models.SnakeScore, error) {
     }
     defer rows.Close()
 
-    var scores []models.SnakeScore
+    scores := []models.SnakeScore{}
     for rows.Next() {
         var score models.SnakeScore
         err = rows.Scan(&score.Score, &score.PlayerName, &score.CreationDate)
@@ -74,8 +41,8 @@ func fetchSnakeScores() ([]models.SnakeScore, error) {
     return scores, nil
 }
 
-func insertScore(score *models.SnakeScore) error {
-    db, err := database.OpenGamesDatabase()
+func InsertScore(score *models.SnakeScore) error {
+    db, err := openGamesDatabase()
     if err != nil {
         log.Println("Error encountered when opening database connection")
         return err

@@ -4,18 +4,22 @@ import { PlayerMetadata } from "../models";
 import { Stage, StageMap } from "./stage";
 import { Player } from "../entities/player";
 import { SPRITE_LENGTH } from "../loadAssets";
+import { SocketHandler } from "../socketHandler";
 
 export default class StageScene extends Scene {
     private readonly _stage: Stage;
+    private readonly _socketHandler: SocketHandler;
     private _scale: number = 2;
     private _playerMetadata: PlayerMetadata[] = [];
 
     public constructor(
         manager: PlatformPartyManager,
         stageMap: StageMap,
+        socketId: string,
         private _player: Player) {
         super(manager);
         this._stage = new Stage(manager.ctx, stageMap, manager.spriteSheet);
+        this._socketHandler = new SocketHandler(socketId);
     }
 
     public override keyDown(event: KeyboardEvent) {
@@ -28,9 +32,7 @@ export default class StageScene extends Scene {
 
     public override update() {
         this._player.update(this._stage);
-        const encoder = new TextEncoder();
-        const message = `playerUpdate\0${JSON.stringify(this._player.metadata)}`;
-        this.manager.socket.send(encoder.encode(message));
+        this._socketHandler.emitPlayerUpdate(this._player.metadata);
     }
 
     public override draw() {
@@ -53,16 +55,6 @@ export default class StageScene extends Scene {
         }
         this._drawPlayer(ctx, this._player.metadata);
         ctx.restore();
-    }
-
-    public override message(event: MessageEvent): void {
-        const updatedPlayer = JSON.parse(event.data) as PlayerMetadata;
-        const playerIndex = this._playerMetadata.findIndex(p => p.name === updatedPlayer.name);
-        if (playerIndex === -1) {
-            this._playerMetadata.push(updatedPlayer);
-        } else {
-            this._playerMetadata[playerIndex] = updatedPlayer;
-        }
     }
 
     private _drawPlayer(ctx: CanvasRenderingContext2D, entity: PlayerMetadata) {

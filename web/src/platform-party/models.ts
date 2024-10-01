@@ -1,4 +1,4 @@
-export type Vector = {
+export type Vector2D = {
     x: number;
     y: number;
 };
@@ -6,11 +6,11 @@ export type Vector = {
 export type CollisionBox = {
     width: number;
     height: number;
-    offset: Vector;
+    offset: Vector2D;
 };
 
 export type EntityMetadata = {
-    position: Vector;
+    position: Vector2D;
     spriteIndex: number;
     isFlipped: boolean;
     collisionBox: CollisionBox;
@@ -42,9 +42,3 @@ export type MapData = {
     solidIndices: number[];
     platformIndices: number[];
 };
-
-export class MapError extends Error {
-    public constructor(msg: string) {
-        super(msg);
-    }
-}

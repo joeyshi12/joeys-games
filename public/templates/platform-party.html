@@ -1,0 +1,19 @@
+{{template "base" .}}
+{{define "title"}}Platform Party{{end}}
+{{define "styles"}}
+<link rel="stylesheet" href="/static/css/common.css">
+<link rel="stylesheet" href="/static/css/platform-party.css">
+{{end}}
+{{define "content"}}
+<a href="/">
+    <div class="logo-secondary">
+        <div>
+            <img src="/static/images/logo.png"/>
+        </div>
+        <h2>Joey's Games</h2>
+    </div>
+</a>
+<div id="canvas-container"></div>
+<a id="download-anchor"></a>
+<script src="/static/js/platform-party.js"></script>
+{{end}}

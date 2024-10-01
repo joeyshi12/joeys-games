@@ -1,4 +1,5 @@
 import { loadImage } from "../core/image";
+import { Character, PlayerCreationMetadata, PlayerMetadata } from "./models";
 
 export const SPRITE_LENGTH = 16;
 
@@ -7,6 +8,14 @@ export type SpriteSheet = {
     columns: number;
     cellLength: number;
     sprites: ImageBitmap[];
+}
+
+export async function loginPlayer(creationMetadata: PlayerCreationMetadata): Promise<any> {
+    const response: Response = await fetch("/platform-party/login", {
+        method: "PUT",
+        body: JSON.stringify(creationMetadata)
+    })
+    return await response.json();
 }
 
 export async function loadSpriteSheet(source: string, rows: number, columns: number): Promise<SpriteSheet> {
@@ -25,7 +34,7 @@ export async function loadSpriteSheet(source: string, rows: number, columns: num
     for (let i = 0; i < rows; i++) {
         for (let j = 0; j < columns; j++) {
             sprites.push(createImageBitmap(
-                image,
+               image,
                 cellLength * j,
                 cellLength * i,
                 cellLength,

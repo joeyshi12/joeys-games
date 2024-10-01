@@ -14,22 +14,34 @@ import (
 	"play.joeyshi.xyz/server/internal/models"
 )
 
-type PlatformerServer struct {
+type platformerPartyController struct {
     conns map[*websocket.Conn]bool
 }
 
-func NewPlatformerServer() *PlatformerServer {
-    return &PlatformerServer {
+func NewPlatformPartyHandler() http.Handler {
+    mux := http.NewServeMux()
+    platformPartyController := platformerPartyController {
         conns: make(map[*websocket.Conn]bool),
     }
+
+    mux.Handle("/", IndexPageHandler("templates/platform-party.html"))
+    mux.HandleFunc("POST /players/login", platformPartyController.loginPlayer)
+    mux.HandleFunc("/ws/{socketId}", platformPartyController.handlePlatformerWS)
+    mux.HandleFunc("GET /maps", getPlatformPartyMaps)
+
+    return mux
 }
 
-func (server *PlatformerServer) HandlePlatformerWS(w http.ResponseWriter, r *http.Request) {
+func (controller *platformerPartyController) loginPlayer(w http.ResponseWriter, r *http.Request) {
+
+}
+
+func (controller *platformerPartyController) handlePlatformerWS(w http.ResponseWriter, r *http.Request) {
     conn, err := websocket.Accept(w, r, nil)
 	if err != nil {
         return
 	}
-    server.conns[conn] = true
+    controller.conns[conn] = true
     defer conn.CloseNow()
     ctx := r.Context()
     for {
@@ -38,16 +50,16 @@ func (server *PlatformerServer) HandlePlatformerWS(w http.ResponseWriter, r *htt
             log.Printf("Error encountered while reading from socket: %v", err)
             break
         }
-        err = server.handlePlatformerWSEvent(conn, ctx, message)
+        err = controller.handlePlatformerWSEvent(conn, ctx, message)
         if err != nil {
             log.Printf("Error encountered while writing to socket: %v", err)
             break
         }
     }
-    delete(server.conns, conn)
+    delete(controller.conns, conn)
 }
 
-func HandleGetPlatformerMaps(w http.ResponseWriter, r *http.Request) {
+func getPlatformPartyMaps(w http.ResponseWriter, r *http.Request) {
     file, err := os.Open("data/default.json")
     if err != nil {
         log.Printf("Error encountered when reading default map: %v\n", err)
@@ -62,7 +74,7 @@ func HandleGetPlatformerMaps(w http.ResponseWriter, r *http.Request) {
     json.NewEncoder(w).Encode(maps)
 }
 
-func (server *PlatformerServer) handlePlatformerWSEvent(
+func (server *platformerPartyController) handlePlatformerWSEvent(
     conn *websocket.Conn,
     ctx context.Context,
     message []byte) error {

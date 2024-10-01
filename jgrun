@@ -1,6 +1,7 @@
 #!/bin/sh
 
-go build -o public || exit 1
+# Strip debug information
+go build -ldflags="-s -w" -o public || exit 1
 
 export PORT=8080
 export DB_USER=root

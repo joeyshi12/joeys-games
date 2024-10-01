@@ -47,8 +47,8 @@ export default class SnakeManager extends GameManager {
 
     protected override async setUp(): Promise<void> {
         const [growSound, foodImage] = await Promise.all([
-            loadSound("/sounds/pop.wav"),
-            loadImage("/images/apple.png")
+            loadSound("/static/sounds/pop.wav"),
+            loadImage("/static/images/apple.png")
         ]);
         this._snake = new Snake(this.ctx, this._nameInputElement, this._submitButtonElement, growSound, GRID_SIZE, UNIT_LENGTH);
         this._food = new Food(this.ctx, 10, 10, foodImage, UNIT_LENGTH);
