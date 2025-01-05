@@ -8,18 +8,24 @@ import { SPRITE_LENGTH } from "../loadAssets";
 export default class StageScene extends Scene {
     private readonly _stage: Stage;
     private _scale: number = 2;
-    private _playerMetadata: PlayerMetadata[] = [];
+    private _otherPlayers: PlayerMetadata[] = [];
 
     public constructor(manager: PlatformPartyManager, stageMap: StageMap, private _player: Player) {
         super(manager);
         this._stage = new Stage(manager.ctx, stageMap, manager.spriteSheet);
-        this.manager.socket.on("receivePlayer", (updatedPlayer: PlayerMetadata) => {
-            const playerIndex = this._playerMetadata.findIndex(p => p.name === updatedPlayer.name);
-            if (playerIndex === -1) {
-                this._playerMetadata.push(updatedPlayer);
-            } else {
-                this._playerMetadata[playerIndex] = updatedPlayer;
+        this.manager.socket.on("receivePlayer", (player: PlayerMetadata) => {
+            if (player.name === this._player.metadata.name) {
+                return;
             }
+            const playerIndex = this._otherPlayers.findIndex(p => p.name === player.name);
+            if (playerIndex === -1) {
+                this._otherPlayers.push(player);
+            } else {
+                this._otherPlayers[playerIndex] = player;
+            }
+        });
+        this.manager.socket.on("receivePlayers", (players: PlayerMetadata[]) => {
+            this._otherPlayers = players.filter(player => player.name !== this._player.metadata.name);
         });
     }
 
@@ -32,8 +38,13 @@ export default class StageScene extends Scene {
     }
 
     public override update() {
+        const prevPosX = this._player.metadata.position.x;
+        const prevPosY = this._player.metadata.position.y;
+        const prevSpriteIndex = this._player.metadata.spriteIndex;
         this._player.update(this._stage);
-        if (this._player.isMoving) {
+
+        const {position: updatedPosition, spriteIndex: updatedSpriteIndex} = this._player.metadata
+        if (prevPosX !== updatedPosition?.x || prevPosY !== updatedPosition?.y || prevSpriteIndex !== updatedSpriteIndex) {
             this.manager.socket.emit("updatePlayer", this._player.metadata);
         }
     }
@@ -51,10 +62,8 @@ export default class StageScene extends Scene {
         ctx.setTransform(this._scale, 0, 0, this._scale, translateX, translateY);
 
         this._stage.draw();
-        for (const player of this._playerMetadata) {
-            if (player.name !== this._player.metadata.name) {
-                this._drawPlayer(ctx, player);
-            }
+        for (const player of this._otherPlayers) {
+            this._drawPlayer(ctx, player);
         }
         this._drawPlayer(ctx, this._player.metadata);
         ctx.restore();
