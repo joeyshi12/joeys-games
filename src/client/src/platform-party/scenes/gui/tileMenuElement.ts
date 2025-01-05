@@ -1,4 +1,5 @@
 import { SpriteSheet, SPRITE_LENGTH } from "../../loadAssets";
+import { clamp } from "../util";
 import { Point } from "./guiElements";
 
 const TILE_MENU_HEIGHT = 70;
@@ -25,7 +26,7 @@ export class TileMenuElement {
     }
 
     public scroll(amount: number): void {
-        this._translateX = Math.max(Math.min(this._translateX - amount, 0), -this._maxTranslateX);
+        this._translateX = clamp(this._translateX - amount, -this._maxTranslateX, 0);
     }
 
     public mouseDown(point: Point): void {
