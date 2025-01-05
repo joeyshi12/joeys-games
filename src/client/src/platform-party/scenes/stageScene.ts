@@ -38,8 +38,8 @@ export default class StageScene extends Scene {
     }
 
     public override update() {
-        const prevPosX = this._player.metadata.position.x;
-        const prevPosY = this._player.metadata.position.y;
+        const prevPosX = this._player.metadata.position?.x;
+        const prevPosY = this._player.metadata.position?.y;
         const prevSpriteIndex = this._player.metadata.spriteIndex;
         this._player.update(this._stage);
 
