@@ -4,6 +4,11 @@ import PlatformPartyManager from "../platformPartyManager"
 import { ButtonElement, Point } from "./gui/guiElements";
 import { TileMenuElement } from "./gui/tileMenuElement";
 import { Scene } from "./scene"
+import { clamp } from "./util";
+
+const MAX_WHEEL_DELTA = 0.3;
+const MAX_TRANSLATION_DELTA = 30;
+const MAX_TILE_MENU_SCROLL = 50;
 
 interface MapTile {
     spriteIndex: number;
@@ -84,23 +89,29 @@ export default class MapBuilderScene extends Scene {
     public override wheel(event: WheelEvent): void {
         event.preventDefault();
         if (this._tileMenu.isHovered) {
-            this._tileMenu.wheel(event);
+            const scrollAmount = clamp(event.deltaX + event.deltaY, -MAX_TILE_MENU_SCROLL, MAX_TILE_MENU_SCROLL);
+            this._tileMenu.scroll(scrollAmount);
             return;
         }
         if (event.ctrlKey) {
             const { x: mouseX, y: mouseY } = this.manager.getWorldMousePosition(event);
 
             // https://d3js.org/d3-zoom#zoom_wheelDelta
-            const trackpadMultiplier = Number.isInteger(event.deltaY) ? 1 : 10;
-            const wheelDelta = -event.deltaY * (event.deltaMode === 1 ? 0.05 : event.deltaMode ? 1 : 0.002) * trackpadMultiplier;
+            const wheelDelta = clamp(
+                -event.deltaY * (event.deltaMode === 1 ? 0.05 : event.deltaMode ? 1 : 0.002) * 10,
+                -MAX_WHEEL_DELTA,
+                MAX_WHEEL_DELTA
+            );
             const scaleFactor = Math.pow(2, wheelDelta);
 
             this._translation.x -= (mouseX - this._translation.x) * (scaleFactor - 1);
             this._translation.y -= (mouseY - this._translation.y) * (scaleFactor - 1);
             this._scale *= scaleFactor;
+        } else if (event.shiftKey) {
+            this._translation.x -= clamp(event.deltaY, -MAX_TRANSLATION_DELTA, MAX_TRANSLATION_DELTA);
         } else {
-            this._translation.x -= event.deltaX;
-            this._translation.y -= event.deltaY;
+            this._translation.x -= clamp(event.deltaX, -MAX_TRANSLATION_DELTA, MAX_TRANSLATION_DELTA);
+            this._translation.y -= clamp(event.deltaY, -MAX_TRANSLATION_DELTA, MAX_TRANSLATION_DELTA);
         }
     }
 

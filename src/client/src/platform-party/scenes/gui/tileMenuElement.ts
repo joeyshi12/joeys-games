@@ -24,8 +24,8 @@ export class TileMenuElement {
         this._maxTranslateX = TILE_MENU_PADDING + this._tileButtons.length * TILE_BUTTON_OFFSET - _ctx.canvas.width;
     }
 
-    public wheel(event: WheelEvent): void {
-        this._translateX = Math.max(Math.min(this._translateX - event.deltaX, 0), -this._maxTranslateX);
+    public scroll(amount: number): void {
+        this._translateX = Math.max(Math.min(this._translateX - amount, 0), -this._maxTranslateX);
     }
 
     public mouseDown(point: Point): void {
