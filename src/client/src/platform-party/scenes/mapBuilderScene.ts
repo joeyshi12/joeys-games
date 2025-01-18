@@ -89,7 +89,7 @@ export default class MapBuilderScene extends Scene {
     public override wheel(event: WheelEvent): void {
         event.preventDefault();
         if (this._tileMenu.isHovered) {
-            const scrollAmount = clamp(event.deltaX + event.deltaY, -MAX_TILE_MENU_SCROLL, MAX_TILE_MENU_SCROLL);
+            const scrollAmount = clamp(event.deltaX !== 0 ? event.deltaX : event.deltaY, -MAX_TILE_MENU_SCROLL, MAX_TILE_MENU_SCROLL);
             this._tileMenu.scroll(scrollAmount);
             return;
         }
@@ -108,7 +108,11 @@ export default class MapBuilderScene extends Scene {
             this._translation.y -= (mouseY - this._translation.y) * (scaleFactor - 1);
             this._scale *= scaleFactor;
         } else if (event.shiftKey) {
-            this._translation.x -= clamp(event.deltaY, -MAX_TRANSLATION_DELTA, MAX_TRANSLATION_DELTA);
+            this._translation.x -= clamp(
+                event.deltaX !== 0 ? event.deltaX : event.deltaY,
+                -MAX_TRANSLATION_DELTA,
+                MAX_TRANSLATION_DELTA
+            );
         } else {
             this._translation.x -= clamp(event.deltaX, -MAX_TRANSLATION_DELTA, MAX_TRANSLATION_DELTA);
             this._translation.y -= clamp(event.deltaY, -MAX_TRANSLATION_DELTA, MAX_TRANSLATION_DELTA);
