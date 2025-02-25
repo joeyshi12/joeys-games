@@ -1,3 +1,3 @@
 import { buildConfig } from './webpack.config.common';
 
-module.exports = buildConfig("production", "https://play.joeyshi.xyz");
+module.exports = buildConfig("production");

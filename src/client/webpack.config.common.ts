@@ -1,8 +1,7 @@
 import * as path from "node:path";
-import { Configuration, DefinePlugin } from "webpack";
+import { Configuration } from "webpack";
 
-export function buildConfig(mode: "development" | "production",
-                            serviceUrl: string): Configuration {
+export function buildConfig(mode: "development" | "production"): Configuration {
     return {
         mode,
         entry: {
@@ -28,11 +27,6 @@ export function buildConfig(mode: "development" | "production",
                     }
                 }
             ]
-        },
-        plugins: [
-            new DefinePlugin({
-                SERVICE_URL: JSON.stringify(serviceUrl)
-            })
-        ]
+        }
     };
 }
