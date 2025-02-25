@@ -1,4 +1,5 @@
 version: '3.3'
+
 services:
   games:
     image: node:16.13.1
@@ -8,8 +9,13 @@ services:
       - "./:/app"
     environment:
       - PORT=3141
-      - DB_HOST=localhost
-      - DB_USER=games_user
+      - DB_HOST=mariadb
+      - DB_USER=joeys_games
       - DB_PASS=jg1234
       - DB_NAME=joeys_games
-    network_mode: host
+    networks:
+      - shared-network
+
+networks:
+  shared-network:
+    external: true
