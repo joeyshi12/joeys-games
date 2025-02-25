@@ -10,9 +10,9 @@ services:
     environment:
       - PORT=3141
       - DB_HOST=mariadb
-      - DB_USER=joeys_games
+      - DB_USER=joeysgames
       - DB_PASS=jg1234
-      - DB_NAME=joeys_games
+      - DB_NAME=joeysgames
     networks:
       - shared-network
 
