@@ -9,14 +9,8 @@ services:
     volumes:
       - "./:/app"
     environment:
-      - PORT=3141
-      - DB_HOST=mariadb
-      - DB_USER=joeysgames
-      - DB_PASS=jg1234
-      - DB_NAME=joeysgames
-    networks:
-      - shared-network
-
-networks:
-  shared-network:
-    external: true
+      - PORT=8080
+      - DB_HOST=dbhost
+      - DB_USER=dbuser
+      - DB_PASS=dbpass
+      - DB_NAME=dbname
