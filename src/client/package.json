@@ -2,8 +2,8 @@
   "name": "games-client",
   "version": "0.0.0",
   "scripts": {
-    "watch": "webpack --watch --config ./webpack.config.dev.ts",
-    "build": "webpack --config ./webpack.config.prod.ts"
+    "watch": "webpack --watch",
+    "build": "webpack --env production"
   },
   "devDependencies": {
     "ts-loader": "^9.4.2",

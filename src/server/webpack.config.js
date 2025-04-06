@@ -1,4 +1,4 @@
-import * as path from "node:path";
+const path = require("path");
 const NodemonPlugin = require("nodemon-webpack-plugin");
 
 module.exports = {

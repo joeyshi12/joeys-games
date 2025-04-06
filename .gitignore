@@ -1,5 +1,5 @@
 # Webpack build files
-*.js
+public/**/*.js
 *.LICENSE.txt
 
 ### Node ###

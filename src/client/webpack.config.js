@@ -1,7 +1,8 @@
-import * as path from "node:path";
-import { Configuration } from "webpack";
+const path = require("path");
 
-export function buildConfig(mode: "development" | "production"): Configuration {
+module.exports = (env) => {
+    const mode = env.production ? "production" : "development";
+    console.log(`Mode: ${mode}`);
     return {
         mode,
         entry: {
@@ -29,4 +30,4 @@ export function buildConfig(mode: "development" | "production"): Configuration {
             ]
         }
     };
-}
+};
