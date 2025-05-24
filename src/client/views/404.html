@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>Page Not Found | Joey&#39;s Games</title>
-    <meta name="author" content="Joey Shi">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+{% extends "base.html" %}
+
+{% block styles %}
 <style>
     @font-face {
         font-family: 'Inconsolata';
@@ -45,13 +40,9 @@
         text-decoration: none;
     }
 </style>
+{% endblock %}
 
-    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
-    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="/images/favicon-48x48.png" sizes="48x48">
-</head>
-<body>
-    
+{% block body %}
 <div class="container">
     <div class="not-found">
         <img width="600" src="https://http.cat/404" alt="404-cat">
@@ -60,6 +51,4 @@
         <a class="button" href="/">Return to games</a>
     </div>
 </div>
-
-</body>
-</html>
+{% endblock %}

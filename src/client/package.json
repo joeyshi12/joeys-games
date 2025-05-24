@@ -2,10 +2,12 @@
   "name": "games-client",
   "version": "0.0.0",
   "scripts": {
-    "watch": "webpack --watch",
-    "build": "webpack --env production"
+    "build:dev": "webpack",
+    "build:prod": "webpack --env production",
+    "nunjucks": "ts-node render.ts"
   },
   "devDependencies": {
+    "nunjucks": "^3.2.4",
     "ts-loader": "^9.4.2",
     "ts-node": "^10.9.1",
     "tslib": "^2.3.0",

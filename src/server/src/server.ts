@@ -34,7 +34,7 @@ app.put("/platform-party/maps", (req: Request, res: Response) => platformPartyCo
 
 app.use((_: Request, res: Response) => {
     res.status(404);
-    res.sendFile(path.join(__dirname, "static", "404.html"));
+    res.sendFile(path.join(__dirname, "web", "404.html"));
 });
 
 io.on("connection", (socket: Socket) => {

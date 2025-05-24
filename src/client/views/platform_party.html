@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block styles %}
+<link rel="stylesheet" href="/css/common.css">
+<link rel="stylesheet" href="/css/platform-party.css">
+{% endblock %}
+
+{% block body %}
+<a href="/">
+    <div class="logo-secondary">
+        <div>
+            <img src="/images/logo.png"/>
+        </div>
+        <h2>Joey's Games</h2>
+    </div>
+</a>
+<div id="canvas-container"></div>
+<a id="download-anchor"></a>
+<script src="/js/platform-party.js"></script>
+{% endblock %}

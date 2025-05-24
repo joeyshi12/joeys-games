@@ -1,20 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>Snake</title>
-    <meta name="author" content="Joey Shi">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+{% extends "base.html" %}
+
+{% block styles %}
 <link rel="stylesheet" href="/css/common.css">
 <link rel="stylesheet" href="/css/snake.css">
+{% endblock %}
 
-    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
-    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="/images/favicon-48x48.png" sizes="48x48">
-</head>
-<body>
-    
+{% block body %}
 <a href="/">
     <div class="logo-secondary">
         <div>
@@ -60,6 +51,4 @@
     </div>
 </main>
 <script src="/js/snake.js"></script>
-
-</body>
-</html>
+{% endblock %}
