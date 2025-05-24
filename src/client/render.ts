@@ -44,13 +44,13 @@ const targets: RenderTarget[] = [
 ];
 
 for (let { targetPath, templatePath, props } of targets) {
-    const renderedContent = nunjucks.render(templatePath, props);
     const parts = targetPath.split("/");
     if (parts.length > 1) {
         parts.pop()
         const directoryPath = `${WEB_PATH}/${parts.join("/")}`;
         fs.mkdirSync(directoryPath, {recursive: true});
     }
+    const renderedContent = nunjucks.render(templatePath, props);
     fs.writeFile(`${WEB_PATH}/${targetPath}`, renderedContent, (err) => {
         if (err) {
             console.error(`Failed to write ${templatePath}`, err);
