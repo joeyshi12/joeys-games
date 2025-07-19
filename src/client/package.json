@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "build:dev": "webpack",
-    "build:prod": "webpack --env production",
+    "build": "webpack --env production",
     "nunjucks": "ts-node render.ts"
   },
   "devDependencies": {
