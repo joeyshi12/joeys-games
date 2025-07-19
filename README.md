@@ -1,5 +1,7 @@
 # joeys-games
 
+![deploy.yml](https://git.joeyshi.xyz/joey/joeys-games/actions/workflows/deploy.yml/badge.svg)
+
 A collection of games I made using the HTML5 <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/canvas">canvas scripting API</a>.
 
 ## Platform Party
