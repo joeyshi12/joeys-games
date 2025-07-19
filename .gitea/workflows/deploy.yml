@@ -35,7 +35,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t ${APP_NAME} .
+          docker build -t ${APP_NAME}:latest .
 
       - name: Stop Docker container
         run: |
@@ -55,5 +55,5 @@ jobs:
             -e DB_USER=${{ secrets.DB_USER }} \
             -e DB_PASS=${{ secrets.DB_PASS }} \
             -e DB_NAME=${{ secrets.DB_NAME }} \
-            ${APP_NAME}
+            ${APP_NAME}:latest
 
