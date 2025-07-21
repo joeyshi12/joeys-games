@@ -36,12 +36,12 @@ jobs:
       - name: Build Docker image
         run: |
           docker build -t ${APP_NAME}:latest .
-          docker image prune -f
 
       - name: Remove old Docker container
         run: |
           docker stop ${APP_NAME} || true
           docker rm ${APP_NAME} || true
+          docker image prune -f
 
       - name: Run Docker container
         run: |
