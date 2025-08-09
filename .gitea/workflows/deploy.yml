@@ -49,8 +49,7 @@ jobs:
             --name ${APP_NAME} \
             --network stack_default \
             --restart unless-stopped \
-            -p "8101:8101" \
-            -e PORT=8101 \
+            -e PORT=8080 \
             -e DB_HOST=${{ secrets.DB_HOST }} \
             -e DB_USER=${{ secrets.DB_USER }} \
             -e DB_PASS=${{ secrets.DB_PASS }} \
