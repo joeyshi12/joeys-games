@@ -10,7 +10,7 @@ import * as mariadb from "mariadb";
 
 const app = express();
 const httpServer = createServer(app);
-const port = process.env["PORT"];
+const port = process.env["PORT"] || 8080;
 const io = new Server(httpServer);
 const pool = mariadb.createPool({
     host: process.env["DB_HOST"],
