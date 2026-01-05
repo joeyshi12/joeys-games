@@ -1,5 +1,7 @@
 # joeys-games
 
+![docker-image.yml](https://github.com/joeyshi12/joeys-games/actions/workflows/docker-image.yml/badge.svg)
+
 A collection of games I made using the HTML5 <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/canvas">canvas scripting API</a>.
 
 ## Platform Party
