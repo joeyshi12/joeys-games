@@ -1,7 +1,6 @@
 name: Docker Image CI
 
 on:
-  workflow_dispatch:
   push:
     tags: [ 'v*.*.*' ]
 
@@ -19,6 +18,23 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install and build client
+        run: |
+          cd src/client
+          npm ci
+          npm run build
+
+      - name: Install and build server
+        run: |
+          cd src/server
+          npm ci
+          npm run build
 
       - name: Log in to the Container registry
         uses: docker/login-action@v3
