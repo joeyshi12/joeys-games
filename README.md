@@ -23,3 +23,27 @@ Classic arcade snake game.
 </a>
 
 ![Platform Party](./images/snake.webp)
+
+## Running with Docker Compose
+
+The snake game stores high scores in a SQLite database file, persisted via a bind mount to `./data`
+so it can be backed up directly from the host.
+
+Create a `docker-compose.yml` with the following content:
+
+```yaml
+services:
+  joeys-games:
+    image: ghcr.io/joeyshi12/joeys-games:latest
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./data:/data
+    restart: unless-stopped
+```
+
+Then start it with:
+
+```sh
+docker compose up -d
+```
