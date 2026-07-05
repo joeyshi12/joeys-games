@@ -2,26 +2,28 @@ import * as path from "path";
 import { createServer } from "http";
 import * as express from "express";
 import { Server, Socket } from "socket.io";
+import { DatabaseSync } from "node:sqlite";
 import Log from "./logger";
 import { SnakeController } from "./controllers/snakeController";
 import { PlatformPartyController } from "./controllers/platformPartyController";
 import { Request, Response } from "express";
-import * as mariadb from "mariadb";
 
 const app = express();
 const httpServer = createServer(app);
 const port = process.env["PORT"] || 8080;
 const io = new Server(httpServer);
-const pool = mariadb.createPool({
-    host: process.env["DB_HOST"],
-    user: process.env["DB_USER"],
-    password: process.env["DB_PASS"],
-    database: process.env["DB_NAME"],
-    port: 3306,
-    connectionLimit: 5
-});
+const dbPath = process.env["DB_PATH"] || "db.sqlite3";
+const db = new DatabaseSync(dbPath);
+db.exec(`
+    CREATE TABLE IF NOT EXISTS snake_score (
+        player_name TEXT,
+        score INTEGER,
+        creation_date TEXT
+    )
+`);
+Log.info(`Initialized SQLite database at ${dbPath}`);
 
-const snakeController = new SnakeController(pool);
+const snakeController = new SnakeController(db);
 const platformPartyController = new PlatformPartyController();
 
 app.use(express.static(path.join(__dirname, "web")));

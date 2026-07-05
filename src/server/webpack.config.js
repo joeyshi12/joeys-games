@@ -38,10 +38,7 @@ module.exports = {
             verbose: true,
             env: {
                 PORT: 8080,
-                DB_HOST: "0.0.0.0",
-                DB_USER: "my_user",
-                DB_NAME: "test",
-                DB_PASS: "password"
+                DB_PATH: "db.sqlite3"
             }
         })
     ]

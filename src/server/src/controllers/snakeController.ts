@@ -1,11 +1,11 @@
-import * as mariadb from "mariadb";
+import { DatabaseSync } from "node:sqlite";
 import Log from "../logger";
 import { Request, Response } from "express";
 import { SnakeScore } from "../../../models/snakeModels";
 
 
 export class SnakeController {
-    constructor(private _pool: mariadb.Pool) {
+    constructor(private _db: DatabaseSync) {
     }
 
     public getAllScores(_: Request, res: Response) {
@@ -38,34 +38,22 @@ export class SnakeController {
     }
 
     private async _getScores(): Promise<SnakeScore[]> {
-        let rows = [];
-        let connection: mariadb.PoolConnection;
         try {
-            connection = await this._pool.getConnection();
-            const query = "SELECT score, player_name AS playerName, DATE_FORMAT(creation_date, '%Y-%m-%d') AS creationDate FROM snake_score ORDER BY score DESC";
-            rows = await connection.query(query);
+            const query = "SELECT score, player_name AS playerName, creation_date AS creationDate FROM snake_score ORDER BY score DESC";
+            return this._db.prepare(query).all() as unknown as SnakeScore[];
         } catch (e) {
             Log.error(`Failed to fetch snake scores: ${e.message}`);
-        } finally {
-            if (connection) {
-                connection.release();
-            }
+            return [];
         }
-        return rows;
     }
 
     private async _insertScore(score: SnakeScore): Promise<void> {
-        let connection: mariadb.PoolConnection;
         try {
-            connection = await this._pool.getConnection();
-            await connection.query("INSERT INTO snake_score VALUES (?, ?, ?)", [score.playerName, score.score, score.creationDate]);
+            const query = "INSERT INTO snake_score VALUES (?, ?, ?)";
+            this._db.prepare(query).run(score.playerName, score.score, score.creationDate);
             Log.info(`${score.playerName} submitted snake score = ${score.score}`);
         } catch (e) {
             Log.error(`Failed to submit snake score: ${e.message}`);
-        } finally {
-            if (connection) {
-                connection.release();
-            }
         }
     }
 }
