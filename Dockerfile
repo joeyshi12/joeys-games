@@ -7,11 +7,10 @@ COPY public .
 ENV DB_PATH=/data/db.sqlite3
 VOLUME ["/data"]
 
-RUN addgroup -g 1000 appuser \
-    && adduser -D -u 1000 -G appuser -h /home/appuser appuser \
-    && mkdir -p /data \
-    && chown -R appuser:appuser /app /data
+# Set owner of app files to non-root node user
+RUN mkdir -p /data \
+    && chown -R node:node /app /data
 
-USER appuser
+USER node
 
 CMD ["node", "server.js"]
