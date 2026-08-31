@@ -104,9 +104,6 @@ export default class SnakeManager extends GameManager {
     }
 
     private _handleSubmitClick() {
-        this._nameInputElement.disabled = true;
-        this._submitButtonElement.disabled = true;
-
         const name = this._nameInputElement.value;
         if (name.length < 3) {
             alert("Name is too short");
@@ -116,7 +113,8 @@ export default class SnakeManager extends GameManager {
             alert("Name is too long");
             return;
         }
-
+        this._nameInputElement.disabled = true;
+        this._submitButtonElement.disabled = true;
         const snakeScore: SnakeScore = {
             score: this.score,
             playerName: name,
@@ -128,7 +126,7 @@ export default class SnakeManager extends GameManager {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(snakeScore)
-        }).then(() => { 
+        }).then(() => {
             window.location.reload();
         }).catch((e) => {
             console.error(e);
