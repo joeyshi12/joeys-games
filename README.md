@@ -10,7 +10,7 @@ A GeoGuessr-style multiplayer Where's Waldo.
 
 <p align="center">
     <a href="https://play.joeyshi.xyz/waldo-royale/">
-        <img src="./images/waldo_royale.webp" alt="waldo-royale"/>
+        <img src="./images/waldo_royale.webp" width="500" alt="waldo-royale"/>
     </a>
 </p>
 
@@ -20,7 +20,7 @@ A real-time multiplayer browser platformer.
 
 <p align="center">
     <a href="https://play.joeyshi.xyz/platform-party/">
-        <img src="./images/platform_party.webp" alt="platform-party"/>
+        <img src="./images/platform_party.webp" width="500" alt="platform-party"/>
     </a>
 </p>
 
@@ -30,7 +30,7 @@ Classic arcade snake game.
 
 <p align="center">
     <a href="https://play.joeyshi.xyz/snake/">
-        <img src="./images/snake.webp" alt="snake"/>
+        <img src="./images/snake.webp" width="500" alt="snake"/>
     </a>
 </p>
 
