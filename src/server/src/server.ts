@@ -26,11 +26,8 @@ Log.info(`Initialized SQLite database at ${dbPath}`);
 const snakeController = new SnakeController(db);
 const platformPartyController = new PlatformPartyController();
 
-// The page and the wasm have to move together: a browser holding a stale bundle would be talking
-// to a peer running newer code, and since the host is another player there is nothing in the middle
-// to reconcile the mismatch. express would otherwise serve it `public, max-age=0`. Measured: it
-// already sends `application/wasm` for .wasm on its own, so only the caching needs saying.
-// Registered before the general static mount so it wins.
+// Never cached: a stale bundle would talk to a peer running newer code, and the host is another
+// player, so nothing in the middle can reconcile it. Must stay above the general mount, which caches.
 app.use("/waldo-royale", express.static(path.join(__dirname, "web", "waldo-royale"), {
     setHeaders: (res) => res.setHeader("Cache-Control", "no-cache")
 }));
