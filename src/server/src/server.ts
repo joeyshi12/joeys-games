@@ -26,18 +26,13 @@ Log.info(`Initialized SQLite database at ${dbPath}`);
 const snakeController = new SnakeController(db);
 const platformPartyController = new PlatformPartyController();
 
-// waldo-royale ships a Cloudflare Pages `_headers` file, which express cannot read, and its two
-// rules both matter. The bundle must not be cached: a page holding stale wasm would be talking to
-// a peer running newer code, and with the host being another player there is nothing in the middle
-// to tolerate the mismatch. The wasm needs its own content type or browsers refuse to
-// stream-compile it. This mount comes first so it wins over the general one below.
+// The page and the wasm have to move together: a browser holding a stale bundle would be talking
+// to a peer running newer code, and since the host is another player there is nothing in the middle
+// to reconcile the mismatch. express would otherwise serve it `public, max-age=0`. Measured: it
+// already sends `application/wasm` for .wasm on its own, so only the caching needs saying.
+// Registered before the general static mount so it wins.
 app.use("/waldo-royale", express.static(path.join(__dirname, "web", "waldo-royale"), {
-    setHeaders: (res, filePath) => {
-        res.setHeader("Cache-Control", "no-cache");
-        if (filePath.endsWith(".wasm")) {
-            res.setHeader("Content-Type", "application/wasm");
-        }
-    }
+    setHeaders: (res) => res.setHeader("Cache-Control", "no-cache")
 }));
 
 app.use(express.static(path.join(__dirname, "web")));
