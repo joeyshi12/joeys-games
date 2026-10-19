@@ -4,16 +4,6 @@
 
 A collection of games I made using the HTML5 <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/canvas">canvas scripting API</a>.
 
-## Waldo Royale
-
-A GeoGuessr-style multiplayer Where's Waldo.
-
-<p align="center">
-    <a href="https://play.joeyshi.xyz/waldo-royale/">
-        <img src="./images/waldo_royale.webp" width="500" alt="waldo-royale"/>
-    </a>
-</p>
-
 ## Platform Party
 
 A real-time multiplayer browser platformer.
